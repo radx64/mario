@@ -1,7 +1,8 @@
 #ifndef MAIN_HPP_
-#define MAIN_WINDOW_HPP_
+#define MAIN_HPP_
 
-#include "SDL2/SDL.h"
+class SDL_Renderer;
+class SDL_Window;
 
 class Main
 {
@@ -13,7 +14,9 @@ public:
 
 private:
     SDL_Window* window_;
-    SDL_Surface* surface_;
+    SDL_Renderer* renderer_;
+    const unsigned int width_;
+    const unsigned int height_;
 };
 
 #endif  // MAIN_HPP_ 
