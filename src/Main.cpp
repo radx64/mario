@@ -43,13 +43,13 @@ void Main::init()
 
 void Main::loop()
 {
-    for (int frame = 0; frame < 500; ++frame)
+    Bitmap b(renderer_, "../img/mario.bmp");
+    for (int frame = 0; frame < 1000; ++frame)
     {
         SDL_RenderClear(renderer_);
-        Bitmap b(renderer_, "../img/mario.bmp");
         for (int i = 0; i < 15; ++i)
         {
-            b.draw(renderer_, i*50, height_/2 + sin(i+frame/10.0) * 50.0f);
+            b.draw(renderer_, i*50, height_/2 + sin(frame/5.0)*40.0f + sin(i+frame/10.0) * 50.0f);
         }
         SDL_RenderPresent(renderer_);
         SDL_Delay(5);
