@@ -52,6 +52,6 @@ void Main::loop()
             b.draw(renderer_, i*50, height_/2 + sin(i+frame/10.0) * 50.0f);
         }
         SDL_RenderPresent(renderer_);
-        SDL_Delay(5); // fake 5 seconds loop for environment testing for now
+        SDL_Delay(5);
     }
 }
