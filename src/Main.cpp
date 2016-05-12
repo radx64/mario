@@ -119,9 +119,9 @@ void Main::loop()
             }
         }
         text.setColor(0x55, 0x55, 0x55);
-        text.draw(std::string("Frame: " + std::to_string(frame)), 11, 21);
+        text.draw(std::string("Frame: " + std::to_string(frame)), 11, 21, 1.5);
         text.setColor(0xFF, 0xFF, 0xFF);
-        text.draw(std::string("Frame: " + std::to_string(frame)), 10, 20);
+        text.draw(std::string("Frame: " + std::to_string(frame)), 10, 20, 1.5);
         SDL_RenderPresent(renderer_);
         SDL_Delay(10);
 

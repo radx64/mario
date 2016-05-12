@@ -10,8 +10,14 @@ TextRenderer::TextRenderer(SDL_Renderer* renderer)
     b_ = 0xFF;
 }
 
-void TextRenderer::draw(const std::string& text, int x, int y)
+void TextRenderer::draw(const std::string text, int x, int y)
 {
+    draw(text, x, y, 1.0);
+}
+
+void TextRenderer::draw(const std::string text, int x, int y, float scale)
+{
+    (void)(scale);
     font_.setColor(r_, g_, b_);
     SDL_Rect crop;
     SDL_Rect render;
@@ -20,13 +26,13 @@ void TextRenderer::draw(const std::string& text, int x, int y)
     crop.h = fontCharacterBitmapWidth_;
 
     render.y = y;
-    render.w = fontCharacterBitmapWidth_;
-    render.h = fontCharacterBitmapWidth_;
+    render.w = fontCharacterBitmapWidth_ * scale;
+    render.h = fontCharacterBitmapWidth_ * scale;
 
     for (unsigned int index = 0; index < text.size(); ++index)
     {
         crop.x = getOffset(text.at(index));
-        render.x = x + fontCharacterBitmapWidth_ * index;
+        render.x = x + fontCharacterBitmapWidth_* scale * index;
         font_.copy(&crop, &render);
     }
 }
