@@ -4,7 +4,7 @@
 
 #include <SDL2/SDL.h>
 
-Bitmap::Bitmap(SDL_Renderer* renderer, std::string filename) : renderer_(renderer)
+Bitmap::Bitmap(SDL_Renderer* renderer, const std::string& filename) : renderer_(renderer)
 {
     SDL_Surface* bitmap = SDL_LoadBMP(filename.c_str());
     if (bitmap == nullptr)
@@ -38,4 +38,14 @@ void Bitmap::draw(int x, int y)
 {
     SDL_Rect renderQuad = {x, y, width_, height_};
     SDL_RenderCopy(renderer_, texture_, NULL, &renderQuad);
+}
+
+void Bitmap::copy(SDL_Rect* source, SDL_Rect* destination)
+{
+    SDL_RenderCopy(renderer_, texture_, source, destination);  
+}
+
+void Bitmap::setColor(int r, int g, int b)
+{
+    SDL_SetTextureColorMod(texture_, r, g, b);  
 }

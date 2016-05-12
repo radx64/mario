@@ -6,6 +6,7 @@
 #include <SDL2/SDL.h>
 
 #include "Bitmap.hpp"
+#include "TextRenderer.hpp"
 
 #include <iostream>
 
@@ -88,8 +89,9 @@ void Main::input()
 
 void Main::loop()
 {
-    Bitmap mario(renderer_, "../img/mario.bmp");
+    Bitmap mario(renderer_, "../img/mario_jump.bmp");
     Bitmap ground(renderer_, "../img/gnd_red_1.bmp");
+    TextRenderer text(renderer_);
 
     running_ = true;
     int frame = 0;
@@ -106,7 +108,7 @@ void Main::loop()
         SDL_RenderDrawLine(renderer_, 0, height_ / 2, width_, height_ / 2);
         for (int i = 0; i < marioCount; ++i)
         {
-            mario.draw(i*(100 * 8.0/marioCount), height_/2 + sin(frame/5.0)*20.0f + sin(i+frame/10.0) * 90.0f);
+            mario.draw(i*(100 * 8.0/marioCount), height_/2 + 100 - fabs(sin(i+frame/10.0)) * 90.0f);
         }
 
         for (int j = 0; j < 5; ++j)
@@ -116,9 +118,12 @@ void Main::loop()
                 ground.draw(i*32, 450+j*32);
             }
         }
-
+        text.setColor(0x55, 0x55, 0x55);
+        text.draw(std::string("Frame: " + std::to_string(frame)), 11, 21);
+        text.setColor(0xFF, 0xFF, 0xFF);
+        text.draw(std::string("Frame: " + std::to_string(frame)), 10, 20);
         SDL_RenderPresent(renderer_);
-        SDL_Delay(5);
+        SDL_Delay(10);
 
         ++frame;
     }
