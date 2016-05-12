@@ -15,10 +15,8 @@ Bitmap::Bitmap(SDL_Renderer* renderer, std::string filename)
 
     SDL_SetColorKey(bitmap, SDL_TRUE, SDL_MapRGB(bitmap->format, 255, 0, 255));
     texture_ =  SDL_CreateTextureFromSurface(renderer, bitmap);
-
-    SDL_QueryTexture(texture_, NULL, NULL, &width_, &height_);
     SDL_FreeSurface(bitmap);
-
+    SDL_QueryTexture(texture_, NULL, NULL, &width_, &height_);
 }
 
 Bitmap::~Bitmap()

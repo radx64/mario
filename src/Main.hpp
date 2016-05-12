@@ -1,6 +1,8 @@
 #ifndef MAIN_HPP_
 #define MAIN_HPP_
 
+#include "KeyboardState.hpp"
+
 class SDL_Renderer;
 class SDL_Window;
 
@@ -11,8 +13,11 @@ public:
     ~Main();
     void init();
     void loop();
+    void input();
 
 private:
+    KeyboardState keys_;
+    bool running_;
     SDL_Window* window_;
     SDL_Renderer* renderer_;
     const unsigned int width_;
