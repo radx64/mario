@@ -42,6 +42,8 @@ void Main::init()
         return;
     }
 
+    //SDL_SetWindowFullscreen(window_, SDL_WINDOW_FULLSCREEN);
+
     renderer_ = SDL_CreateRenderer(window_, -1, SDL_RENDERER_ACCELERATED);
 }
 
@@ -91,6 +93,7 @@ void Main::loop()
 {
     Bitmap mario(renderer_, "../img/mario_jump.bmp");
     Bitmap ground(renderer_, "../img/gnd_red_1.bmp");
+    Bitmap brick(renderer_, "../img/brickred.bmp");
     TextRenderer text(renderer_);
 
     running_ = true;
@@ -100,9 +103,9 @@ void Main::loop()
     while (running_)
     {
         input();
-        if (keys_.up) ++marioCount;
-        if (keys_.down) --marioCount;
-        SDL_SetRenderDrawColor(renderer_, 0x00, 0x00, 0x00, 0xFF); 
+        if (keys_.up && marioCount < 100) ++marioCount;
+        if (keys_.down && marioCount > 0) --marioCount;
+        SDL_SetRenderDrawColor(renderer_, 92, 148, 252, 0xFF); 
         SDL_RenderClear(renderer_);
         SDL_SetRenderDrawColor(renderer_, marioCount*10, 0x00, 0xFF, 0xFF);        
         SDL_RenderDrawLine(renderer_, 0, height_ / 2, width_, height_ / 2);
@@ -118,10 +121,13 @@ void Main::loop()
                 ground.draw(i*32, 450+j*32);
             }
         }
-        text.setColor(0x55, 0x55, 0x55);
-        text.draw(std::string("Frame: " + std::to_string(frame)), 11, 21, 1.5);
-        text.setColor(0xFF, 0xFF, 0xFF);
-        text.draw(std::string("Frame: " + std::to_string(frame)), 10, 20, 1.5);
+
+        for (int i = 0; i < 25; ++i)
+        {
+            brick.draw(i*32, 280);
+        }
+        text.draw(std::string("Frame: " + std::to_string(frame)), 10, 20, 2.0);
+        text.draw(std::string("Marios: " + std::to_string(marioCount)), 10, 36, 2.0);
         SDL_RenderPresent(renderer_);
         SDL_Delay(10);
 
