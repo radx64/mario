@@ -88,7 +88,8 @@ void Main::input()
 
 void Main::loop()
 {
-    Bitmap b(renderer_, "../img/mario.bmp");
+    Bitmap mario(renderer_, "../img/mario.bmp");
+    Bitmap ground(renderer_, "../img/gnd_red_1.bmp");
 
     running_ = true;
     int frame = 0;
@@ -99,11 +100,23 @@ void Main::loop()
         input();
         if (keys_.up) ++marioCount;
         if (keys_.down) --marioCount;
+        SDL_SetRenderDrawColor(renderer_, 0x00, 0x00, 0x00, 0xFF); 
         SDL_RenderClear(renderer_);
+        SDL_SetRenderDrawColor(renderer_, marioCount*10, 0x00, 0xFF, 0xFF);        
+        SDL_RenderDrawLine(renderer_, 0, height_ / 2, width_, height_ / 2);
         for (int i = 0; i < marioCount; ++i)
         {
-            b.draw(renderer_, i*(100 * 8.0/marioCount), height_/2 + sin(frame/5.0)*20.0f + sin(i+frame/10.0) * 90.0f);
+            mario.draw(i*(100 * 8.0/marioCount), height_/2 + sin(frame/5.0)*20.0f + sin(i+frame/10.0) * 90.0f);
         }
+
+        for (int j = 0; j < 5; ++j)
+        {
+            for (int i = 0; i < 25; ++i)
+            {
+                ground.draw(i*32, 450+j*32);
+            }
+        }
+
         SDL_RenderPresent(renderer_);
         SDL_Delay(5);
 

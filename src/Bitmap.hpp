@@ -11,10 +11,13 @@ class Bitmap
 public:
     Bitmap(SDL_Renderer* renderer, std::string filename);
     ~Bitmap();
-    void draw(SDL_Renderer* renderer, int x, int y);
+    void draw(int x, int y);
+    int getWidth();
+    int getHeight();
 
 private:
     SDL_Texture* texture_;
+    SDL_Renderer* renderer_;
     int width_;
     int height_;
 };

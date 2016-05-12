@@ -4,7 +4,7 @@
 
 #include <SDL2/SDL.h>
 
-Bitmap::Bitmap(SDL_Renderer* renderer, std::string filename)
+Bitmap::Bitmap(SDL_Renderer* renderer, std::string filename) : renderer_(renderer)
 {
     SDL_Surface* bitmap = SDL_LoadBMP(filename.c_str());
     if (bitmap == nullptr)
@@ -14,7 +14,7 @@ Bitmap::Bitmap(SDL_Renderer* renderer, std::string filename)
     }
 
     SDL_SetColorKey(bitmap, SDL_TRUE, SDL_MapRGB(bitmap->format, 255, 0, 255));
-    texture_ =  SDL_CreateTextureFromSurface(renderer, bitmap);
+    texture_ =  SDL_CreateTextureFromSurface(renderer_, bitmap);
     SDL_FreeSurface(bitmap);
     SDL_QueryTexture(texture_, NULL, NULL, &width_, &height_);
 }
@@ -24,14 +24,18 @@ Bitmap::~Bitmap()
    SDL_DestroyTexture(texture_); 
 }
 
-void Bitmap::draw(SDL_Renderer* renderer, int x, int y)
+int Bitmap::getWidth()
 {
-    SDL_Rect rect;
-    rect.x = x;
-    rect.y = y;
-    rect.w = width_;
-    rect.h = height_;
+    return width_;
+}
 
-    SDL_RenderCopy(renderer, texture_, NULL, &rect);
+int Bitmap::getHeight()
+{
+    return height_;
+}
 
+void Bitmap::draw(int x, int y)
+{
+    SDL_Rect renderQuad = {x, y, width_, height_};
+    SDL_RenderCopy(renderer_, texture_, NULL, &renderQuad);
 }
