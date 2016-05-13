@@ -90,6 +90,36 @@ void Main::input()
     }
 }
 
+void Main::clear()
+{
+    SDL_SetRenderDrawColor(renderer_, 92, 148, 252, 0xFF); 
+    SDL_RenderClear(renderer_);    
+}
+
+void Main::simpleScene(Bitmap& mario, Bitmap& ground, Bitmap& brick, TextRenderer& text, int& frame,
+    FpsCounter& fps)
+{
+    mario.draw(width_/2, height_/2 + 100 - fabs(sin(frame/10.0)) * 90.0f);
+
+    for (int j = 0; j < 5; ++j)
+    {
+        for (int i = 0; i < 25; ++i)
+        {
+            ground.draw(i*32, 450+j*32);
+        }
+    }
+
+    for (int i = 0; i < 25; ++i)
+    {
+        brick.draw(i*32, 280);
+    }
+
+    text.draw(std::string("FPS:" + std::to_string(static_cast<int>(fps.measure()))), width_ - 100, 4, 2.0);
+    text.draw(std::string("Frame:  " + std::to_string(frame)), 10, 4, 2.0);
+    SDL_RenderPresent(renderer_);
+    SDL_Delay(10);
+    ++frame;    
+}
 
 void Main::loop()
 {
@@ -104,31 +134,8 @@ void Main::loop()
     FpsCounter fps;
     while (running_)
     {
+        clear();
         input();
-        SDL_SetRenderDrawColor(renderer_, 92, 148, 252, 0xFF); 
-        SDL_RenderClear(renderer_);
-
-        mario.draw(width_/2, height_/2 + 100 - fabs(sin(frame/10.0)) * 90.0f);
-
-
-        for (int j = 0; j < 5; ++j)
-        {
-            for (int i = 0; i < 25; ++i)
-            {
-                ground.draw(i*32, 450+j*32);
-            }
-        }
-
-        for (int i = 0; i < 25; ++i)
-        {
-            brick.draw(i*32, 280);
-        }
-
-        text.draw(std::string("FPS:" + std::to_string(static_cast<int>(fps.measure()))), width_ - 100, 4, 2.0);
-        text.draw(std::string("Frame:  " + std::to_string(frame)), 10, 4, 2.0);
-        SDL_RenderPresent(renderer_);
-        SDL_Delay(10);
-        ++frame;
-
+        simpleScene(mario, ground, brick, text, frame, fps);
     }
 }
