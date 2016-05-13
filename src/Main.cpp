@@ -6,7 +6,9 @@
 #include <SDL2/SDL.h>
 
 #include "Bitmap.hpp"
+#include "FpsCounter.hpp"
 #include "TextRenderer.hpp"
+#include "Timer.hpp"
 
 #include <iostream>
 
@@ -98,21 +100,16 @@ void Main::loop()
 
     running_ = true;
     int frame = 0;
-    int marioCount = 7;
 
+    FpsCounter fps;
     while (running_)
     {
         input();
-        if (keys_.up && marioCount < 100) ++marioCount;
-        if (keys_.down && marioCount > 0) --marioCount;
         SDL_SetRenderDrawColor(renderer_, 92, 148, 252, 0xFF); 
         SDL_RenderClear(renderer_);
-        SDL_SetRenderDrawColor(renderer_, marioCount*10, 0x00, 0xFF, 0xFF);        
-        SDL_RenderDrawLine(renderer_, 0, height_ / 2, width_, height_ / 2);
-        for (int i = 0; i < marioCount; ++i)
-        {
-            mario.draw(i*(100 * 8.0/marioCount), height_/2 + 100 - fabs(sin(i+frame/10.0)) * 90.0f);
-        }
+
+        mario.draw(width_/2, height_/2 + 100 - fabs(sin(frame/10.0)) * 90.0f);
+
 
         for (int j = 0; j < 5; ++j)
         {
@@ -126,11 +123,12 @@ void Main::loop()
         {
             brick.draw(i*32, 280);
         }
-        text.draw(std::string("Frame: " + std::to_string(frame)), 10, 20, 2.0);
-        text.draw(std::string("Marios: " + std::to_string(marioCount)), 10, 36, 2.0);
+
+        text.draw(std::string("FPS:" + std::to_string(static_cast<int>(fps.measure()))), width_ - 100, 4, 2.0);
+        text.draw(std::string("Frame:  " + std::to_string(frame)), 10, 4, 2.0);
         SDL_RenderPresent(renderer_);
         SDL_Delay(10);
-
         ++frame;
+
     }
 }
