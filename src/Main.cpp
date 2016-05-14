@@ -78,6 +78,7 @@ void Main::init()
     context_.setFpsCounter(fps);
     TextRenderer* text = new TextRenderer(renderer_);
     context_.setTextRenderer(text);
+    frame_ = 0;
 }
 
 void Main::input()
@@ -127,15 +128,23 @@ void Main::clear()
     SDL_RenderClear(renderer_);    
 }
 
-void Main::simpleScene(int& frame)
+void Main::simpleScene()
 {
-    bitmaps_->get(BitmapType::MARIO_JUMPING)->draw(
+    if(sin(frame_/10.0) > 0)
+    {
+        bitmaps_->get(BitmapType::MARIO_JUMPING)->draw(
+            width_/2, 
+            height_/2 + 100 - (sin(frame_/10.0)) * 90.0f);
+    }
+    else
+    {
+        bitmaps_->get(BitmapType::MARIO_STANDING)->draw(
         width_/2, 
-        height_/2 + 100 - fabs(sin(frame/10.0)) * 90.0f);
-
+        height_/2 + 88);   
+    }
     bitmaps_->get(BitmapType::MARIO_STANDING)->draw(width_/2 - 32*4, 136);
 
-    runningMario_->draw(frame*3 % width_, 386);
+    runningMario_->draw(frame_*3 % width_, 386);
 
     questionBlock_->draw(width_/2 - 32*4, 200);
     questionBlock_->draw(width_/2 + 32*4, 200);
@@ -158,12 +167,12 @@ void Main::simpleScene(int& frame)
     int fps =  context_.getFpsCounter()->measure();
     auto text = context_.getTextRenderer();
     text->draw(std::string("FPS: " + std::to_string(fps)), width_ - 150, 4, 2.0);
-    text->draw(std::string("Frame:  " + std::to_string(frame)), 10, 4, 2.0);
+    text->draw(std::string("frame_:  " + std::to_string(frame_)), 10, 4, 2.0);
     SDL_RenderPresent(renderer_);
     SDL_Delay(10);
     questionBlock_->nextFrame();
     runningMario_->nextFrame();
-    ++frame;    
+   
 }
 
 void Main::loop()
@@ -184,13 +193,12 @@ void Main::loop()
     }, 3, *bitmaps_);
 
     running_ = true;
-    int frame = 0;
-
 
     while (running_)
     {
         clear();
         input();
-        simpleScene(frame);
+        simpleScene();
+        ++frame_; 
     }
 }

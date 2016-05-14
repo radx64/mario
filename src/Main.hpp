@@ -25,9 +25,10 @@ public:
 
 private:
     void clear();
-    void simpleScene(int& frame);
+    void simpleScene();
     KeyboardState keys_;
     bool running_;
+    int frame_;
     SDL_Window* window_;
     SDL_Renderer* renderer_;
     const unsigned int width_;
