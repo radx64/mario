@@ -6,20 +6,23 @@
 #include <memory>
 
 #include "Bitmap.hpp"
+#include "BitmapsContainer.hpp"
 
 class SDL_Renderer;
 
 class AnimatedBitmap
 {
 public:
-    AnimatedBitmap(SDL_Renderer* renderer, std::list<std::string> files, short speed);
+    AnimatedBitmap(std::list<BitmapType> bitmaps, 
+        short speed, 
+        BitmapsContainer& bitmapContainer);
     void draw(int x, int y);
     void nextFrame();
-    void setColor(int r, int g, int b);
 
 private:
-    std::list<std::shared_ptr<Bitmap>> frames_;
-    std::list<std::shared_ptr<Bitmap>>::iterator currentFrame_;
+    std::list<BitmapType> frames_;
+    std::list<BitmapType>::iterator currentFrame_;
+    BitmapsContainer& bitmapContainer_;
     short speed_;
     short currentFrameLifeTime_;
 };

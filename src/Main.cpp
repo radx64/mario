@@ -14,10 +14,17 @@
 #include <iostream>
 
 Main::Main(): width_(800), height_(600)
-{ }
+{ 
+
+
+}
 
 Main::~Main()
 {
+    delete runningMario_;
+    delete questionBlock_;
+    delete bitmaps_;
+
     SDL_DestroyRenderer(renderer_);
     SDL_DestroyWindow(window_);
     SDL_Quit();  
@@ -49,6 +56,23 @@ void Main::init()
 
     renderer_ = SDL_CreateRenderer(window_, -1, SDL_RENDERER_ACCELERATED);
     SDL_SetRenderTarget(renderer_, NULL);
+
+    std::string rootPath = "../img/";
+
+    bitmaps_ = new BitmapsContainer(renderer_,
+    {
+       { BitmapType::BRICK_RED,       rootPath + "brickred.bmp" },
+       { BitmapType::GROUND_RED,      rootPath + "gnd_red_1.bmp"},
+       { BitmapType::MARIO_JUMPING,   rootPath + "characters/mario/jump.bmp"},
+       { BitmapType::MARIO_RUNNING_0, rootPath + "characters/mario/move0.bmp"},
+       { BitmapType::MARIO_RUNNING_1, rootPath + "characters/mario/move1.bmp"},
+       { BitmapType::MARIO_RUNNING_2, rootPath + "characters/mario/move2.bmp"},
+       { BitmapType::MARIO_STANDING,  rootPath + "characters/mario/standing.bmp"},
+       { BitmapType::QUESTIONBLOCK_0, rootPath + "blockq_0.bmp"},
+       { BitmapType::QUESTIONBLOCK_1, rootPath + "blockq_1.bmp"},
+       { BitmapType::QUESTIONBLOCK_2, rootPath + "blockq_2.bmp"}
+    }
+    );
 }
 
 void Main::input()
@@ -98,56 +122,62 @@ void Main::clear()
     SDL_RenderClear(renderer_);    
 }
 
-void Main::simpleScene(Bitmap& mario, Bitmap& ground, Bitmap& brick, TextRenderer& text, int& frame,
-    FpsCounter& fps, AnimatedBitmap& block, AnimatedBitmap& marioRunning)
+void Main::simpleScene(TextRenderer& text, int& frame, FpsCounter& fps)
 {
-    mario.draw(width_/2, height_/2 + 100 - fabs(sin(frame/10.0)) * 90.0f);
+    bitmaps_->get(BitmapType::MARIO_JUMPING)->draw(
+        width_/2, 
+        height_/2 + 100 - fabs(sin(frame/10.0)) * 90.0f);
 
-    marioRunning.draw(frame*3 % width_, 386);
+    bitmaps_->get(BitmapType::MARIO_STANDING)->draw(width_/2 - 32*4, 136);
 
-    block.draw(width_/2, 200);
-    block.draw(width_/2 - 32*4, 200);
-    block.draw(width_/2 + 32*4, 200);
+    runningMario_->draw(frame*3 % width_, 386);
+
+    questionBlock_->draw(width_/2 - 32*4, 200);
+    questionBlock_->draw(width_/2 + 32*4, 200);
 
     for (int j = 0; j < 5; ++j)
     {
         for (int i = 0; i < 25; ++i)
         {
-            ground.draw(i*32, 450+j*32);
+            bitmaps_->get(BitmapType::GROUND_RED)->draw(i*32, 450+j*32);
         }
     }
 
     for (int i = 0; i < 25; ++i)
     {
-        brick.draw(i*32, 280);
+        bitmaps_->get(BitmapType::BRICK_RED)->draw(i*32, 280);
     }
+
+    questionBlock_->draw(width_/2, 280);
 
     int a = 5; (void)a; (void)fps;
     std::string fspMeter = "FPS: " + std::to_string(int(fps.measure()));
-    text.draw(fspMeter, width_ - 150, 4, 2);
+    text.draw(fspMeter, width_ - 150, 4, 2.0);
 
-    text.draw(std::string("Frame:  " + std::to_string(frame)), 10, 4, 2);
-    text.draw(std::string("Frame:  " + std::to_string(frame)), 10, 54, 3);
-    //SDL_RenderPresent(renderer_);
-    SDL_Delay(10);
+    text.draw(std::string("Frame:  " + std::to_string(frame)), 10, 4, 2.0);
     SDL_RenderPresent(renderer_);
-    block.nextFrame();
-    marioRunning.nextFrame();
+    SDL_Delay(10);
+    questionBlock_->nextFrame();
+    runningMario_->nextFrame();
     ++frame;    
 }
 
 void Main::loop()
 {
-    Bitmap mario(renderer_, "../img/mario_jump.bmp");
-    Bitmap ground(renderer_, "../img/gnd_red_1.bmp");
-    Bitmap brick(renderer_, "../img/brickred.bmp");
-    AnimatedBitmap questionBlock(renderer_,
-        {"../img/blockq_0.bmp", "../img/blockq_2.bmp", "../img/blockq_1.bmp", "../img/blockq_2.bmp"}, 
-        10);
+    questionBlock_ = new AnimatedBitmap(
+    {
+        BitmapType::QUESTIONBLOCK_0, 
+        BitmapType::QUESTIONBLOCK_2, 
+        BitmapType::QUESTIONBLOCK_1,
+        BitmapType::QUESTIONBLOCK_2
+    }, 10, *bitmaps_);
 
-    AnimatedBitmap marioRunning(renderer_,
-        {"../img/mario1_move0.bmp", "../img/mario1_move1.bmp", "../img/mario1_move2.bmp"}, 
-        3);
+    runningMario_ = new AnimatedBitmap(
+    {
+        BitmapType::MARIO_RUNNING_0,
+        BitmapType::MARIO_RUNNING_1,
+        BitmapType::MARIO_RUNNING_2
+    }, 3, *bitmaps_);
 
     TextRenderer text(renderer_);
 
@@ -159,6 +189,6 @@ void Main::loop()
     {
         clear();
         input();
-        simpleScene(mario, ground, brick, text, frame, fps, questionBlock, marioRunning);
+        simpleScene(text, frame, fps);
     }
 }
