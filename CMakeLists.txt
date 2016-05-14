@@ -22,7 +22,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}
 					src)
 
 add_definitions(-std=c++11)
-add_definitions(-g)
+add_definitions(-O2)
 
 add_subdirectory(src)
 

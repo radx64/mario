@@ -21,6 +21,7 @@ public:
 private:
     SDL_Texture* texture_;
     SDL_Renderer* renderer_;
+    std::string filename_;
     int width_;
     int height_;
 };

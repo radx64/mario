@@ -8,6 +8,7 @@ class SDL_Window;
 class Bitmap;
 class TextRenderer;
 class FpsCounter;
+class AnimatedBitmap;
 
 class Main
 {
@@ -21,7 +22,7 @@ public:
 private:
     void clear();
     void simpleScene(Bitmap& mario, Bitmap& ground, Bitmap& brick, TextRenderer& text, int& frame,
-        FpsCounter& fps);
+        FpsCounter& fps, AnimatedBitmap& block);
     KeyboardState keys_;
     bool running_;
     SDL_Window* window_;

@@ -20,5 +20,9 @@ int main(int argc, char** argv)
     {
         std::cerr << "Exception was thrown: " << ex.what() << std::endl;
     }
+    catch(...)
+    {
+        std::cerr << "Exception was thrown" << std::endl;
+    }
     return 0;
 }

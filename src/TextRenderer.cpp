@@ -3,21 +3,21 @@
 #include <SDL2/SDL.h>
 
 TextRenderer::TextRenderer(SDL_Renderer* renderer) 
-: font_(renderer, "../img/font.bmp"), renderer_(renderer), fontCharacterBitmapWidth_(8)
+: renderer_(renderer), font_(renderer, "../img/font.bmp"), fontCharacterBitmapWidth_(8)
 {
     r_ = 0xFF;
     g_ = 0xFF;
     b_ = 0xFF;
 }
 
-void TextRenderer::draw(const std::string text, int x, int y)
+void TextRenderer::draw(const std::string text, const int& x, const int& y)
 {
-    draw(text, x, y, 1.0);
+    draw(text, x, y, 1.0f);
 }
 
-void TextRenderer::draw(const std::string text, int x, int y, float scale)
+void TextRenderer::draw(const std::string text, const int& x, const int& y, const int& scale)
 {
-    (void)(scale);
+
     font_.setColor(r_, g_, b_);
     SDL_Rect crop;
     SDL_Rect render;
@@ -31,9 +31,13 @@ void TextRenderer::draw(const std::string text, int x, int y, float scale)
 
     for (unsigned int index = 0; index < text.size(); ++index)
     {
+        (void)crop;
+        (void)render;
         crop.x = getOffset(text.at(index));
+
         render.x = x + fontCharacterBitmapWidth_* scale * index;
         font_.copy(&crop, &render);
+        //font_.draw(x,y);
     }
 }
 

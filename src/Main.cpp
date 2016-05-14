@@ -5,6 +5,7 @@
 
 #include <SDL2/SDL.h>
 
+#include "AnimatedBitmap.hpp"
 #include "Bitmap.hpp"
 #include "FpsCounter.hpp"
 #include "TextRenderer.hpp"
@@ -47,6 +48,7 @@ void Main::init()
     //SDL_SetWindowFullscreen(window_, SDL_WINDOW_FULLSCREEN);
 
     renderer_ = SDL_CreateRenderer(window_, -1, SDL_RENDERER_ACCELERATED);
+    SDL_SetRenderTarget(renderer_, NULL);
 }
 
 void Main::input()
@@ -97,9 +99,12 @@ void Main::clear()
 }
 
 void Main::simpleScene(Bitmap& mario, Bitmap& ground, Bitmap& brick, TextRenderer& text, int& frame,
-    FpsCounter& fps)
+    FpsCounter& fps, AnimatedBitmap& block)
 {
     mario.draw(width_/2, height_/2 + 100 - fabs(sin(frame/10.0)) * 90.0f);
+
+    //(void)block;
+    block.draw(width_/2, 200);
 
     for (int j = 0; j < 5; ++j)
     {
@@ -114,8 +119,9 @@ void Main::simpleScene(Bitmap& mario, Bitmap& ground, Bitmap& brick, TextRendere
         brick.draw(i*32, 280);
     }
 
-    text.draw(std::string("FPS:" + std::to_string(static_cast<int>(fps.measure()))), width_ - 100, 4, 2.0);
-    text.draw(std::string("Frame:  " + std::to_string(frame)), 10, 4, 2.0);
+    text.draw(std::string("FPS:" + std::to_string(static_cast<int>(fps.measure()))), width_ - 100, 4);
+    text.draw(std::string("Frame:  " + std::to_string(frame)), 10, 4);
+    text.draw(std::string("Frame:  " + std::to_string(frame)), 10, 54, 3);
     SDL_RenderPresent(renderer_);
     SDL_Delay(10);
     ++frame;    
@@ -126,6 +132,9 @@ void Main::loop()
     Bitmap mario(renderer_, "../img/mario_jump.bmp");
     Bitmap ground(renderer_, "../img/gnd_red_1.bmp");
     Bitmap brick(renderer_, "../img/brickred.bmp");
+    AnimatedBitmap questionBlock(renderer_,
+        {"../img/blockq_0.bmp", "../img/blockq_2.bmp", "../img/blockq_1.bmp", "../img/blockq_2.bmp"}, 
+        15);
     TextRenderer text(renderer_);
 
     running_ = true;
@@ -136,6 +145,6 @@ void Main::loop()
     {
         clear();
         input();
-        simpleScene(mario, ground, brick, text, frame, fps);
+        simpleScene(mario, ground, brick, text, frame, fps, questionBlock);
     }
 }

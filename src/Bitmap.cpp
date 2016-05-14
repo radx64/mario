@@ -4,7 +4,10 @@
 
 #include <SDL2/SDL.h>
 
-Bitmap::Bitmap(SDL_Renderer* renderer, const std::string& filename) : renderer_(renderer)
+#include <iostream>
+
+Bitmap::Bitmap(SDL_Renderer* renderer, const std::string& filename) : 
+renderer_(renderer), filename_(filename)
 {
     SDL_Surface* bitmap = SDL_LoadBMP(filename.c_str());
     if (bitmap == nullptr)
@@ -21,6 +24,7 @@ Bitmap::Bitmap(SDL_Renderer* renderer, const std::string& filename) : renderer_(
 
 Bitmap::~Bitmap()
 {
+   std::cout << "Bitmap " << filename_ << " destroyed" << std::endl;
    SDL_DestroyTexture(texture_); 
 }
 
@@ -42,6 +46,21 @@ void Bitmap::draw(int x, int y)
 
 void Bitmap::copy(SDL_Rect* source, SDL_Rect* destination)
 {
+    if (!texture_)
+    { 
+        std::cout << "No texture context" << std::endl;
+    }
+
+    if (!renderer_)
+    { 
+        std::cout << "No render context" << std::endl;
+    }
+
+     if (!source)
+    { 
+        std::cout << "No source context" << std::endl;
+    }
+       
     SDL_RenderCopy(renderer_, texture_, source, destination);  
 }
 
