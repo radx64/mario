@@ -73,6 +73,11 @@ void Main::init()
        { BitmapType::QUESTIONBLOCK_2, rootPath + "blockq_2.bmp"}
     }
     );
+    context_.setBitmapsContainer(bitmaps_);
+    FpsCounter* fps = new FpsCounter();
+    context_.setFpsCounter(fps);
+    TextRenderer* text = new TextRenderer(renderer_);
+    context_.setTextRenderer(text);
 }
 
 void Main::input()
@@ -122,7 +127,7 @@ void Main::clear()
     SDL_RenderClear(renderer_);    
 }
 
-void Main::simpleScene(TextRenderer& text, int& frame, FpsCounter& fps)
+void Main::simpleScene(int& frame)
 {
     bitmaps_->get(BitmapType::MARIO_JUMPING)->draw(
         width_/2, 
@@ -150,11 +155,10 @@ void Main::simpleScene(TextRenderer& text, int& frame, FpsCounter& fps)
 
     questionBlock_->draw(width_/2, 280);
 
-    int a = 5; (void)a; (void)fps;
-    std::string fspMeter = "FPS: " + std::to_string(int(fps.measure()));
-    text.draw(fspMeter, width_ - 150, 4, 2.0);
-
-    text.draw(std::string("Frame:  " + std::to_string(frame)), 10, 4, 2.0);
+    int fps =  context_.getFpsCounter()->measure();
+    auto text = context_.getTextRenderer();
+    text->draw(std::string("FPS: " + std::to_string(fps)), width_ - 150, 4, 2.0);
+    text->draw(std::string("Frame:  " + std::to_string(frame)), 10, 4, 2.0);
     SDL_RenderPresent(renderer_);
     SDL_Delay(10);
     questionBlock_->nextFrame();
@@ -179,16 +183,14 @@ void Main::loop()
         BitmapType::MARIO_RUNNING_2
     }, 3, *bitmaps_);
 
-    TextRenderer text(renderer_);
-
     running_ = true;
     int frame = 0;
 
-    FpsCounter fps;
+
     while (running_)
     {
         clear();
         input();
-        simpleScene(text, frame, fps);
+        simpleScene(frame);
     }
 }

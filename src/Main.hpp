@@ -5,6 +5,7 @@
 
 #include "AnimatedBitmap.hpp"
 #include "BitmapsContainer.hpp"
+#include "Context.hpp"
 
 class SDL_Renderer;
 class SDL_Window;
@@ -24,7 +25,7 @@ public:
 
 private:
     void clear();
-    void simpleScene(TextRenderer& text, int& frame, FpsCounter& fps);
+    void simpleScene(int& frame);
     KeyboardState keys_;
     bool running_;
     SDL_Window* window_;
@@ -34,6 +35,7 @@ private:
     BitmapsContainer* bitmaps_;
     AnimatedBitmap* questionBlock_;
     AnimatedBitmap* runningMario_;
+    Context context_;
 };
 
 #endif  // MAIN_HPP_ 
