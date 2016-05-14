@@ -99,12 +99,15 @@ void Main::clear()
 }
 
 void Main::simpleScene(Bitmap& mario, Bitmap& ground, Bitmap& brick, TextRenderer& text, int& frame,
-    FpsCounter& fps, AnimatedBitmap& block)
+    FpsCounter& fps, AnimatedBitmap& block, AnimatedBitmap& marioRunning)
 {
     mario.draw(width_/2, height_/2 + 100 - fabs(sin(frame/10.0)) * 90.0f);
 
-    //(void)block;
+    marioRunning.draw(width_/2 - 256, 386);
+
     block.draw(width_/2, 200);
+    block.draw(width_/2 - 32*4, 200);
+    block.draw(width_/2 + 32*4, 200);
 
     for (int j = 0; j < 5; ++j)
     {
@@ -118,12 +121,13 @@ void Main::simpleScene(Bitmap& mario, Bitmap& ground, Bitmap& brick, TextRendere
     {
         brick.draw(i*32, 280);
     }
-
-    text.draw(std::string("FPS:" + std::to_string(static_cast<int>(fps.measure()))), width_ - 100, 4);
-    text.draw(std::string("Frame:  " + std::to_string(frame)), 10, 4);
+    text.draw(std::string("FPS:" + std::to_string(fps.measure())), width_ - 150, 4, 2);
+    text.draw(std::string("Frame:  " + std::to_string(frame)), 10, 4,2);
     text.draw(std::string("Frame:  " + std::to_string(frame)), 10, 54, 3);
     SDL_RenderPresent(renderer_);
     SDL_Delay(10);
+    block.nextFrame();
+    marioRunning.nextFrame();
     ++frame;    
 }
 
@@ -134,7 +138,12 @@ void Main::loop()
     Bitmap brick(renderer_, "../img/brickred.bmp");
     AnimatedBitmap questionBlock(renderer_,
         {"../img/blockq_0.bmp", "../img/blockq_2.bmp", "../img/blockq_1.bmp", "../img/blockq_2.bmp"}, 
-        15);
+        10);
+
+    AnimatedBitmap marioRunning(renderer_,
+        {"../img/mario1_move0.bmp", "../img/mario1_move1.bmp", "../img/mario1_move2.bmp"}, 
+        3);
+
     TextRenderer text(renderer_);
 
     running_ = true;
@@ -145,6 +154,6 @@ void Main::loop()
     {
         clear();
         input();
-        simpleScene(mario, ground, brick, text, frame, fps, questionBlock);
+        simpleScene(mario, ground, brick, text, frame, fps, questionBlock, marioRunning);
     }
 }

@@ -14,6 +14,7 @@ class AnimatedBitmap
 public:
     AnimatedBitmap(SDL_Renderer* renderer, std::list<std::string> files, short speed);
     void draw(int x, int y);
+    void nextFrame();
     void setColor(int r, int g, int b);
 
 private:

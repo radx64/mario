@@ -22,6 +22,12 @@ void AnimatedBitmap::setColor(int r, int g, int b)
 
 void AnimatedBitmap::draw(int x, int y)
 {
+
+    (*currentFrame_)->draw(x,y);
+}
+
+void AnimatedBitmap::nextFrame()
+{
     currentFrameLifeTime_++;
     if (currentFrameLifeTime_ > speed_)
     {
@@ -31,6 +37,5 @@ void AnimatedBitmap::draw(int x, int y)
         {
             currentFrame_ = frames_.begin();
         }
-    }
-    (*currentFrame_)->draw(x,y);
+    }    
 }

@@ -22,7 +22,7 @@ public:
 private:
     void clear();
     void simpleScene(Bitmap& mario, Bitmap& ground, Bitmap& brick, TextRenderer& text, int& frame,
-        FpsCounter& fps, AnimatedBitmap& block);
+        FpsCounter& fps, AnimatedBitmap& block, AnimatedBitmap& marioRunning);
     KeyboardState keys_;
     bool running_;
     SDL_Window* window_;

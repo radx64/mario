@@ -31,13 +31,9 @@ void TextRenderer::draw(const std::string text, const int& x, const int& y, cons
 
     for (unsigned int index = 0; index < text.size(); ++index)
     {
-        (void)crop;
-        (void)render;
         crop.x = getOffset(text.at(index));
-
         render.x = x + fontCharacterBitmapWidth_* scale * index;
         font_.copy(&crop, &render);
-        //font_.draw(x,y);
     }
 }
 
