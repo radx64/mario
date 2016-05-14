@@ -12,7 +12,7 @@ class TextRenderer
 public:
     TextRenderer(SDL_Renderer* renderer);
     void draw(const std::string text, const int& x, const int& y);
-    void draw(const std::string text, const int& x, const int& y, const int& scale); 
+    void draw(const std::string text, const int& x, const int& y, const float& scale); 
     void setColor(int r,int g, int b);
 
 private:

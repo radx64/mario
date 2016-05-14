@@ -46,22 +46,7 @@ void Bitmap::draw(int x, int y)
 
 void Bitmap::copy(SDL_Rect* source, SDL_Rect* destination)
 {
-    if (!texture_)
-    { 
-        std::cout << "No texture context" << std::endl;
-    }
-
-    if (!renderer_)
-    { 
-        std::cout << "No render context" << std::endl;
-    }
-
-     if (!source)
-    { 
-        std::cout << "No source context" << std::endl;
-    }
-       
-    SDL_RenderCopy(renderer_, texture_, source, destination);  
+    SDL_RenderCopy(renderer_, texture_, source, destination); 
 }
 
 void Bitmap::setColor(int r, int g, int b)

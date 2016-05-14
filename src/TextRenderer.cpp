@@ -2,6 +2,8 @@
 
 #include <SDL2/SDL.h>
 
+#include <iostream>
+
 TextRenderer::TextRenderer(SDL_Renderer* renderer) 
 : renderer_(renderer), font_(renderer, "../img/font.bmp"), fontCharacterBitmapWidth_(8)
 {
@@ -15,12 +17,11 @@ void TextRenderer::draw(const std::string text, const int& x, const int& y)
     draw(text, x, y, 1.0f);
 }
 
-void TextRenderer::draw(const std::string text, const int& x, const int& y, const int& scale)
+void TextRenderer::draw(const std::string text, const int& x, const int& y, const float& scale)
 {
-
     font_.setColor(r_, g_, b_);
-    SDL_Rect crop;
-    SDL_Rect render;
+    SDL_Rect crop{};
+    SDL_Rect render{};
 
     crop.w = fontCharacterBitmapWidth_;
     crop.h = fontCharacterBitmapWidth_;

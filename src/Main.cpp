@@ -103,7 +103,7 @@ void Main::simpleScene(Bitmap& mario, Bitmap& ground, Bitmap& brick, TextRendere
 {
     mario.draw(width_/2, height_/2 + 100 - fabs(sin(frame/10.0)) * 90.0f);
 
-    marioRunning.draw(width_/2 - 256, 386);
+    marioRunning.draw(frame*3 % width_, 386);
 
     block.draw(width_/2, 200);
     block.draw(width_/2 - 32*4, 200);
@@ -121,11 +121,16 @@ void Main::simpleScene(Bitmap& mario, Bitmap& ground, Bitmap& brick, TextRendere
     {
         brick.draw(i*32, 280);
     }
-    text.draw(std::string("FPS:" + std::to_string(fps.measure())), width_ - 150, 4, 2);
-    text.draw(std::string("Frame:  " + std::to_string(frame)), 10, 4,2);
+
+    int a = 5; (void)a; (void)fps;
+    std::string fspMeter = "FPS: " + std::to_string(int(fps.measure()));
+    text.draw(fspMeter, width_ - 150, 4, 2);
+
+    text.draw(std::string("Frame:  " + std::to_string(frame)), 10, 4, 2);
     text.draw(std::string("Frame:  " + std::to_string(frame)), 10, 54, 3);
-    SDL_RenderPresent(renderer_);
+    //SDL_RenderPresent(renderer_);
     SDL_Delay(10);
+    SDL_RenderPresent(renderer_);
     block.nextFrame();
     marioRunning.nextFrame();
     ++frame;    

@@ -1,6 +1,6 @@
 #include "FpsCounter.hpp"
 
-FpsCounter::FpsCounter() : smoothing_(0.1)
+FpsCounter::FpsCounter() : smoothing_(0.3)
 {
     timer_.start(); 
 }
