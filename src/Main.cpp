@@ -169,7 +169,15 @@ void Main::initGameObjects()
 
     gameObjects_.push_back(debugObject);
 
-    for (int i = 1; i < 10; ++i)
+    debugObject = new character::Debug(context_, 1);
+        debugObject->x = 500;
+        debugObject->y = 60;
+        debugObject->w = 32;
+        debugObject->h = 32;
+
+    gameObjects_.push_back(debugObject);
+
+    for (int i = 2; i < 10; ++i)
     {
         Object* debugObject = new character::Debug(context_, i);
         debugObject->x = 100 + i * 32;
@@ -190,6 +198,18 @@ void Main::initGameObjects()
 
         gameObjects_.push_back(debugObject);
     }
+
+    for (int i = 1; i < 26; ++i)
+    {
+        Object* debugObject = new character::Debug(context_, i);
+        debugObject->x = (i-1) * 32;
+        debugObject->y = 280;
+        debugObject->w = 32;
+        debugObject->h = 32;
+
+        gameObjects_.push_back(debugObject);
+    }
+
     // remember to destroy objects above when done
 }
 
@@ -221,11 +241,6 @@ void Main::simpleScene()
         {
             bitmaps_->get(BitmapType::GROUND_RED)->draw(i*32, 450+j*32);
         }
-    }
-
-    for (int i = 0; i < 25; ++i)
-    {
-        bitmaps_->get(BitmapType::BRICK_RED)->draw(i*32, 280);
     }
 
     questionBlock_->draw(width_/2, 280);
