@@ -151,7 +151,6 @@ void Debug::simulate(std::vector<Object*> gameObjects)
                 }
                 else
                 {
-                    std::cout << "TADA1" << std::endl;
                     bouceOfCeiling(object);
                 }
             }
@@ -164,13 +163,11 @@ void Debug::simulate(std::vector<Object*> gameObjects)
                 }
                 else
                 {
-                    std::cout << "TADA2" << std::endl;
                     bouceOfCeiling(object); 
                 }
             }
             else
             {
-                std::cout << "TADA3" << std::endl;
                 bouceOfCeiling(object);
             }
 
