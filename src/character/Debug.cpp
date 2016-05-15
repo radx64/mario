@@ -24,7 +24,6 @@ Debug::Debug(Context& context, int type) : Object(type), context_(context)
 
 void Debug::draw()
 {
-    auto renderer = context_.getRenderer();
 
     if (type_ == 0)
     {
@@ -36,14 +35,15 @@ void Debug::draw()
         context_.getBitmapsContainer()->get(BitmapType::BRICK_RED)->draw(x,y);
     }
 
-    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0xFF, 0x00);
-    SDL_Rect r {(int)x,(int)y,w,h};
-    SDL_RenderDrawRect(renderer, &r);
+    // auto renderer = context_.getRenderer();
+    // SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0xFF, 0x00);
+    // SDL_Rect r {(int)x,(int)y,w,h};
+    // SDL_RenderDrawRect(renderer, &r);
 
-    SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0x00);
-    SDL_RenderDrawLine(renderer, x + w/2, y+h/2, x + w/2 + dx*10.0, y+h/2);
-    SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0x00);
-    SDL_RenderDrawLine(renderer, x + w/2, y+h/2, x + w/2, y+h/2 + dy*10.0);
+    // SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0x00);
+    // SDL_RenderDrawLine(renderer, x + w/2, y+h/2, x + w/2 + dx*10.0, y+h/2);
+    // SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0x00);
+    // SDL_RenderDrawLine(renderer, x + w/2, y+h/2, x + w/2, y+h/2 + dy*10.0);
 }
 
 bool Debug::isObjectAt(std::vector<Object*> gameObjects, float x, float y)
