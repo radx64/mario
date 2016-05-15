@@ -13,9 +13,17 @@
 
 #include <iostream>
 
+/** 
+                        IMPORTANT NOTICE:
+Please take into consideration that current implementation of Main class is 
+"a mine field" done only to design and test in field rest of project's components.
+
+If it ugly, hacky and and makes You cry, it should be done that way :).
+
+**/
+
 Main::Main(): width_(800), height_(600)
 { 
-
 
 }
 
@@ -57,6 +65,8 @@ void Main::init()
     renderer_ = SDL_CreateRenderer(window_, -1, SDL_RENDERER_ACCELERATED);
     SDL_SetRenderTarget(renderer_, NULL);
 
+    context_.setRenderer(renderer_);
+
     std::string rootPath = "../img/";
 
     bitmaps_ = new BitmapsContainer(renderer_,
@@ -78,6 +88,7 @@ void Main::init()
     context_.setFpsCounter(fps);
     TextRenderer* text = new TextRenderer(renderer_);
     context_.setTextRenderer(text);
+    context_.setKeyboardState(&keys_);
     frame_ = 0;
 }
 
@@ -122,11 +133,45 @@ void Main::input()
     }
 }
 
+
+
 void Main::clear()
 {
     SDL_SetRenderDrawColor(renderer_, 92, 148, 252, 0xFF); 
     SDL_RenderClear(renderer_);    
 }
+
+void Main::initGameObjects()
+{
+    questionBlock_ = new AnimatedBitmap(
+    {
+        BitmapType::QUESTIONBLOCK_0, 
+        BitmapType::QUESTIONBLOCK_2, 
+        BitmapType::QUESTIONBLOCK_1,
+        BitmapType::QUESTIONBLOCK_2
+    }, 10, *bitmaps_);
+
+    runningMario_ = new AnimatedBitmap(
+    {
+        BitmapType::MARIO_RUNNING_0,
+        BitmapType::MARIO_RUNNING_1,
+        BitmapType::MARIO_RUNNING_2
+    }, 3, *bitmaps_);
+
+
+    for (int i = 0; i < 10; ++i)
+    {
+        Object* debugObject = new Object(context_, i);
+        debugObject->x = 100 + i * 35;
+        debugObject->y = 100;
+        debugObject->w = 32;
+        debugObject->h = 32;
+
+        gameObjects_.push_back(debugObject);
+    }
+    // remember to destroy objects above when done
+}
+
 
 void Main::simpleScene()
 {
@@ -168,6 +213,22 @@ void Main::simpleScene()
     auto text = context_.getTextRenderer();
     text->draw(std::string("FPS: " + std::to_string(fps)), width_ - 150, 4, 2.0);
     text->draw(std::string("frame_:  " + std::to_string(frame_)), 10, 4, 2.0);
+
+    for (unsigned int index = 0; index < gameObjects_.size(); ++index)
+    {
+        Object* obj = gameObjects_[index];
+        obj->simulate();
+        obj->draw();
+    }
+
+    Object* obj = gameObjects_[0];  // checking collision with main object
+
+    for (unsigned int collisionIndex = 1; collisionIndex < gameObjects_.size(); ++collisionIndex)
+    {
+        Object* collisionObj = gameObjects_[collisionIndex];
+        collisionObj->checkCollision(*obj);
+    }
+
     SDL_RenderPresent(renderer_);
     SDL_Delay(10);
     questionBlock_->nextFrame();
@@ -177,21 +238,7 @@ void Main::simpleScene()
 
 void Main::loop()
 {
-    questionBlock_ = new AnimatedBitmap(
-    {
-        BitmapType::QUESTIONBLOCK_0, 
-        BitmapType::QUESTIONBLOCK_2, 
-        BitmapType::QUESTIONBLOCK_1,
-        BitmapType::QUESTIONBLOCK_2
-    }, 10, *bitmaps_);
-
-    runningMario_ = new AnimatedBitmap(
-    {
-        BitmapType::MARIO_RUNNING_0,
-        BitmapType::MARIO_RUNNING_1,
-        BitmapType::MARIO_RUNNING_2
-    }, 3, *bitmaps_);
-
+    initGameObjects();
     running_ = true;
 
     while (running_)

@@ -1,6 +1,5 @@
 #include "Context.hpp"
 
-
 void Context::setBitmapsContainer(BitmapsContainer* bc)
 {
     bitmapsContainer_ = bc;
@@ -39,4 +38,13 @@ void Context::setKeyboardState(KeyboardState* ks)
 KeyboardState* Context::getKeyboardState()
 {
     return keyboardState_;
+}
+
+void Context::setRenderer(SDL_Renderer* r)
+{
+    renderer_ = r;
+}
+SDL_Renderer* Context::getRenderer()
+{
+    return renderer_;
 }

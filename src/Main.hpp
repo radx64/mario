@@ -1,18 +1,21 @@
 #ifndef MAIN_HPP_
 #define MAIN_HPP_
 
-#include "KeyboardState.hpp"
+#include <vector>
 
 #include "AnimatedBitmap.hpp"
 #include "BitmapsContainer.hpp"
 #include "Context.hpp"
+#include "KeyboardState.hpp"
+#include "Object.hpp"
+
+class AnimatedBitmap;
+class Bitmap;
+class FpsCounter;
+class TextRenderer;
 
 class SDL_Renderer;
 class SDL_Window;
-class Bitmap;
-class TextRenderer;
-class FpsCounter;
-class AnimatedBitmap;
 
 class Main
 {
@@ -26,6 +29,7 @@ public:
 private:
     void clear();
     void simpleScene();
+    void initGameObjects();
     KeyboardState keys_;
     bool running_;
     int frame_;
@@ -37,6 +41,7 @@ private:
     AnimatedBitmap* questionBlock_;
     AnimatedBitmap* runningMario_;
     Context context_;
+    std::vector<Object*> gameObjects_;
 };
 
 #endif  // MAIN_HPP_ 
