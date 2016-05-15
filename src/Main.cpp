@@ -243,7 +243,7 @@ void Main::simpleScene()
     }
 
     SDL_RenderPresent(renderer_);
-    SDL_Delay(20);
+    SDL_Delay(10);
     questionBlock_->nextFrame();
     runningMario_->nextFrame();
    

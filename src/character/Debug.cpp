@@ -32,21 +32,25 @@ void Debug::simulate(std::vector<Object*> gameObjects)
     if (type_ != 0) return;  // for testing purposes
     auto keys = context_.getKeyboardState();
 
+    x += dx;
+    y += dy;
+
+
     if (keys->up)
     {
         if (!jumped_)
        {
-            dy -= 0.4;
+            dy -= 1.4;
             jumped_ = true;
         }
 
     }
 
     if (keys->down)  dy += 0.3;
-    if (keys->left)  dx = -0.3;
-    if (keys->right) dx = 0.3;
+    if (keys->left)  dx += -0.3;
+    if (keys->right) dx += 0.3;
 
-    if (!keys->left && !keys->right) dx = 0;
+    if (!keys->left && !keys->right) dx *= 0.15;
     //if (!keys->up && !keys->down) dy = 0;
 
 
@@ -67,52 +71,16 @@ void Debug::simulate(std::vector<Object*> gameObjects)
         {
             dx = 0;
             if(x + w > object->x) x = object->x + w;
-        }      
-            // if (dx != 0 && object->x > x) 
-            // {
-            //     x = object->x - w;
-            //     dx = 0;
-            //     return;
-            // }
+        }   
 
-            // if (dx != 0 && object->x < x) 
-            // {
-            //     x = object->x + w;
-            //     dx = 0;
-            //     return;
-            // }
-
-            // if (dy != 0 && y < object->y)
-            // {
-            //     y = object->y - h;
-            //     jumped_ = false;
-            //     dy = 0;
-            //     return;
-            // }
-
-            //  if (dy != 0 && y > object->y)
-            // {
-            //     y = object->y + h;
-            //     dy = 0;
-            //     jumped_ = false;
-            //     return;
-            // }           
-
-        if(col.left || col.right || col.top || col.bottom)
+        if (col.right)
         {
-            std::cout << "Collision with {" 
-                << col.left 
-                << col.right 
-                << col.top 
-                << col.bottom 
-                << "} of "<< object->type_  << "DX: " << dx << " DY:" << dy << std::endl;
-        }
-
+            dx = 0;
+            if(x + w > object->x) x = object->x;
+        }        
+     
         float grav = 0.0015;
-        dy += grav;
-
-        x += dx;
-        y += dy;
+        dy += grav;    
 
     }
 }

@@ -35,33 +35,12 @@ Object::Collision Object::checkCollision(Object& collider)
 
     angle = angle * 180.0 / M_PI;
 
-    std::cout << "Angle: " << angle << std::endl;
-
-    if ( angle > -45.0 && angle < 45.0) col.left = true;
+    if ( angle > -35.0 && angle < 35.0) col.left = true;
     if ( angle > 45.0 && angle < 135.0) col.top = true;
 
     if ( angle > -135.0 && angle < -45.0) col.bottom = true;
-    if ( angle > 135.0 || angle < -135.0) col.right = true;
+    if ( angle > 145.0 || angle < -145.0) col.right = true;
 
     return col;
 
 }
-
-// Object::Collision Object::checkCollision(Object& collider)
-// {
-//     bool collided = (fabs(x + dx - collider.x) < (w + collider.w) / 2) &&
-//         (fabs(y + dy - collider.y) < (h + collider.h) / 2);
-
-//     Collision col{false, false, false, false};
-
-//     if (!collided) return col;
-
-//     if (y < collider.y ) col.bottom = true;
-//     if (y > collider.y ) col.top = true;
-
-//     if (x < collider.x && y != collider.y) col.right = true;
-//     if (x > collider.x && y != collider.y) col.left = true;
-
-//     return col;
-
-// }
