@@ -1,29 +1,28 @@
 #ifndef OBJECT_HPP_
 #define OBJECT_HPP_
 
-class Context;
+#include <vector>
 
 class Object
 {
 public:
-    Object(Context& context, int type);
+    Object(int type);
 
-    virtual void draw();
-    virtual void simulate();
-    virtual void checkCollision(Object& different);
+    virtual void draw() = 0;
+    virtual void simulate(std::vector<Object*> gameObjects) = 0;
 
-    int x;
-    int y;
-    int w;
-    int h;
+    int x{};
+    int y{};
+    int w{};
+    int h{};
 
+    float dx{};
+    float dy{};
 
-private:
-    Context& context_;
-    int type_;
-    int r_;
-    int g_;
-    int b_;
+    int type_{};
+
+protected:
+    virtual bool checkCollision(Object& different);
 };
 
 #endif  //OBJECT_HPP_

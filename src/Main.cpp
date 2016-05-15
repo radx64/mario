@@ -11,6 +11,8 @@
 #include "TextRenderer.hpp"
 #include "Timer.hpp"
 
+#include "character/Debug.hpp"
+
 #include <iostream>
 
 /** 
@@ -159,11 +161,30 @@ void Main::initGameObjects()
     }, 3, *bitmaps_);
 
 
-    for (int i = 0; i < 10; ++i)
+    Object* debugObject = new character::Debug(context_, 0);
+        debugObject->x = 200;
+        debugObject->y = 0;
+        debugObject->w = 32;
+        debugObject->h = 32;
+
+    gameObjects_.push_back(debugObject);
+
+    for (int i = 1; i < 10; ++i)
     {
-        Object* debugObject = new Object(context_, i);
-        debugObject->x = 100 + i * 35;
+        Object* debugObject = new character::Debug(context_, i);
+        debugObject->x = 100 + i * 32;
         debugObject->y = 100;
+        debugObject->w = 32;
+        debugObject->h = 32;
+
+        gameObjects_.push_back(debugObject);
+    }
+
+    for (int i = 10; i < 20; ++i)
+    {
+        Object* debugObject = new character::Debug(context_, i);
+        debugObject->x = 100 + i * 32;
+        debugObject->y = 200;
         debugObject->w = 32;
         debugObject->h = 32;
 
@@ -217,16 +238,8 @@ void Main::simpleScene()
     for (unsigned int index = 0; index < gameObjects_.size(); ++index)
     {
         Object* obj = gameObjects_[index];
-        obj->simulate();
+        obj->simulate(gameObjects_);
         obj->draw();
-    }
-
-    Object* obj = gameObjects_[0];  // checking collision with main object
-
-    for (unsigned int collisionIndex = 1; collisionIndex < gameObjects_.size(); ++collisionIndex)
-    {
-        Object* collisionObj = gameObjects_[collisionIndex];
-        collisionObj->checkCollision(*obj);
     }
 
     SDL_RenderPresent(renderer_);
