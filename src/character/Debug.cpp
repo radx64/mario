@@ -22,16 +22,18 @@ void Debug::draw()
 
     if (type_ == 0)
     {
-        context_.getBitmapsContainer()->get(BitmapType::QUESTIONBLOCK_0)->draw(x,y);  
+        context_.getBitmapsContainer()->get(BitmapType::SQUID_0)->draw(x,y); 
+        h = context_.getBitmapsContainer()->get(BitmapType::SQUID_0)->getHeight(); 
     }
     else
     {
         context_.getBitmapsContainer()->get(BitmapType::BRICK_RED)->draw(x,y);
     }
+
     SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0x00);
-    SDL_RenderDrawLine(renderer, x + w/2, y+h/2, x + w/2 + dx*150.0, y+h/2);
+    SDL_RenderDrawLine(renderer, x + w/2, y+h/2, x + w/2 + dx*10.0, y+h/2);
     SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0x00);
-    SDL_RenderDrawLine(renderer, x + w/2, y+h/2, x + w/2, y+h/2 + dy*150.0);
+    SDL_RenderDrawLine(renderer, x + w/2, y+h/2, x + w/2, y+h/2 + dy*10.0);
 }
 
 bool Debug::isObjectAt(std::vector<Object*> gameObjects, float x, float y)
@@ -49,8 +51,12 @@ bool Debug::isObjectAt(std::vector<Object*> gameObjects, float x, float y)
 
 void Debug::bouceOfCeiling(Object* ceilingBlock)
 {
-    y = ceilingBlock->y + ceilingBlock->h;
-    dy = -dy;  
+    if (dy < 0.0) 
+    {
+        dy = -dy;  
+        std::cout << "Bounce off..." << std::endl;
+        y = ceilingBlock->y + ceilingBlock->h;
+    }
 }
 
 void Debug::simulate(std::vector<Object*> gameObjects)
@@ -58,8 +64,8 @@ void Debug::simulate(std::vector<Object*> gameObjects)
     if (type_ != 0) return;  // for testing purposes
     auto keys = context_.getKeyboardState();
 
-        float grav = 0.1;
-        dy += grav; 
+    float grav = 0.15;
+    dy += grav; 
 
     x += dx;
     y += dy;
@@ -69,13 +75,18 @@ void Debug::simulate(std::vector<Object*> gameObjects)
     {
         if (!jumped_)
        {
-            dy -= 4.4;
+            dy -= 6.0;
             jumped_ = true;
         }
+        else
+        {
+            dy -= 0.04;
+        }
 
-    } else
+    } 
+    else
     {
-        //if (dy < 0) 
+       dy += 0.1; 
     }
 
 
@@ -85,7 +96,7 @@ void Debug::simulate(std::vector<Object*> gameObjects)
     if (dx > 5.0) dx = 5.0;
     if (dx < -5.0) dx = -5.0;
 
-    if (!keys->left && !keys->right) dx *= 0.15;
+    if (!keys->left && !keys->right) dx *= 0.95;
 
     for (auto object : gameObjects)
     {
@@ -96,7 +107,7 @@ void Debug::simulate(std::vector<Object*> gameObjects)
         if (col.bottom)
         {
             y = object->y - h; 
-            dy=0;
+            dy = 0;
             jumped_ = false;
         }
 
@@ -119,7 +130,7 @@ void Debug::simulate(std::vector<Object*> gameObjects)
             Below is special behaviour for future Mario development
             When Mario is jumping up and hit obstacle with his head
             He slides a bit to be next to the block (to jump on block above him)
-            instead of just bounding down
+            instead of just bouncing down
         **/
             if ( x + w - object->x < 10.0f)
             {
@@ -129,6 +140,7 @@ void Debug::simulate(std::vector<Object*> gameObjects)
                 }
                 else
                 {
+                    std::cout << "TADA1" << std::endl;
                     bouceOfCeiling(object);
                 }
             }
@@ -141,15 +153,22 @@ void Debug::simulate(std::vector<Object*> gameObjects)
                 }
                 else
                 {
+                    std::cout << "TADA2" << std::endl;
                     bouceOfCeiling(object); 
                 }
             }
             else
             {
+                std::cout << "TADA3" << std::endl;
                 bouceOfCeiling(object);
             }
 
-        }         
+        }      
+        if (col.left || col.right || col.top || col.bottom)
+        {      
+            std::cout << "Collision {" << col.left << col.right <<col.top << col.bottom 
+            << "} with type_" <<  object->type_ << std::endl; 
+        }
     }
 }
 

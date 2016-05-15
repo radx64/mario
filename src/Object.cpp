@@ -17,13 +17,13 @@ Object::Collision Object::checkCollision(Object& collider)
     float distanceX = fabs(collider.x - predictedX);
     float distnaceY = fabs(collider.y - predictedY);
 
-    float avgWidth = (w + collider.w) / 2.0;
-    float avgHeight = (h + collider.h) / 2.0;
+    float maxWidth = std::max(w, collider.w);
+    float maxHeight = std::max(h, collider.h);
 
     Collision col{false, false, false, false};
 
-    bool horizontalIntersection = (distanceX < avgWidth);
-    bool verticalIntersection = (distnaceY < avgHeight);
+    bool horizontalIntersection = (distanceX < maxWidth);
+    bool verticalIntersection = (distnaceY < maxHeight);
 
     if (!(horizontalIntersection && verticalIntersection))
     {
@@ -36,7 +36,7 @@ Object::Collision Object::checkCollision(Object& collider)
     angle = angle * 180.0 / M_PI;
 
     if ( angle > -35.0 && angle < 35.0) col.left = true;
-    if ( angle > 140.0 || angle < -140.0) col.right = true;
+    if ( angle > 145.0 || angle < -145.0) col.right = true;
     if ( angle > 45.0 && angle < 135.0) col.top = true;
     if ( angle > -135.0 && angle < -45.0) col.bottom = true;
 

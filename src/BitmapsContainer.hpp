@@ -19,7 +19,9 @@ enum class BitmapType
     MARIO_STANDING,
     QUESTIONBLOCK_0,
     QUESTIONBLOCK_1,
-    QUESTIONBLOCK_2
+    QUESTIONBLOCK_2,
+    SQUID_0,
+    SQUID_1
 };
 
 class BitmapsContainer

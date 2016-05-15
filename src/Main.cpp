@@ -80,6 +80,8 @@ void Main::init()
        { BitmapType::MARIO_RUNNING_1, rootPath + "characters/mario/move1.bmp"},
        { BitmapType::MARIO_RUNNING_2, rootPath + "characters/mario/move2.bmp"},
        { BitmapType::MARIO_STANDING,  rootPath + "characters/mario/standing.bmp"},
+       { BitmapType::SQUID_0,         rootPath + "characters/squid/move0.bmp"},
+       { BitmapType::SQUID_1,         rootPath + "characters/squid/move1.bmp"},
        { BitmapType::QUESTIONBLOCK_0, rootPath + "blockq_0.bmp"},
        { BitmapType::QUESTIONBLOCK_1, rootPath + "blockq_1.bmp"},
        { BitmapType::QUESTIONBLOCK_2, rootPath + "blockq_2.bmp"}
@@ -199,7 +201,7 @@ void Main::initGameObjects()
         gameObjects_.push_back(debugObject);
     }
 
-    for (int i = 1; i < 26; ++i)
+    for (int i = 3; i < 26; ++i)
     {
         Object* debugObject = new character::Debug(context_, i);
         debugObject->x = (i-1) * 32;
@@ -209,6 +211,17 @@ void Main::initGameObjects()
 
         gameObjects_.push_back(debugObject);
     }
+
+     for (int i = 1; i < 10; ++i)
+    {
+        Object* debugObject = new character::Debug(context_, i);
+        debugObject->x = (i-1) * 32;
+        debugObject->y = 200;
+        debugObject->w = 32;
+        debugObject->h = 32;
+
+        gameObjects_.push_back(debugObject);
+    }   
 
     // remember to destroy objects above when done
 }
@@ -256,6 +269,11 @@ void Main::simpleScene()
         obj->simulate(gameObjects_);
         obj->draw();
     }
+
+    if (gameObjects_.front()->x > width_) gameObjects_.front()->x = 0;
+    if (gameObjects_.front()->x < 0) gameObjects_.front()->x = width_;
+
+    if (gameObjects_.front()->y > height_) gameObjects_.front()->y = 0;
 
     SDL_RenderPresent(renderer_);
     SDL_Delay(10);
