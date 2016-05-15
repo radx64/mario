@@ -11,8 +11,8 @@ public:
     virtual void draw() = 0;
     virtual void simulate(std::vector<Object*> gameObjects) = 0;
 
-    int x{};
-    int y{};
+    double x{};
+    double y{};
     int w{};
     int h{};
 
@@ -22,7 +22,15 @@ public:
     int type_{};
 
 protected:
-    virtual bool checkCollision(Object& different);
+    struct Collision
+    {
+        bool left;
+        bool right;
+        bool top;
+        bool bottom;
+    };
+
+    virtual Collision checkCollision(Object& different);
 };
 
 #endif  //OBJECT_HPP_

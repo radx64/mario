@@ -184,7 +184,7 @@ void Main::initGameObjects()
     {
         Object* debugObject = new character::Debug(context_, i);
         debugObject->x = 100 + i * 32;
-        debugObject->y = 200;
+        debugObject->y = 132;
         debugObject->w = 32;
         debugObject->h = 32;
 
@@ -243,7 +243,7 @@ void Main::simpleScene()
     }
 
     SDL_RenderPresent(renderer_);
-    SDL_Delay(10);
+    SDL_Delay(20);
     questionBlock_->nextFrame();
     runningMario_->nextFrame();
    
