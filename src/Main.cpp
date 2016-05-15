@@ -171,7 +171,7 @@ void Main::initGameObjects()
 
     debugObject = new character::Debug(context_, 1);
         debugObject->x = 500;
-        debugObject->y = 60;
+        debugObject->y = 40;
         debugObject->w = 32;
         debugObject->h = 32;
 

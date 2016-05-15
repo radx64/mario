@@ -17,6 +17,7 @@ public:
     virtual void simulate(std::vector<Object*> gameObjects) override;
 
 protected:
+    bool isObjectAt(std::vector<Object*> gameObjects, float x, float y);
     int r_{};
     int g_{};
     int b_{};

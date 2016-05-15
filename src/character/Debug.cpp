@@ -34,6 +34,20 @@ void Debug::draw()
     SDL_RenderDrawLine(renderer, x + w/2, y+h/2, x + w/2, y+h/2 + dy*150.0);
 }
 
+bool Debug::isObjectAt(std::vector<Object*> gameObjects, float x, float y)
+{
+    for(auto object : gameObjects)
+    {
+        if ((x >= object->x && x < object->x + object->w) &&
+            (y >= object->y && y < object->y + object->h))
+        {
+            std::cout << "Found object" << std::endl;
+            return true;
+        }
+    }
+    return false;
+}
+
 void Debug::simulate(std::vector<Object*> gameObjects)
 {
     if (type_ != 0) return;  // for testing purposes
@@ -54,7 +68,11 @@ void Debug::simulate(std::vector<Object*> gameObjects)
             jumped_ = true;
         }
 
+    } else
+    {
+        //if (dy < 0) 
     }
+
 
     if (keys->left)  dx += -0.6;
     if (keys->right) dx += 0.6;
@@ -92,28 +110,39 @@ void Debug::simulate(std::vector<Object*> gameObjects)
 
         if (col.top)
         {
-            y = object->y + object->h;
-            
-            if (object->type_ == 2) // not all objects have sliding up ability
+        /** 
+            Below is special behaviour for future Mario development
+            When Mario is jumping up and hit obstacle with his head
+            He slides a bit to be next to the block (to jump on block above him)
+            instead of just bounding down
+        **/
+            if ( x + w - object->x < 10.0f)
             {
-            /** below is special behaviour for future Mario development
-                When Mario is jumping up and hit obstacle with his head
-                He slides a bit to be next to the block (to jump on block above him)
-            **/
-                if ( x + w - object->x < 10.0f)
+                if (!isObjectAt(gameObjects, object->x - w, object->y))
                 {
                     x = object->x - w;
                 }
-
-                if (object->x + object->w - x < 10.0f)
+                else
+                {
+                    y = object->y + object->h;
+                    dy = -dy;  
+                }
+            }
+            
+            else if(object->x + object->w - x < 10.0f)
+            {
+                if (!isObjectAt(gameObjects, object->x + object->w , object->y))
                 {
                     x = object->x + w;
                 }
             }
-
+            else
+            {
+                y = object->y + object->h;
+                dy = -dy;
+            }
 
         }         
-
     }
 }
 
