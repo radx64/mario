@@ -5,6 +5,7 @@
 #include "BitmapsContainer.hpp"
 #include "Context.hpp"
 #include "KeyboardState.hpp"
+#include "TextRenderer.hpp"
 #include <iostream>
 
 
@@ -74,7 +75,7 @@ void Debug::simulate(std::vector<Object*> gameObjects)
     if (type_ != 0) return;  // for testing purposes
     auto keys = context_.getKeyboardState();
 
-    float grav = 0.15;
+    float grav = 0.18;
     dy += grav; 
 
     x += dx;
@@ -85,7 +86,7 @@ void Debug::simulate(std::vector<Object*> gameObjects)
     {
         if (!jumped_)
        {
-            dy -= 6.0;
+            dy = -6.0;
             jumped_ = true;
         }
         else
@@ -117,7 +118,7 @@ void Debug::simulate(std::vector<Object*> gameObjects)
         if (col.bottom)
         {
             y = object->y - h; 
-            dy = 0;
+            if (dy > 0) dy = 0;
             jumped_ = false;
         }
 
@@ -179,7 +180,9 @@ void Debug::simulate(std::vector<Object*> gameObjects)
             std::cout << "Collision {" << col.left << col.right <<col.top << col.bottom 
             << "} with type_" <<  object->type_ << std::endl; 
         }
+
     }
+    context_.getTextRenderer()->draw(std::string("DY: ") + std::to_string(dy),10,32,1.0);
 }
 
 
