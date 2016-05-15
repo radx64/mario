@@ -18,6 +18,7 @@ public:
 
 protected:
     bool isObjectAt(std::vector<Object*> gameObjects, float x, float y);
+    void bouceOfCeiling(Object* ceilingBlock);
     int r_{};
     int g_{};
     int b_{};

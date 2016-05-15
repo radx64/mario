@@ -41,11 +41,16 @@ bool Debug::isObjectAt(std::vector<Object*> gameObjects, float x, float y)
         if ((x >= object->x && x < object->x + object->w) &&
             (y >= object->y && y < object->y + object->h))
         {
-            std::cout << "Found object" << std::endl;
             return true;
         }
     }
     return false;
+}
+
+void Debug::bouceOfCeiling(Object* ceilingBlock)
+{
+    y = ceilingBlock->y + ceilingBlock->h;
+    dy = -dy;  
 }
 
 void Debug::simulate(std::vector<Object*> gameObjects)
@@ -124,8 +129,7 @@ void Debug::simulate(std::vector<Object*> gameObjects)
                 }
                 else
                 {
-                    y = object->y + object->h;
-                    dy = -dy;  
+                    bouceOfCeiling(object);
                 }
             }
             
@@ -135,11 +139,14 @@ void Debug::simulate(std::vector<Object*> gameObjects)
                 {
                     x = object->x + w;
                 }
+                else
+                {
+                    bouceOfCeiling(object); 
+                }
             }
             else
             {
-                y = object->y + object->h;
-                dy = -dy;
+                bouceOfCeiling(object);
             }
 
         }         
