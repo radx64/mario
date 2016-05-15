@@ -22,8 +22,22 @@ void Debug::draw()
 
     if (type_ == 0)
     {
-        context_.getBitmapsContainer()->get(BitmapType::SQUID_0)->draw(x,y); 
-        h = context_.getBitmapsContainer()->get(BitmapType::SQUID_0)->getHeight(); 
+        int frame = simCount_ % 40;
+        if (frame < 20)
+        {
+            context_.getBitmapsContainer()->get(BitmapType::SQUID_0)->draw(x,y); 
+            h = context_.getBitmapsContainer()->get(BitmapType::SQUID_0)->getHeight(); 
+        }
+        else
+        {
+            context_.getBitmapsContainer()->get(BitmapType::SQUID_1)->draw(x,y); 
+            h = context_.getBitmapsContainer()->get(BitmapType::SQUID_1)->getHeight();       
+        }
+
+    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0xFF, 0x00);
+    SDL_Rect r {(int)x,(int)y,w,h};
+    SDL_RenderDrawRect(renderer, &r);
+
     }
     else
     {
@@ -62,6 +76,7 @@ void Debug::bouceOfCeiling(Object* ceilingBlock)
 void Debug::simulate(std::vector<Object*> gameObjects)
 {
     if (type_ != 0) return;  // for testing purposes
+    simCount_++;
     auto keys = context_.getKeyboardState();
 
     float grav = 0.15;

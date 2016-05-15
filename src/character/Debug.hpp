@@ -23,6 +23,7 @@ protected:
     int g_{};
     int b_{};
     bool jumped_{false};
+    int simCount_{};
     Context& context_;
 };
 
