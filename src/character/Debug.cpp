@@ -13,7 +13,12 @@ namespace character
 
 Debug::Debug(Context& context, int type) : Object(type), context_(context)
 {
-
+    bitmap_ = new AnimatedBitmap({BitmapType::SQUID_0, BitmapType::SQUID_1},
+        20,
+        *context_.getBitmapsContainer()
+    );
+    h = context_.getBitmapsContainer()->get(BitmapType::SQUID_0)->getHeight();
+    w = context_.getBitmapsContainer()->get(BitmapType::SQUID_0)->getWidth();
 }
 
 void Debug::draw()
@@ -22,27 +27,17 @@ void Debug::draw()
 
     if (type_ == 0)
     {
-        int frame = simCount_ % 40;
-        if (frame < 20)
-        {
-            context_.getBitmapsContainer()->get(BitmapType::SQUID_0)->draw(x,y); 
-            h = context_.getBitmapsContainer()->get(BitmapType::SQUID_0)->getHeight(); 
-        }
-        else
-        {
-            context_.getBitmapsContainer()->get(BitmapType::SQUID_1)->draw(x,y); 
-            h = context_.getBitmapsContainer()->get(BitmapType::SQUID_1)->getHeight();       
-        }
-
-    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0xFF, 0x00);
-    SDL_Rect r {(int)x,(int)y,w,h};
-    SDL_RenderDrawRect(renderer, &r);
+        bitmap_->draw(x, y);
 
     }
     else
     {
         context_.getBitmapsContainer()->get(BitmapType::BRICK_RED)->draw(x,y);
     }
+
+    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0xFF, 0x00);
+    SDL_Rect r {(int)x,(int)y,w,h};
+    SDL_RenderDrawRect(renderer, &r);
 
     SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0x00);
     SDL_RenderDrawLine(renderer, x + w/2, y+h/2, x + w/2 + dx*10.0, y+h/2);
@@ -75,8 +70,8 @@ void Debug::bouceOfCeiling(Object* ceilingBlock)
 
 void Debug::simulate(std::vector<Object*> gameObjects)
 {
+    bitmap_->nextFrame();
     if (type_ != 0) return;  // for testing purposes
-    simCount_++;
     auto keys = context_.getKeyboardState();
 
     float grav = 0.15;

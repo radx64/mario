@@ -2,6 +2,7 @@
 #define DEBUG_HPP_
 
 #include "Object.hpp"
+#include "AnimatedBitmap.hpp"
 
 class Context;
 
@@ -12,6 +13,7 @@ class Debug : public Object
 {
 public:
     Debug(Context& context, int type);
+    ~Debug();
 
     virtual void draw() override;
     virtual void simulate(std::vector<Object*> gameObjects) override;
@@ -23,8 +25,8 @@ protected:
     int g_{};
     int b_{};
     bool jumped_{false};
-    int simCount_{};
     Context& context_;
+    AnimatedBitmap* bitmap_;
 };
 
 }  // namespace character

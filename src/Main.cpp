@@ -166,8 +166,6 @@ void Main::initGameObjects()
     Object* debugObject = new character::Debug(context_, 0);
         debugObject->x = 200;
         debugObject->y = 0;
-        debugObject->w = 32;
-        debugObject->h = 32;
 
     gameObjects_.push_back(debugObject);
 

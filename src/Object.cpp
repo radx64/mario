@@ -15,15 +15,24 @@ Object::Collision Object::checkCollision(Object& collider)
     float predictedY = y + dy;
 
     float distanceX = fabs(collider.x - predictedX);
-    float distnaceY = fabs(collider.y - predictedY);
+    float distanceY = fabs(collider.y - predictedY);
 
     float maxWidth = std::max(w, collider.w);
     float maxHeight = std::max(h, collider.h);
 
+    float minWidth = std::min(w, collider.w);
+    float minHeight = std::min(h, collider.h); 
+
     Collision col{false, false, false, false};
 
-    bool horizontalIntersection = (distanceX < maxWidth);
-    bool verticalIntersection = (distnaceY < maxHeight);
+    bool horizontalIntersection = false;
+    bool verticalIntersection = false;
+
+    if (y < collider.y) verticalIntersection = (distanceY < maxHeight);
+        else verticalIntersection = (distanceY < minHeight);
+
+    if (x < collider.x) horizontalIntersection = (distanceX < maxWidth);
+        else horizontalIntersection = (distanceX < minWidth);
 
     if (!(horizontalIntersection && verticalIntersection))
     {
