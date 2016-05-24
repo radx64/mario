@@ -11,14 +11,15 @@
 #include "TextRenderer.hpp"
 #include "Timer.hpp"
 
-#include "character/Debug.hpp"
+#include "character/Player.hpp"
+#include "environment/BrickBlock.hpp"
 
 #include <iostream>
 
 /** 
                         IMPORTANT NOTICE:
 Please take into consideration that current implementation of Main class is 
-"a mine field" done only to design and test in field rest of project's components.
+"a mine field" done only to design and test in field rest of project components.
 
 If it ugly, hacky and and makes You cry, it should be done that way :).
 
@@ -163,13 +164,13 @@ void Main::initGameObjects()
     }, 3, *bitmaps_);
 
 
-    Object* debugObject = new character::Debug(context_, 0);
+    Object* debugObject = new character::Player(context_, 0);
         debugObject->x = 200;
         debugObject->y = 0;
 
     gameObjects_.push_back(debugObject);
 
-    debugObject = new character::Debug(context_, 1);
+    debugObject = new environment::BrickBlock(context_, 1);
         debugObject->x = 500;
         debugObject->y = 40;
         debugObject->w = 32;
@@ -179,7 +180,7 @@ void Main::initGameObjects()
 
     for (int i = 2; i < 10; ++i)
     {
-        Object* debugObject = new character::Debug(context_, i);
+        Object* debugObject = new environment::BrickBlock(context_, i);
         debugObject->x = 100 + i * 32;
         debugObject->y = 100;
         debugObject->w = 32;
@@ -190,7 +191,7 @@ void Main::initGameObjects()
 
     for (int i = 10; i < 20; ++i)
     {
-        Object* debugObject = new character::Debug(context_, i);
+        Object* debugObject = new environment::BrickBlock(context_, i);
         debugObject->x = 100 + i * 32;
         debugObject->y = 132;
         debugObject->w = 32;
@@ -201,7 +202,7 @@ void Main::initGameObjects()
 
     for (int i = 3; i < 26; ++i)
     {
-        Object* debugObject = new character::Debug(context_, i);
+        Object* debugObject = new environment::BrickBlock(context_, i);
         debugObject->x = (i-1) * 32;
         debugObject->y = 280;
         debugObject->w = 32;
@@ -212,7 +213,7 @@ void Main::initGameObjects()
 
      for (int i = 1; i < 10; ++i)
     {
-        Object* debugObject = new character::Debug(context_, i);
+        Object* debugObject = new environment::BrickBlock(context_, i);
         debugObject->x = (i-1) * 32;
         debugObject->y = 200;
         debugObject->w = 32;
@@ -221,7 +222,7 @@ void Main::initGameObjects()
         gameObjects_.push_back(debugObject);
     }   
 
-    // remember to destroy objects above when done
+    // remember to destroy objects above when done, duh...
 }
 
 

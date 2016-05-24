@@ -8,8 +8,25 @@ Object::Object(int type) : type_(type)
 {
 }
 
+void Object::simulate(std::vector<Object*> gameObjects)
+{
+    for (auto object : gameObjects)
+    {
+        if (object == this) continue; // skip collision with itself
 
-Object::Collision Object::checkCollision(Object& collider)
+        auto col = checkCollision(*object);
+
+        if (col.hasCollided())
+        {
+            onCollisionWith(col, *object);
+
+            object->onCollisionWith(col.opposite(), *this);
+        }
+
+    }    
+}
+
+Collision Object::checkCollision(Object& collider)
 {
     float predictedX = x + dx;
     float predictedY = y + dy;
@@ -27,6 +44,8 @@ Object::Collision Object::checkCollision(Object& collider)
 
     bool horizontalIntersection = false;
     bool verticalIntersection = false;
+
+    (void)maxHeight;
 
     if (y < collider.y) verticalIntersection = (distanceY < maxHeight);
         else verticalIntersection = (distanceY < minHeight);

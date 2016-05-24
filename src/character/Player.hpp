@@ -1,5 +1,5 @@
-#ifndef DEBUG_HPP_
-#define DEBUG_HPP_
+#ifndef CHARACTER_PLAYER_HPP_
+#define CHARACTER_PLAYER_HPP_
 
 #include "Object.hpp"
 #include "AnimatedBitmap.hpp"
@@ -9,14 +9,15 @@ class Context;
 namespace character
 {
 
-class Debug : public Object
+class Player : public Object
 {
 public:
-    Debug(Context& context, int type);
-    ~Debug();
+    Player(Context& context, int type);
+    ~Player();
 
     virtual void draw() override;
     virtual void simulate(std::vector<Object*> gameObjects) override;
+    virtual void onCollisionWith(Collision collision, Object& object) override;
 
 protected:
     bool isObjectAt(std::vector<Object*> gameObjects, float x, float y);
@@ -27,8 +28,9 @@ protected:
     bool jumped_{false};
     Context& context_;
     AnimatedBitmap* bitmap_;
+    float grav_ {0.18};
 };
 
 }  // namespace character
 
-#endif  // DEBUG_HPP_
+#endif  // CHARACTER_PLAYER_HPP_
