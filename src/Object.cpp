@@ -23,51 +23,34 @@ void Object::simulate(std::vector<Object*> gameObjects)
             object->onCollisionWith(col.opposite(), *this);
         }
 
-    }    
+    }
 }
 
 Collision Object::checkCollision(Object& collider)
 {
-    float predictedX = x + dx;
-    float predictedY = y + dy;
+    float distanceX = fabs(collider.x - x);
+    float distanceY = fabs(collider.y - y);
 
-    float distanceX = fabs(collider.x - predictedX);
-    float distanceY = fabs(collider.y - predictedY);
-
-    float maxWidth = std::max(w, collider.w);
-    float maxHeight = std::max(h, collider.h);
-
-    float minWidth = std::min(w, collider.w);
-    float minHeight = std::min(h, collider.h); 
-
-    Collision col{false, false, false, false};
-
-    bool horizontalIntersection = false;
-    bool verticalIntersection = false;
-
-    (void)maxHeight;
-
-    if (y < collider.y) verticalIntersection = (distanceY < maxHeight);
-        else verticalIntersection = (distanceY < minHeight);
-
-    if (x < collider.x) horizontalIntersection = (distanceX < maxWidth);
-        else horizontalIntersection = (distanceX < minWidth);
-
-    if (!(horizontalIntersection && verticalIntersection))
+    if (!(x < collider.x + collider.w &&
+       x + w > collider.x &&
+       y < collider.y + collider.h &&
+       h + y > collider.y))
     {
-        return col;
+        return {false,false,false,false};
     }
 
-    float angle = atan2(y - collider.y,
-                        x - collider.x);
+    if (distanceY <  distanceX)
+    {
+        if (x < collider.x) return{false,true,false,false};
+        else return{true,false,false,false};
+    }
+    else
+    {
+        if (y < collider.y) return{false,false,false,true};
+        else return{false,false,true,false};
+    }
 
-    angle = angle * 180.0 / M_PI;
 
-    if ( angle > -35.0 && angle < 35.0) col.left = true;
-    if ( angle > 145.0 || angle < -145.0) col.right = true;
-    if ( angle > 45.0 && angle < 135.0) col.top = true;
-    if ( angle > -135.0 && angle < -45.0) col.bottom = true;
-
-    return col;
+    return {false,false,false,false};
 
 }

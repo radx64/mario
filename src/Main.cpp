@@ -16,9 +16,9 @@
 
 #include <iostream>
 
-/** 
+/**
                         IMPORTANT NOTICE:
-Please take into consideration that current implementation of Main class is 
+Please take into consideration that current implementation of Main class is
 "a mine field" done only to design and test in field rest of project components.
 
 If it ugly, hacky and and makes You cry, it should be done that way :).
@@ -26,7 +26,7 @@ If it ugly, hacky and and makes You cry, it should be done that way :).
 **/
 
 Main::Main(): width_(800), height_(600)
-{ 
+{
 
 }
 
@@ -38,7 +38,7 @@ Main::~Main()
 
     SDL_DestroyRenderer(renderer_);
     SDL_DestroyWindow(window_);
-    SDL_Quit();  
+    SDL_Quit();
 }
 
 void Main::init()
@@ -49,11 +49,11 @@ void Main::init()
             std::string("SDL could not initialize! SDL_Error: ") + SDL_GetError()));
         return;
     }
-    window_ = SDL_CreateWindow("Mario", 
-        SDL_WINDOWPOS_CENTERED, 
-        SDL_WINDOWPOS_CENTERED, 
-        width_, 
-        height_, 
+    window_ = SDL_CreateWindow("Mario",
+        SDL_WINDOWPOS_CENTERED,
+        SDL_WINDOWPOS_CENTERED,
+        width_,
+        height_,
         SDL_WINDOW_SHOWN);
 
     if (window_ == nullptr)
@@ -142,16 +142,16 @@ void Main::input()
 
 void Main::clear()
 {
-    SDL_SetRenderDrawColor(renderer_, 92, 148, 252, 0xFF); 
-    SDL_RenderClear(renderer_);    
+    SDL_SetRenderDrawColor(renderer_, 92, 148, 252, 0xFF);
+    SDL_RenderClear(renderer_);
 }
 
 void Main::initGameObjects()
 {
     questionBlock_ = new AnimatedBitmap(
     {
-        BitmapType::QUESTIONBLOCK_0, 
-        BitmapType::QUESTIONBLOCK_2, 
+        BitmapType::QUESTIONBLOCK_0,
+        BitmapType::QUESTIONBLOCK_2,
         BitmapType::QUESTIONBLOCK_1,
         BitmapType::QUESTIONBLOCK_2
     }, 10, *bitmaps_);
@@ -204,7 +204,7 @@ void Main::initGameObjects()
     {
         Object* debugObject = new environment::BrickBlock(context_, i);
         debugObject->x = (i-1) * 32;
-        debugObject->y = 280;
+        debugObject->y = 300;
         debugObject->w = 32;
         debugObject->h = 32;
 
@@ -220,7 +220,27 @@ void Main::initGameObjects()
         debugObject->h = 32;
 
         gameObjects_.push_back(debugObject);
-    }   
+    }
+
+    for (int i = 0; i < 25; ++i)
+    {
+        Object* debugObject = new environment::BrickBlock(context_, i*10);
+        debugObject->x = i * 32;
+        debugObject->y = 450;
+        debugObject->w = 32;
+        debugObject->h = 32;
+
+        gameObjects_.push_back(debugObject);
+    }
+
+        debugObject = new environment::BrickBlock(context_, 90);
+        debugObject->x = 0;
+        debugObject->y = 386;
+        debugObject->w = 32;
+        debugObject->h = 32;
+
+        gameObjects_.push_back(debugObject);
+
 
     // remember to destroy objects above when done, duh...
 }
@@ -231,14 +251,14 @@ void Main::simpleScene()
     if(sin(frame_/10.0) > 0)
     {
         bitmaps_->get(BitmapType::MARIO_JUMPING)->draw(
-            width_/2, 
+            width_/2,
             height_/2 + 100 - (sin(frame_/10.0)) * 90.0f);
     }
     else
     {
         bitmaps_->get(BitmapType::MARIO_STANDING)->draw(
-        width_/2, 
-        height_/2 + 88);   
+        width_/2,
+        height_/2 + 88);
     }
     bitmaps_->get(BitmapType::MARIO_STANDING)->draw(width_/2 - 32*4, 136);
 
@@ -246,14 +266,6 @@ void Main::simpleScene()
 
     questionBlock_->draw(width_/2 - 32*4, 200);
     questionBlock_->draw(width_/2 + 32*4, 200);
-
-    for (int j = 0; j < 5; ++j)
-    {
-        for (int i = 0; i < 25; ++i)
-        {
-            bitmaps_->get(BitmapType::GROUND_RED)->draw(i*32, 450+j*32);
-        }
-    }
 
     questionBlock_->draw(width_/2, 280);
 
@@ -278,7 +290,7 @@ void Main::simpleScene()
     SDL_Delay(10);
     questionBlock_->nextFrame();
     runningMario_->nextFrame();
-   
+
 }
 
 void Main::loop()
@@ -291,6 +303,6 @@ void Main::loop()
         clear();
         input();
         simpleScene();
-        ++frame_; 
+        ++frame_;
     }
 }

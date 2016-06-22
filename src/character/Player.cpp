@@ -31,7 +31,15 @@ void Player::draw()
     auto renderer = context_.getRenderer();
     SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0xFF, 0x00);
     SDL_Rect r{(int)x, (int)y, (int)w, (int)h};
-    SDL_RenderDrawRect(renderer, &r); 
+    SDL_RenderDrawRect(renderer, &r);
+
+    SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0x00);
+    SDL_RenderDrawLine(renderer, (int)x, (int)y, (int)x+(int)ax*4.0, (int)y);
+
+    SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0x00);
+    SDL_RenderDrawLine(renderer, (int)x, (int)y, (int)x, (int)y+(int)ay*4.0);
+
+
 }
 
 bool Player::isObjectAt(std::vector<Object*> gameObjects, float x, float y)
@@ -49,9 +57,10 @@ bool Player::isObjectAt(std::vector<Object*> gameObjects, float x, float y)
 
 void Player::bouceOfCeiling(Object* ceilingBlock)
 {
-    if (dy < 0.0) 
+    if (ay < 0.0)
     {
-        dy = -dy;  
+        ay = -ay;
+        y += ay;
         std::cout << "Watch Your head!" << std::endl;
         y = ceilingBlock->y + ceilingBlock->h;
     }
@@ -61,67 +70,69 @@ void Player::onCollisionWith(Collision collision, Object& object)
 {
     if (collision.bottom)
         {
-            y = object.y - h; 
-            if (dy > 0) dy = 0;
+            y = object.y - h;
+            if (ay > 0) ay = 0;
             jumped_ = false;
         }
 
         if (collision.left)
         {
-            dx = 0;
-            if(object.x + object.w < x) x = object.x + w;
-        }   
+             if (ax < 0) ax = 0;
+            // if(object.x + object.w < x) x = object.x + w;
+        }
 
         if (collision.right)
         {
-            dx = 0;
-            if(x + w < object.x ) x = object.x - w;
+            if (ax > 0) ax = 0;
+            // if(x + w < object.x ) x = object.x - w;
 
-        }     
+        }
 
         if (collision.top)
         {
-        /** 
+        /**
             Below is special behaviour for future Mario development
             When Mario is jumping up and hit obstacle with his head
             He slides a bit to be next to the block (to jump on block above him)
             instead of just bouncing down
         **/
+            bouceOfCeiling(&object);
+
             if ( x + w - object.x < 10.0f)
             {
-                // if (!isObjectAt(gameObjects, object->x - w, object->y))
+                // if (!isObjectAt(gameObjects, object.x - w, object.y))
                 // {
-                //     x = object->x - w;
+                //     x = object.x - w;
                 // }
                 // else
                 // {
                     bouceOfCeiling(&object);
                 // }
             }
-            
+
             else if(object.x + object.w - x < 10.0f)
             {
-                // if (!isObjectAt(gameObjects, object->x + object->w , object->y))
+                // if (!isObjectAt(gameObjects, object.x + object.w , object.y))
                 // {
-                //     x = object->x + w;
+                //     x = object.x + w;
                 // }
                 // else
                 // {
-                    bouceOfCeiling(&object); 
+                    bouceOfCeiling(&object);
                 // }
             }
             else
             {
                 bouceOfCeiling(&object);
             }
-        }      
-        std::cout << "Collision {" << collision.left 
-        << collision.right 
-        << collision.top 
-        << collision.bottom 
-        << "} with type_" 
-        <<  object.type_ 
-        << std::endl; 
+        }
+        std::cout << "Collision {" << collision.left
+        << collision.right
+        << collision.top
+        << collision.bottom
+        << "} with type_"
+        <<  object.type_
+        << std::endl;
 }
 
 void Player::simulate(std::vector<Object*> gameObjects)
@@ -129,42 +140,42 @@ void Player::simulate(std::vector<Object*> gameObjects)
     bitmap_->nextFrame();
     auto keys = context_.getKeyboardState();
 
-    dy += grav_; 
+    ay += grav_;
 
-    x += dx;
-    y += dy;
+    x += ax;
+    y += ay;
 
 
     if (keys->up)
     {
         if (!jumped_)
        {
-            dy = -6.0;
+            ay = -6.0;
             jumped_ = true;
         }
         else
         {
-            dy -= 0.04;
+            ay -= 0.04;
         }
 
-    } 
+    }
     else
     {
-       dy += 0.1; 
+       ay += 0.1;
     }
 
     Object::simulate(gameObjects);
 
-    if (keys->left)  dx += -0.6;
-    if (keys->right) dx += 0.6;
+    if (keys->left)  ax += -0.6;
+    if (keys->right) ax += 0.6;
 
-    if (dx > 5.0) dx = 5.0;
-    if (dx < -5.0) dx = -5.0;
+    if (ax > 5.0) ax = 5.0;
+    if (ax < -5.0) ax = -5.0;
 
-    if (!keys->left && !keys->right) dx *= 0.95;
+    if (!keys->left && !keys->right) ax *= 0.95;
 
-    context_.getTextRenderer()->draw(std::string("DX: ") + std::to_string(dx),10,24,1.0);
-    context_.getTextRenderer()->draw(std::string("DY: ") + std::to_string(dy),10,32,1.0);
+    context_.getTextRenderer()->draw(std::string("AX: ") + std::to_string(ax),10,24,1.0);
+    context_.getTextRenderer()->draw(std::string("AY: ") + std::to_string(ay),10,32,1.0);
 }
 
 

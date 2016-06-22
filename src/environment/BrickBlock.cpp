@@ -19,10 +19,10 @@ void BrickBlock::draw()
 {
     bitmap_->draw(x,y);
 
-    auto renderer = context_.getRenderer();
-    SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0x00);
-    SDL_Rect r{(int)x, (int)y, (int)w, (int)h};
-    SDL_RenderDrawRect(renderer, &r); 
+    //auto renderer = context_.getRenderer();
+    //SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0x00);
+    //SDL_Rect r{(int)x, (int)y, (int)w, (int)h};
+    //SDL_RenderDrawRect(renderer, &r);
 }
 
 void BrickBlock::simulate(std::vector<Object*> gameObjects)
@@ -32,9 +32,18 @@ void BrickBlock::simulate(std::vector<Object*> gameObjects)
 
 void BrickBlock::onCollisionWith(Collision collision, Object& object)
 {
+
     if (collision.bottom)
     {
-        bitmap_ = context_.getBitmapsContainer()->get(BitmapType::GROUND_RED);
+        hitCount_++;
+        if (hitCount_ % 2 == 0)
+        {
+            bitmap_ = context_.getBitmapsContainer()->get(BitmapType::BRICK_RED);
+        }
+        else
+        {
+            bitmap_ = context_.getBitmapsContainer()->get(BitmapType::GROUND_RED);
+        }
     }
 
     (void)object;

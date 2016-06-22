@@ -36,8 +36,8 @@ public:
     int w{};
     int h{};
 
-    float dx{};
-    float dy{};
+    float ax{};
+    float ay{};
 
     int type_{};
 

@@ -23,6 +23,7 @@ public:
 protected:
     Context& context_;
     std::shared_ptr<Bitmap> bitmap_;
+    int hitCount_{0};
 };
 
 }  // namespace environment
