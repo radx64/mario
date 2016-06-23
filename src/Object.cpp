@@ -36,21 +36,17 @@ Collision Object::checkCollision(Object& collider)
        y < collider.y + collider.h &&
        h + y > collider.y))
     {
-        return {false,false,false,false};
+        return Collision(Collision::State::None);
     }
 
     if (distanceY <  distanceX)
     {
-        if (x < collider.x) return{false,true,false,false};
-        else return{true,false,false,false};
+        if (x < collider.x) return Collision(Collision::State::Right);
+        else return Collision(Collision::State::Left);
     }
     else
     {
-        if (y < collider.y) return{false,false,false,true};
-        else return{false,false,true,false};
+        if (y < collider.y) return Collision(Collision::State::Bottom);
+        else return Collision(Collision::State::Top);
     }
-
-
-    return {false,false,false,false};
-
 }

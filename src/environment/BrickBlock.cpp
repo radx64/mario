@@ -33,7 +33,7 @@ void BrickBlock::simulate(std::vector<Object*> gameObjects)
 void BrickBlock::onCollisionWith(Collision collision, Object& object)
 {
 
-    if (collision.bottom)
+    if (collision.get() == Collision::State::Bottom)
     {
         hitCount_++;
         if (hitCount_ % 2 == 0)

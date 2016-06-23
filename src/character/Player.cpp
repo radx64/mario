@@ -68,27 +68,27 @@ void Player::bouceOfCeiling(Object* ceilingBlock)
 
 void Player::onCollisionWith(Collision collision, Object& object)
 {
-    if (collision.bottom)
+    if (collision.get() == Collision::State::Bottom)
         {
             y = object.y - h;
             if (ay > 0) ay = 0;
             jumped_ = false;
         }
 
-        if (collision.left)
+        if (collision.get() == Collision::State::Left)
         {
              if (ax < 0) ax = 0;
             // if(object.x + object.w < x) x = object.x + w;
         }
 
-        if (collision.right)
+        if (collision.get() == Collision::State::Right)
         {
             if (ax > 0) ax = 0;
             // if(x + w < object.x ) x = object.x - w;
 
         }
 
-        if (collision.top)
+        if (collision.get() == Collision::State::Top)
         {
         /**
             Below is special behaviour for future Mario development
@@ -126,10 +126,11 @@ void Player::onCollisionWith(Collision collision, Object& object)
                 bouceOfCeiling(&object);
             }
         }
-        std::cout << "Collision {" << collision.left
-        << collision.right
-        << collision.top
-        << collision.bottom
+        std::cout << "Collision {"
+        << (collision.get() == Collision::State::Left)
+        << (collision.get() == Collision::State::Right)
+        << (collision.get() == Collision::State::Top)
+        << (collision.get() == Collision::State::Bottom)
         << "} with type_"
         <<  object.type_
         << std::endl;
@@ -161,7 +162,7 @@ void Player::simulate(std::vector<Object*> gameObjects)
     }
     else
     {
-       ay += 0.1;
+       ay += 0.2;
     }
 
     Object::simulate(gameObjects);
