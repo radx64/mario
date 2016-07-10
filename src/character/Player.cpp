@@ -151,7 +151,7 @@ void Player::simulate(std::vector<Object*> gameObjects)
     {
         if (!jumped_)
        {
-            ay = -6.0;
+            ay = -8.0;
             jumped_ = true;
         }
         else
@@ -170,8 +170,8 @@ void Player::simulate(std::vector<Object*> gameObjects)
     if (keys->left)  ax += -0.6;
     if (keys->right) ax += 0.6;
 
-    if (ax > 5.0) ax = 5.0;
-    if (ax < -5.0) ax = -5.0;
+    if (ax > horizontalMaxSpeed_) ax = horizontalMaxSpeed_;
+    if (ax < -horizontalMaxSpeed_) ax = -horizontalMaxSpeed_;
 
     if (!keys->left && !keys->right) ax *= 0.95;
 

@@ -28,7 +28,8 @@ protected:
     bool jumped_{false};
     Context& context_;
     AnimatedBitmap* bitmap_;
-    float grav_ {0.18};
+    const float grav_ {0.28};
+    const float horizontalMaxSpeed_ {7.0};
 };
 
 }  // namespace character
