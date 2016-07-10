@@ -10,6 +10,7 @@ class FpsCounter
 public:
     FpsCounter();
     float measure();
+    float getLastMeasurement();
 
 private:
     Timer timer_;

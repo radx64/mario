@@ -1,8 +1,8 @@
 #include "FpsCounter.hpp"
 
-FpsCounter::FpsCounter() : smoothing_(0.3)
+FpsCounter::FpsCounter() : smoothing_(0.2)
 {
-    timer_.start(); 
+    timer_.start();
 }
 
 float FpsCounter::measure()
@@ -13,4 +13,9 @@ float FpsCounter::measure()
     lasttick_ = currentTick;
     lastMeasurement_ = measurement;
     return 1000.0 / measurement;
+}
+
+float FpsCounter::getLastMeasurement()
+{
+    return 1000.0 / lastMeasurement_;
 }

@@ -15,6 +15,7 @@
 #include "environment/BrickBlock.hpp"
 
 #include <iostream>
+#include <iomanip>
 
 /**
                         IMPORTANT NOTICE:
@@ -269,7 +270,7 @@ void Main::simpleScene()
 
     questionBlock_->draw(width_/2, 280);
 
-    int fps =  context_.getFpsCounter()->measure();
+    int fps =  context_.getFpsCounter()->getLastMeasurement();
     auto text = context_.getTextRenderer();
     text->draw(std::string("FPS: " + std::to_string(fps)), width_ - 150, 4, 2.0);
     text->draw(std::string("frame_:  " + std::to_string(frame_)), 10, 4, 2.0);
@@ -286,23 +287,26 @@ void Main::simpleScene()
 
     if (gameObjects_.front()->y > height_) gameObjects_.front()->y = 0;
 
-    SDL_RenderPresent(renderer_);
-    SDL_Delay(10);
+
     questionBlock_->nextFrame();
     runningMario_->nextFrame();
-
 }
 
 void Main::loop()
 {
     initGameObjects();
     running_ = true;
+    Timer frameTimer;
+
 
     while (running_)
     {
         clear();
         input();
         simpleScene();
+        SDL_RenderPresent(renderer_);
+        context_.getFpsCounter()->measure();
+        SDL_Delay(1.0);
         ++frame_;
     }
 }
