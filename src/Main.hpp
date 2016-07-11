@@ -30,6 +30,7 @@ private:
     void clear();
     void simpleScene();
     void initGameObjects();
+    void initBitmapsContainter();
     KeyboardState keys_;
     bool running_;
     int frame_;
@@ -39,9 +40,8 @@ private:
     const unsigned int height_;
     BitmapsContainer* bitmaps_;
     AnimatedBitmap* questionBlock_;
-    AnimatedBitmap* runningMario_;
     Context context_;
     std::vector<Object*> gameObjects_;
 };
 
-#endif  // MAIN_HPP_ 
+#endif  // MAIN_HPP_

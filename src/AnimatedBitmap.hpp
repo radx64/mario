@@ -9,14 +9,17 @@
 #include "BitmapsContainer.hpp"
 
 class SDL_Renderer;
+class FlipFlags;
 
 class AnimatedBitmap
 {
 public:
-    AnimatedBitmap(std::list<BitmapType> bitmaps, 
-        short speed, 
+    AnimatedBitmap(std::list<BitmapType> bitmaps,
+        short speed,
         BitmapsContainer& bitmapContainer);
     void draw(int x, int y);
+    void draw(int x, int y, const FlipFlags& f);
+
     void nextFrame();
 
 private:

@@ -5,7 +5,7 @@
 #include <iostream>
 #include <stdexcept>
 
-BitmapsContainer::BitmapsContainer(SDL_Renderer* renderer, 
+BitmapsContainer::BitmapsContainer(SDL_Renderer* renderer,
     std::map<BitmapType, std::string> bitmapFiles)
 {
     for (const auto& entity : bitmapFiles)
@@ -22,7 +22,6 @@ std::shared_ptr<Bitmap> BitmapsContainer::get(BitmapType type)
     try
     {
         return items_.at(type);
-
     }
     catch (std::out_of_range e)
     {

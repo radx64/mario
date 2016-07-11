@@ -33,13 +33,35 @@ Main::Main(): width_(800), height_(600)
 
 Main::~Main()
 {
-    delete runningMario_;
     delete questionBlock_;
     delete bitmaps_;
 
     SDL_DestroyRenderer(renderer_);
     SDL_DestroyWindow(window_);
     SDL_Quit();
+}
+
+void Main::initBitmapsContainter()
+{
+    std::string rootPath = "../img/";
+
+    bitmaps_ = new BitmapsContainer(renderer_,
+    {
+       { BitmapType::BRICK_RED,       rootPath + "brickred.bmp" },
+       { BitmapType::GROUND_RED,      rootPath + "gnd_red_1.bmp"},
+       { BitmapType::MARIO_JUMPING,   rootPath + "characters/mario/jump.bmp"},
+       { BitmapType::MARIO_RUNNING_0, rootPath + "characters/mario/move0.bmp"},
+       { BitmapType::MARIO_RUNNING_1, rootPath + "characters/mario/move1.bmp"},
+       { BitmapType::MARIO_RUNNING_2, rootPath + "characters/mario/move2.bmp"},
+       { BitmapType::MARIO_STANDING,  rootPath + "characters/mario/standing.bmp"},
+       { BitmapType::SQUID_0,         rootPath + "characters/squid/move0.bmp"},
+       { BitmapType::SQUID_1,         rootPath + "characters/squid/move1.bmp"},
+       { BitmapType::QUESTIONBLOCK_0, rootPath + "blockq_0.bmp"},
+       { BitmapType::QUESTIONBLOCK_1, rootPath + "blockq_1.bmp"},
+       { BitmapType::QUESTIONBLOCK_2, rootPath + "blockq_2.bmp"}
+    }
+    );
+    context_.setBitmapsContainer(bitmaps_);
 }
 
 void Main::init()
@@ -68,28 +90,8 @@ void Main::init()
 
     renderer_ = SDL_CreateRenderer(window_, -1, SDL_RENDERER_ACCELERATED);
     SDL_SetRenderTarget(renderer_, NULL);
-
+    initBitmapsContainter();
     context_.setRenderer(renderer_);
-
-    std::string rootPath = "../img/";
-
-    bitmaps_ = new BitmapsContainer(renderer_,
-    {
-       { BitmapType::BRICK_RED,       rootPath + "brickred.bmp" },
-       { BitmapType::GROUND_RED,      rootPath + "gnd_red_1.bmp"},
-       { BitmapType::MARIO_JUMPING,   rootPath + "characters/mario/jump.bmp"},
-       { BitmapType::MARIO_RUNNING_0, rootPath + "characters/mario/move0.bmp"},
-       { BitmapType::MARIO_RUNNING_1, rootPath + "characters/mario/move1.bmp"},
-       { BitmapType::MARIO_RUNNING_2, rootPath + "characters/mario/move2.bmp"},
-       { BitmapType::MARIO_STANDING,  rootPath + "characters/mario/standing.bmp"},
-       { BitmapType::SQUID_0,         rootPath + "characters/squid/move0.bmp"},
-       { BitmapType::SQUID_1,         rootPath + "characters/squid/move1.bmp"},
-       { BitmapType::QUESTIONBLOCK_0, rootPath + "blockq_0.bmp"},
-       { BitmapType::QUESTIONBLOCK_1, rootPath + "blockq_1.bmp"},
-       { BitmapType::QUESTIONBLOCK_2, rootPath + "blockq_2.bmp"}
-    }
-    );
-    context_.setBitmapsContainer(bitmaps_);
     FpsCounter* fps = new FpsCounter();
     context_.setFpsCounter(fps);
     TextRenderer* text = new TextRenderer(renderer_);
@@ -156,14 +158,6 @@ void Main::initGameObjects()
         BitmapType::QUESTIONBLOCK_1,
         BitmapType::QUESTIONBLOCK_2
     }, 10, *bitmaps_);
-
-    runningMario_ = new AnimatedBitmap(
-    {
-        BitmapType::MARIO_RUNNING_0,
-        BitmapType::MARIO_RUNNING_1,
-        BitmapType::MARIO_RUNNING_2
-    }, 3, *bitmaps_);
-
 
     Object* debugObject = new character::Player(context_, 0);
         debugObject->x = 200;
@@ -249,22 +243,6 @@ void Main::initGameObjects()
 
 void Main::simpleScene()
 {
-    if(sin(frame_/10.0) > 0)
-    {
-        bitmaps_->get(BitmapType::MARIO_JUMPING)->draw(
-            width_/2,
-            height_/2 + 100 - (sin(frame_/10.0)) * 90.0f);
-    }
-    else
-    {
-        bitmaps_->get(BitmapType::MARIO_STANDING)->draw(
-        width_/2,
-        height_/2 + 88);
-    }
-    bitmaps_->get(BitmapType::MARIO_STANDING)->draw(width_/2 - 32*4, 136);
-
-    runningMario_->draw(frame_*3 % width_, 386);
-
     questionBlock_->draw(width_/2 - 32*4, 200);
     questionBlock_->draw(width_/2 + 32*4, 200);
 
@@ -289,7 +267,6 @@ void Main::simpleScene()
 
 
     questionBlock_->nextFrame();
-    runningMario_->nextFrame();
 }
 
 void Main::loop()

@@ -27,7 +27,11 @@ protected:
     int b_{};
     bool jumped_{false};
     Context& context_;
-    AnimatedBitmap* bitmap_;
+    AnimatedBitmap* runningAnimation_;
+    AnimatedBitmap* standingAnimation_;
+    AnimatedBitmap* jumpAnimation_;
+
+    AnimatedBitmap* currentAnimation_;
     const float grav_ {0.28};
     const float horizontalMaxSpeed_ {7.0};
 };

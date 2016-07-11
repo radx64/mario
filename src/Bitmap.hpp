@@ -7,12 +7,15 @@ class SDL_Renderer;
 class SDL_Texture;
 class SDL_Rect;
 
+class FlipFlags;
+
 class Bitmap
 {
 public:
     Bitmap(SDL_Renderer* renderer, const std::string& filename);
     ~Bitmap();
     void draw(int x, int y);
+    void draw(int x, int y, const FlipFlags& flip);
     void copy(SDL_Rect* source, SDL_Rect* destination);
     void setColor(int r, int g, int b);
     int getWidth();
@@ -26,4 +29,4 @@ private:
     int height_;
 };
 
-#endif  // BITMAP_HPP_ 
+#endif  // BITMAP_HPP_

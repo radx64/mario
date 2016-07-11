@@ -1,7 +1,7 @@
 #include "AnimatedBitmap.hpp"
 
-AnimatedBitmap::AnimatedBitmap(std::list<BitmapType> bitmaps, 
-    short speed, 
+AnimatedBitmap::AnimatedBitmap(std::list<BitmapType> bitmaps,
+    short speed,
     BitmapsContainer& bitmapContainer)
 : frames_(bitmaps), bitmapContainer_(bitmapContainer), speed_(speed)
 {
@@ -12,6 +12,11 @@ AnimatedBitmap::AnimatedBitmap(std::list<BitmapType> bitmaps,
 void AnimatedBitmap::draw(int x, int y)
 {
     bitmapContainer_.get(*currentFrame_)->draw(x,y);
+}
+
+void AnimatedBitmap::draw(int x, int y, const FlipFlags& f)
+{
+    bitmapContainer_.get(*currentFrame_)->draw(x,y,f);
 }
 
 void AnimatedBitmap::nextFrame()
@@ -25,5 +30,5 @@ void AnimatedBitmap::nextFrame()
         {
             currentFrame_ = frames_.begin();
         }
-    }    
+    }
 }

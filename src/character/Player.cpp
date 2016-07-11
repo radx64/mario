@@ -1,43 +1,66 @@
 #include "Player.hpp"
 
+#include <iostream>
+
 #include <SDL2/SDL.h>
+
 #include "Bitmap.hpp"
 #include "BitmapsContainer.hpp"
 #include "Context.hpp"
+#include "FlipFlags.hpp"
 #include "KeyboardState.hpp"
 #include "TextRenderer.hpp"
-#include <iostream>
 
 namespace character
 {
 
 Player::Player(Context& context, int type) : Object(type), context_(context)
 {
-    bitmap_ = new AnimatedBitmap({BitmapType::SQUID_0, BitmapType::SQUID_1},
-        20,
+    runningAnimation_ = new AnimatedBitmap({
+        BitmapType::MARIO_RUNNING_0,
+        BitmapType::MARIO_RUNNING_1,
+        BitmapType::MARIO_RUNNING_2},
+        3,
         *context_.getBitmapsContainer()
     );
-    h = context_.getBitmapsContainer()->get(BitmapType::SQUID_0)->getHeight();
-    w = context_.getBitmapsContainer()->get(BitmapType::SQUID_0)->getWidth();
 
-    // h = 32;
-    // w = 32;
+    standingAnimation_ = new AnimatedBitmap({BitmapType::MARIO_STANDING}, 3,
+        *context_.getBitmapsContainer()
+    );
+
+    jumpAnimation_= new AnimatedBitmap({BitmapType::MARIO_JUMPING}, 3,
+        *context_.getBitmapsContainer()
+    );
+
+    currentAnimation_ = standingAnimation_;
+    h = context_.getBitmapsContainer()->get(BitmapType::MARIO_RUNNING_0)->getHeight();
+    w = context_.getBitmapsContainer()->get(BitmapType::MARIO_RUNNING_0)->getWidth();
 }
 
 void Player::draw()
 {
-    bitmap_->draw(x, y);
+    FlipFlags flip;
 
-    auto renderer = context_.getRenderer();
-    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0xFF, 0x00);
-    SDL_Rect r{(int)x, (int)y, (int)w, (int)h};
-    SDL_RenderDrawRect(renderer, &r);
+    if (ax < 0)
+    {
+            flip.FLIP_HORIZONTAL();
+            currentAnimation_->draw(x, y, flip);
+    }
+    else
+    {       flip.NO_FLIP();
+            currentAnimation_->draw(x, y, flip);
+    }
 
-    SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0x00);
-    SDL_RenderDrawLine(renderer, (int)x, (int)y, (int)x+(int)ax*4.0, (int)y);
+    // auto renderer = context_.getRenderer();
+    // SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0xFF, 0x00);
+    // SDL_Rect r{(int)x, (int)y, (int)w, (int)h};
+    // SDL_RenderDrawRect(renderer, &r);
 
-    SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0x00);
-    SDL_RenderDrawLine(renderer, (int)x, (int)y, (int)x, (int)y+(int)ay*4.0);
+    // SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0x00);
+    // SDL_RenderDrawLine(renderer, (int)x, (int)y, (int)x+(int)ax*4.0, (int)y);
+
+    // SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0x00);
+    // SDL_RenderDrawLine(renderer, (int)x, (int)y, (int)x, (int)y+(int)ay*4.0);
 
 
 }
@@ -68,77 +91,94 @@ void Player::bouceOfCeiling(Object* ceilingBlock)
 
 void Player::onCollisionWith(Collision collision, Object& object)
 {
+    if (collision.get() == Collision::State::Left)
+    {
+
+         if (ax < 0) ax = 0;
+        // if(object.x + object.w < x) x = object.x + w;
+    }
+
+    if (collision.get() == Collision::State::Right)
+    {
+        if (ax > 0) ax = 0;
+        // if(x + w < object.x ) x = object.x - w;
+
+    }
+
     if (collision.get() == Collision::State::Bottom)
+    {
+        y = object.y - h;
+        if (ay > 0) ay = 0;
+        jumped_ = false;
+    }
+
+    if (collision.get() == Collision::State::Top)
+    {
+    /**
+        Below is special behaviour for future Mario development
+        When Mario is jumping up and hit obstacle with his head
+        He slides a bit to be next to the block (to jump on block above him)
+        instead of just bouncing down
+    **/
+        bouceOfCeiling(&object);
+
+        if ( x + w - object.x < 10.0f)
         {
-            y = object.y - h;
-            if (ay > 0) ay = 0;
-            jumped_ = false;
-        }
-
-        if (collision.get() == Collision::State::Left)
-        {
-             if (ax < 0) ax = 0;
-            // if(object.x + object.w < x) x = object.x + w;
-        }
-
-        if (collision.get() == Collision::State::Right)
-        {
-            if (ax > 0) ax = 0;
-            // if(x + w < object.x ) x = object.x - w;
-
-        }
-
-        if (collision.get() == Collision::State::Top)
-        {
-        /**
-            Below is special behaviour for future Mario development
-            When Mario is jumping up and hit obstacle with his head
-            He slides a bit to be next to the block (to jump on block above him)
-            instead of just bouncing down
-        **/
-            bouceOfCeiling(&object);
-
-            if ( x + w - object.x < 10.0f)
-            {
-                // if (!isObjectAt(gameObjects, object.x - w, object.y))
-                // {
-                //     x = object.x - w;
-                // }
-                // else
-                // {
-                    bouceOfCeiling(&object);
-                // }
-            }
-
-            else if(object.x + object.w - x < 10.0f)
-            {
-                // if (!isObjectAt(gameObjects, object.x + object.w , object.y))
-                // {
-                //     x = object.x + w;
-                // }
-                // else
-                // {
-                    bouceOfCeiling(&object);
-                // }
-            }
-            else
-            {
+            // if (!isObjectAt(gameObjects, object.x - w, object.y))
+            // {
+            //     x = object.x - w;
+            // }
+            // else
+            // {
                 bouceOfCeiling(&object);
-            }
+            // }
         }
-        std::cout << "Collision {"
-        << (collision.get() == Collision::State::Left)
-        << (collision.get() == Collision::State::Right)
-        << (collision.get() == Collision::State::Top)
-        << (collision.get() == Collision::State::Bottom)
-        << "} with type_"
-        <<  object.type_
-        << std::endl;
+
+        else if(object.x + object.w - x < 10.0f)
+        {
+            // if (!isObjectAt(gameObjects, object.x + object.w , object.y))
+            // {
+            //     x = object.x + w;
+            // }
+            // else
+            // {
+                bouceOfCeiling(&object);
+            // }
+        }
+        else
+        {
+            bouceOfCeiling(&object);
+        }
+    }
+    std::cout << "Collision {"
+    << (collision.get() == Collision::State::Left)
+    << (collision.get() == Collision::State::Right)
+    << (collision.get() == Collision::State::Top)
+    << (collision.get() == Collision::State::Bottom)
+    << "} with type_"
+    <<  object.type_
+    << std::endl;
 }
 
 void Player::simulate(std::vector<Object*> gameObjects)
 {
-    bitmap_->nextFrame();
+    if (jumped_)
+    {
+        currentAnimation_ = jumpAnimation_;
+    }
+    else
+    {
+        if (fabs(ax) > 1.0)
+        {
+            currentAnimation_ = runningAnimation_;
+        }
+        else
+        {
+            currentAnimation_ = standingAnimation_;
+        }
+    }
+
+    currentAnimation_->nextFrame();
     auto keys = context_.getKeyboardState();
 
     ay += grav_;
@@ -173,7 +213,7 @@ void Player::simulate(std::vector<Object*> gameObjects)
     if (ax > horizontalMaxSpeed_) ax = horizontalMaxSpeed_;
     if (ax < -horizontalMaxSpeed_) ax = -horizontalMaxSpeed_;
 
-    if (!keys->left && !keys->right) ax *= 0.95;
+    if (!keys->left && !keys->right) ax *= 0.65;
 
     context_.getTextRenderer()->draw(std::string("AX: ") + std::to_string(ax),10,24,1.0);
     context_.getTextRenderer()->draw(std::string("AY: ") + std::to_string(ay),10,32,1.0);
