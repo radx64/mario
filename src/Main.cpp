@@ -294,19 +294,23 @@ void Main::simpleScene()
 
 void Main::loop()
 {
+    const float desiredFPS = 60.0;
     initGameObjects();
     running_ = true;
     Timer frameTimer;
 
-
     while (running_)
     {
+        frameTimer.start();
         clear();
         input();
         simpleScene();
         SDL_RenderPresent(renderer_);
+
+        double frameFreezeTime = 1000.0 / desiredFPS - frameTimer.getTicks();
+
+        SDL_Delay(frameFreezeTime<0?0:frameFreezeTime);
         context_.getFpsCounter()->measure();
-        SDL_Delay(1.0);
         ++frame_;
     }
 }
