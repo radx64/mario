@@ -30,7 +30,7 @@ public:
             case State::Right  : return Collision{State::Left};
             case State::Top    : return Collision{State::Bottom};
             case State::Bottom : return Collision{State::Top};
-            default           : return Collision {State::None};
+            default            : return Collision {State::None};
         }
     }
 
@@ -58,8 +58,8 @@ public:
     int w{};
     int h{};
 
-    float ax{};
-    float ay{};
+    double ax{};
+    double ay{};
 
     int type_{};
 

@@ -51,18 +51,33 @@ void Player::draw()
             currentAnimation_->draw(x, y, flip);
     }
 
-    // auto renderer = context_.getRenderer();
-    // SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0xFF, 0x00);
-    // SDL_Rect r{(int)x, (int)y, (int)w, (int)h};
-    // SDL_RenderDrawRect(renderer, &r);
+    /* some debug draws below */
 
-    // SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0x00);
-    // SDL_RenderDrawLine(renderer, (int)x, (int)y, (int)x+(int)ax*4.0, (int)y);
-
-    // SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0x00);
-    // SDL_RenderDrawLine(renderer, (int)x, (int)y, (int)x, (int)y+(int)ay*4.0);
+    auto renderer = context_.getRenderer();
 
 
+    SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0x00);
+    SDL_RenderDrawLine(renderer, (int)x, (int)y, (int)x+(int)ax*4.0, (int)y);
+
+    SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0x00);
+    SDL_RenderDrawLine(renderer, (int)x, (int)y, (int)x, (int)y+(int)ay*4.0);
+
+    if (fabs(ax) > 1.0 || fabs(ay) > 1.0) debugFrames_.push_back({x,y});
+
+    if (debugFrames_.size() > 30)
+    {
+        debugFrames_.erase(debugFrames_.begin());
+    }
+
+    for (auto frame : debugFrames_)
+    {
+        SDL_Rect r{(int)frame.first, (int)frame.second, (int)w, (int)h};
+        SDL_RenderDrawRect(renderer, &r);
+    }
+
+    SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0x00);
+    SDL_Rect r{(int)x, (int)y, (int)w, (int)h};
+    SDL_RenderDrawRect(renderer, &r);
 }
 
 bool Player::isObjectAt(std::vector<Object*> gameObjects, float x, float y)
@@ -150,14 +165,15 @@ void Player::onCollisionWith(Collision collision, Object& object)
             bouceOfCeiling(&object);
         }
     }
-    std::cout << "Collision {"
-    << (collision.get() == Collision::State::Left)
-    << (collision.get() == Collision::State::Right)
-    << (collision.get() == Collision::State::Top)
-    << (collision.get() == Collision::State::Bottom)
-    << "} with type_"
-    <<  object.type_
-    << std::endl;
+
+    // std::cout << "Collision {"
+    // << (collision.get() == Collision::State::Left)
+    // << (collision.get() == Collision::State::Right)
+    // << (collision.get() == Collision::State::Top)
+    // << (collision.get() == Collision::State::Bottom)
+    // << "} with type_"
+    // <<  object.type_
+    // << std::endl;
 }
 
 void Player::simulate(std::vector<Object*> gameObjects)

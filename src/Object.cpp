@@ -39,7 +39,7 @@ Collision Object::checkCollision(Object& collider)
         return Collision(Collision::State::None);
     }
 
-    if (distanceY <=  distanceX)
+    if (distanceY <  distanceX)
     {
         if (x < collider.x) return Collision(Collision::State::Right);
         else return Collision(Collision::State::Left);
@@ -49,4 +49,5 @@ Collision Object::checkCollision(Object& collider)
         if (y < collider.y) return Collision(Collision::State::Bottom);
         else return Collision(Collision::State::Top);
     }
+
 }

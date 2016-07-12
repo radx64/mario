@@ -1,6 +1,9 @@
 #ifndef CHARACTER_PLAYER_HPP_
 #define CHARACTER_PLAYER_HPP_
 
+#include <vector>
+#include <utility>
+
 #include "Object.hpp"
 #include "AnimatedBitmap.hpp"
 
@@ -30,6 +33,8 @@ protected:
     AnimatedBitmap* runningAnimation_;
     AnimatedBitmap* standingAnimation_;
     AnimatedBitmap* jumpAnimation_;
+
+    std::vector<std::pair<int,int>> debugFrames_;
 
     AnimatedBitmap* currentAnimation_;
     const float grav_ {0.28};

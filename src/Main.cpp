@@ -13,6 +13,8 @@
 
 #include "character/Player.hpp"
 #include "environment/BrickBlock.hpp"
+#include "environment/CoinBlock.hpp"
+#include "environment/GroundBlock.hpp"
 
 #include <iostream>
 #include <iomanip>
@@ -33,7 +35,6 @@ Main::Main(): width_(800), height_(600)
 
 Main::~Main()
 {
-    delete questionBlock_;
     delete bitmaps_;
 
     SDL_DestroyRenderer(renderer_);
@@ -47,8 +48,8 @@ void Main::initBitmapsContainter()
 
     bitmaps_ = new BitmapsContainer(renderer_,
     {
-       { BitmapType::BRICK_RED,       rootPath + "brickred.bmp" },
-       { BitmapType::GROUND_RED,      rootPath + "gnd_red_1.bmp"},
+       { BitmapType::BRICK_RED,       rootPath + "environment/brickred.bmp" },
+       { BitmapType::GROUND_RED,      rootPath + "environment/gnd_red_1.bmp"},
        { BitmapType::MARIO_JUMPING,   rootPath + "characters/mario/jump.bmp"},
        { BitmapType::MARIO_RUNNING_0, rootPath + "characters/mario/move0.bmp"},
        { BitmapType::MARIO_RUNNING_1, rootPath + "characters/mario/move1.bmp"},
@@ -56,9 +57,9 @@ void Main::initBitmapsContainter()
        { BitmapType::MARIO_STANDING,  rootPath + "characters/mario/standing.bmp"},
        { BitmapType::SQUID_0,         rootPath + "characters/squid/move0.bmp"},
        { BitmapType::SQUID_1,         rootPath + "characters/squid/move1.bmp"},
-       { BitmapType::QUESTIONBLOCK_0, rootPath + "blockq_0.bmp"},
-       { BitmapType::QUESTIONBLOCK_1, rootPath + "blockq_1.bmp"},
-       { BitmapType::QUESTIONBLOCK_2, rootPath + "blockq_2.bmp"}
+       { BitmapType::QUESTIONBLOCK_0, rootPath + "environment/blockq_0.bmp"},
+       { BitmapType::QUESTIONBLOCK_1, rootPath + "environment/blockq_1.bmp"},
+       { BitmapType::QUESTIONBLOCK_2, rootPath + "environment/blockq_2.bmp"}
     }
     );
     context_.setBitmapsContainer(bitmaps_);
@@ -141,8 +142,6 @@ void Main::input()
     }
 }
 
-
-
 void Main::clear()
 {
     SDL_SetRenderDrawColor(renderer_, 92, 148, 252, 0xFF);
@@ -151,14 +150,6 @@ void Main::clear()
 
 void Main::initGameObjects()
 {
-    questionBlock_ = new AnimatedBitmap(
-    {
-        BitmapType::QUESTIONBLOCK_0,
-        BitmapType::QUESTIONBLOCK_2,
-        BitmapType::QUESTIONBLOCK_1,
-        BitmapType::QUESTIONBLOCK_2
-    }, 10, *bitmaps_);
-
     Object* debugObject = new character::Player(context_, 0);
         debugObject->x = 200;
         debugObject->y = 0;
@@ -195,11 +186,11 @@ void Main::initGameObjects()
         gameObjects_.push_back(debugObject);
     }
 
-    for (int i = 3; i < 26; ++i)
+    for (int i = 6; i < 26; ++i)
     {
         Object* debugObject = new environment::BrickBlock(context_, i);
         debugObject->x = (i-1) * 32;
-        debugObject->y = 300;
+        debugObject->y = 350;
         debugObject->w = 32;
         debugObject->h = 32;
 
@@ -217,7 +208,7 @@ void Main::initGameObjects()
         gameObjects_.push_back(debugObject);
     }
 
-    for (int i = 0; i < 25; ++i)
+    for (int i = 0; i < 10; ++i)
     {
         Object* debugObject = new environment::BrickBlock(context_, i*10);
         debugObject->x = i * 32;
@@ -228,14 +219,33 @@ void Main::initGameObjects()
         gameObjects_.push_back(debugObject);
     }
 
-        debugObject = new environment::BrickBlock(context_, 90);
-        debugObject->x = 0;
-        debugObject->y = 386;
-        debugObject->w = 32;
-        debugObject->h = 32;
+    debugObject = new environment::BrickBlock(context_, 90);
+    debugObject->x = 0;
+    debugObject->y = 386;
+    debugObject->w = 32;
+    debugObject->h = 32;
+    gameObjects_.push_back(debugObject);
 
-        gameObjects_.push_back(debugObject);
+    for (int j = 0; j < 2 ; ++j)
+    {
+        for (int i = 0; i < 25; ++i)
+        {
+            Object* debugObject = new environment::GroundBlock(context_, i*10+j);
+            debugObject->x = i * 32;
+            debugObject->y = 550 + j*32;
+            debugObject->w = 32;
+            debugObject->h = 32;
 
+            gameObjects_.push_back(debugObject);
+        }
+    }
+
+    debugObject = new environment::CoinBlock(context_, 100);
+    debugObject->x = 350;
+    debugObject->y = 240;
+    debugObject->w = 32;
+    debugObject->h = 32;
+    gameObjects_.push_back(debugObject);
 
     // remember to destroy objects above when done, duh...
 }
@@ -243,11 +253,6 @@ void Main::initGameObjects()
 
 void Main::simpleScene()
 {
-    questionBlock_->draw(width_/2 - 32*4, 200);
-    questionBlock_->draw(width_/2 + 32*4, 200);
-
-    questionBlock_->draw(width_/2, 280);
-
     int fps =  context_.getFpsCounter()->getLastMeasurement();
     auto text = context_.getTextRenderer();
     text->draw(std::string("FPS: " + std::to_string(fps)), width_ - 150, 4, 2.0);
@@ -264,9 +269,6 @@ void Main::simpleScene()
     if (gameObjects_.front()->x < 0) gameObjects_.front()->x = width_;
 
     if (gameObjects_.front()->y > height_) gameObjects_.front()->y = 0;
-
-
-    questionBlock_->nextFrame();
 }
 
 void Main::loop()
