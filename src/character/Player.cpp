@@ -39,6 +39,22 @@ Player::Player(Context& context, int type) : Object(type), context_(context)
 
 void Player::draw()
 {
+    if (jumped_)
+    {
+        currentAnimation_ = jumpAnimation_;
+    }
+    else
+    {
+        if (fabs(ax) > 1.0)
+        {
+            currentAnimation_ = runningAnimation_;
+        }
+        else
+        {
+            currentAnimation_ = standingAnimation_;
+        }
+    }
+
     FlipFlags flip;
 
     if (ax < 0)
@@ -164,34 +180,10 @@ void Player::onCollisionWith(Collision collision, Object& object)
             bouceOfCeiling(&object);
         }
     }
-
-    // std::cout << "Collision {"
-    // << (collision.get() == Collision::State::Left)
-    // << (collision.get() == Collision::State::Right)
-    // << (collision.get() == Collision::State::Top)
-    // << (collision.get() == Collision::State::Bottom)
-    // << "} with type_"
-    // <<  object.type_
-    // << std::endl;
 }
 
 void Player::simulate(std::vector<Object*> gameObjects)
 {
-    if (jumped_)
-    {
-        currentAnimation_ = jumpAnimation_;
-    }
-    else
-    {
-        if (fabs(ax) > 1.0)
-        {
-            currentAnimation_ = runningAnimation_;
-        }
-        else
-        {
-            currentAnimation_ = standingAnimation_;
-        }
-    }
 
     currentAnimation_->nextFrame();
     auto keys = context_.getKeyboardState();

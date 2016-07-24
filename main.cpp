@@ -10,6 +10,7 @@ int main(int argc, char** argv)
     UNUSED(argc);
     UNUSED(argv);
     std::cout << "Hello in Mario World!" << std::endl;
+
     Main main;
     try
     {
