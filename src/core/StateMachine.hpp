@@ -114,6 +114,7 @@ void run()
         }
 
     }
+    running_ = false;
 }
 
 void processEvent(Event event)
