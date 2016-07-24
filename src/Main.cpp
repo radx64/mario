@@ -156,14 +156,6 @@ void Main::initGameObjects()
 
     gameObjects_.push_back(debugObject);
 
-    debugObject = new environment::BrickBlock(context_, 1);
-        debugObject->x = 500;
-        debugObject->y = 40;
-        debugObject->w = 32;
-        debugObject->h = 32;
-
-    gameObjects_.push_back(debugObject);
-
     for (int i = 2; i < 10; ++i)
     {
         Object* debugObject = new environment::BrickBlock(context_, i);

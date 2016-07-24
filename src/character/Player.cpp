@@ -56,10 +56,10 @@ void Player::draw()
     auto renderer = context_.getRenderer();
 
 
-    SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0x00);
+    SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0x77);
     SDL_RenderDrawLine(renderer, (int)x, (int)y, (int)x+(int)ax*4.0, (int)y);
 
-    SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0x00);
+    SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0x77);
     SDL_RenderDrawLine(renderer, (int)x, (int)y, (int)x, (int)y+(int)ay*4.0);
 
     if (fabs(ax) > 1.0 || fabs(ay) > 1.0) debugFrames_.push_back({x,y});
@@ -75,7 +75,7 @@ void Player::draw()
         SDL_RenderDrawRect(renderer, &r);
     }
 
-    SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0x00);
+    SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0xAA, 0x77);
     SDL_Rect r{(int)x, (int)y, (int)w, (int)h};
     SDL_RenderDrawRect(renderer, &r);
 }
@@ -110,14 +110,13 @@ void Player::onCollisionWith(Collision collision, Object& object)
     {
 
          if (ax < 0) ax = 0;
-        // if(object.x + object.w < x) x = object.x + w;
+         if(object.x + object.w > x) x = object.x + w;
     }
 
     if (collision.get() == Collision::State::Right)
     {
         if (ax > 0) ax = 0;
-        // if(x + w < object.x ) x = object.x - w;
-
+        if(x + w < object.x ) x = object.x - w;
     }
 
     if (collision.get() == Collision::State::Bottom)

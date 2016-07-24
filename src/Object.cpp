@@ -39,7 +39,9 @@ Collision Object::checkCollision(Object& collider)
         return Collision(Collision::State::None);
     }
 
-    if (distanceY <  distanceX)
+    const float sideCollisionThreshold {7.0}; // because side collisions are more important
+
+    if (distanceY <  distanceX + sideCollisionThreshold)
     {
         if (x < collider.x) return Collision(Collision::State::Right);
         else return Collision(Collision::State::Left);
