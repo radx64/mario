@@ -28,8 +28,6 @@ int main(int argc, char** argv)
     sm.processEvent(core::Event("Go"));
     sm.processEvent(core::Event("Stop"));
 
-    return 0;
-
     Main main;
     try
     {
