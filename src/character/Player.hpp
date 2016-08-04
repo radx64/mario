@@ -4,32 +4,14 @@
 #include <vector>
 #include <utility>
 
-#include "Object.hpp"
 #include "AnimatedBitmap.hpp"
+#include "Object.hpp"
+#include "PlayerGraphicsComponent.hpp"
 
 class Context;
 
 namespace character
 {
-class Player;
-
-class PlayerGraphicsComponent
-{
-public:
-    PlayerGraphicsComponent(Player& player, Context& context);
-    ~PlayerGraphicsComponent();
-    void draw();
-
-protected:
-    Context& context_;
-    Player& player_;
-
-    AnimatedBitmap* runningAnimation_;
-    AnimatedBitmap* standingAnimation_;
-    AnimatedBitmap* jumpAnimation_;
-    AnimatedBitmap* currentAnimation_;
-    std::vector<std::pair<int,int>> debugFrames_;
-};
 
 class Player : public Object
 {
