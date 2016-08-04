@@ -253,8 +253,7 @@ void Main::simpleScene()
     for (unsigned int index = 0; index < gameObjects_.size(); ++index)
     {
         Object* obj = gameObjects_[index];
-        obj->simulate(gameObjects_);
-        obj->draw();
+        obj->update(gameObjects_);
     }
 
     if (gameObjects_.front()->x > width_) gameObjects_.front()->x = 0;

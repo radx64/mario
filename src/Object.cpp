@@ -8,7 +8,11 @@ Object::Object(int type) : type_(type)
 {
 }
 
-void Object::simulate(std::vector<Object*> gameObjects)
+Object::~Object()
+{
+}
+
+void Object::update(std::vector<Object*> gameObjects)
 {
     for (auto object : gameObjects)
     {

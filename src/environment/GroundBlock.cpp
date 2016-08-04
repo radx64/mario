@@ -20,9 +20,10 @@ void GroundBlock::draw()
     bitmap_->draw(x,y);
 }
 
-void GroundBlock::simulate(std::vector<Object*> gameObjects)
+void GroundBlock::update(std::vector<Object*> gameObjects)
 {
-    Object::simulate(gameObjects);
+    Object::update(gameObjects);
+    draw();
 }
 
 void GroundBlock::onCollisionWith(Collision collision, Object& object)

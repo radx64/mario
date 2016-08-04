@@ -20,9 +20,10 @@ void BrickBlock::draw()
     bitmap_->draw(x,y);
 }
 
-void BrickBlock::simulate(std::vector<Object*> gameObjects)
+void BrickBlock::update(std::vector<Object*> gameObjects)
 {
-    Object::simulate(gameObjects);
+    Object::update(gameObjects);
+    draw();
 }
 
 void BrickBlock::onCollisionWith(Collision collision, Object& object)

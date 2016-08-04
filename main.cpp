@@ -15,6 +15,7 @@ int main(int argc, char** argv)
 
     std::cout << "Hello in Mario World!" << std::endl;
 
+    /** Some PoC of state machines, not yet incorporated into game itself **/
     core::DemoState* start = new core::DemoState("Start");
     core::DemoState* running  = new core::DemoState("End");
 

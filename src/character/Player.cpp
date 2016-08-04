@@ -14,7 +14,8 @@
 namespace character
 {
 
-Player::Player(Context& context, int type) : Object(type), context_(context)
+PlayerGraphicsComponent::PlayerGraphicsComponent(Player& player, Context& context)
+: context_(context), player_(player)
 {
     runningAnimation_ = new AnimatedBitmap({
         BitmapType::MARIO_RUNNING_0,
@@ -33,19 +34,20 @@ Player::Player(Context& context, int type) : Object(type), context_(context)
     );
 
     currentAnimation_ = standingAnimation_;
-    h = context_.getBitmapsContainer()->get(BitmapType::MARIO_RUNNING_0)->getHeight();
-    w = context_.getBitmapsContainer()->get(BitmapType::MARIO_RUNNING_0)->getWidth();
 }
 
-void Player::draw()
+PlayerGraphicsComponent::~PlayerGraphicsComponent(){}
+
+void PlayerGraphicsComponent::draw()
 {
-    if (jumped_)
+   currentAnimation_->nextFrame();
+   if (player_.jumped_)
     {
         currentAnimation_ = jumpAnimation_;
     }
     else
     {
-        if (fabs(ax) > 1.0)
+        if (fabs(player_.ax) > 1.0)
         {
             currentAnimation_ = runningAnimation_;
         }
@@ -57,14 +59,14 @@ void Player::draw()
 
     FlipFlags flip;
 
-    if (ax < 0)
+    if (player_.ax < 0)
     {
             flip.FLIP_HORIZONTAL();
-            currentAnimation_->draw(x, y, flip);
+            currentAnimation_->draw(player_.x, player_.y, flip);
     }
     else
     {       flip.NO_FLIP();
-            currentAnimation_->draw(x, y, flip);
+            currentAnimation_->draw(player_.x, player_.y, flip);
     }
 
     /* some debug draws below */
@@ -73,12 +75,17 @@ void Player::draw()
 
 
     SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0x77);
-    SDL_RenderDrawLine(renderer, (int)x, (int)y, (int)x+(int)ax*4.0, (int)y);
+    SDL_RenderDrawLine(renderer,
+        (int)player_.x, (int)player_.y, (int)player_.x+(int)player_.ax*4.0, (int)player_.y);
 
     SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0x77);
-    SDL_RenderDrawLine(renderer, (int)x, (int)y, (int)x, (int)y+(int)ay*4.0);
+    SDL_RenderDrawLine(
+        renderer, (int)player_.x, (int)player_.y, (int)player_.x, (int)player_.y+(int)player_.ay*4.0);
 
-    if (fabs(ax) > 1.0 || fabs(ay) > 1.0) debugFrames_.push_back({x,y});
+    if (fabs(player_.ax) > 1.0 || fabs(player_.ay) > 1.0)
+    {
+        debugFrames_.push_back({player_.x,player_.y});
+    }
 
     if (debugFrames_.size() > 30)
     {
@@ -87,13 +94,27 @@ void Player::draw()
 
     for (auto frame : debugFrames_)
     {
-        SDL_Rect r{(int)frame.first, (int)frame.second, (int)w, (int)h};
+        SDL_Rect r{(int)frame.first, (int)frame.second, (int)player_.w, (int)player_.h};
         SDL_RenderDrawRect(renderer, &r);
     }
 
     SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0xAA, 0x77);
-    SDL_Rect r{(int)x, (int)y, (int)w, (int)h};
+    SDL_Rect r{(int)player_.x, (int)player_.y, (int)player_.w, (int)player_.h};
     SDL_RenderDrawRect(renderer, &r);
+}
+
+Player::Player(Context& context, int type)
+: Object(type),
+context_(context),
+graphics_(*this, context)
+{
+    h = context_.getBitmapsContainer()->get(BitmapType::MARIO_RUNNING_0)->getHeight();
+    w = context_.getBitmapsContainer()->get(BitmapType::MARIO_RUNNING_0)->getWidth();
+}
+
+void Player::draw()
+{
+    graphics_.draw();
 }
 
 bool Player::isObjectAt(std::vector<Object*> gameObjects, float x, float y)
@@ -182,10 +203,8 @@ void Player::onCollisionWith(Collision collision, Object& object)
     }
 }
 
-void Player::simulate(std::vector<Object*> gameObjects)
+void Player::update(std::vector<Object*> gameObjects)
 {
-
-    currentAnimation_->nextFrame();
     auto keys = context_.getKeyboardState();
 
     ay += grav_;
@@ -212,7 +231,7 @@ void Player::simulate(std::vector<Object*> gameObjects)
        ay += 0.2;
     }
 
-    Object::simulate(gameObjects);
+    Object::update(gameObjects);
 
     if (keys->left)  ax += -0.6;
     if (keys->right) ax += 0.6;
@@ -221,6 +240,8 @@ void Player::simulate(std::vector<Object*> gameObjects)
     if (ax < -horizontalMaxSpeed_) ax = -horizontalMaxSpeed_;
 
     if (!keys->left && !keys->right) ax *= 0.65;
+
+    draw();
 
     context_.getTextRenderer()->draw(std::string("AX: ") + std::to_string(ax),10,24,1.0);
     context_.getTextRenderer()->draw(std::string("AY: ") + std::to_string(ay),10,32,1.0);

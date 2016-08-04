@@ -14,13 +14,12 @@ class BrickBlock : public Object
 {
 public:
     BrickBlock(Context& context, int type);
-    ~BrickBlock();
 
-    virtual void draw() override;
-    virtual void simulate(std::vector<Object*> gameObjects) override;
+    virtual void update(std::vector<Object*> gameObjects) override;
     virtual void onCollisionWith(Collision collision, Object& object) override;
 
 protected:
+    virtual void draw();
     Context& context_;
     std::shared_ptr<Bitmap> bitmap_;
     int hitCount_{0};

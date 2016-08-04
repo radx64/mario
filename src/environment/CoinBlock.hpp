@@ -15,13 +15,12 @@ class CoinBlock : public Object
 {
 public:
     CoinBlock(Context& context, int type);
-    ~CoinBlock();
 
-    virtual void draw() override;
-    virtual void simulate(std::vector<Object*> gameObjects) override;
+    virtual void update(std::vector<Object*> gameObjects) override;
     virtual void onCollisionWith(Collision collision, Object& object) override;
 
 protected:
+    virtual void draw();
     Context& context_;
     AnimatedBitmap* fullAnimation_;
     AnimatedBitmap* depletedAnimation_;

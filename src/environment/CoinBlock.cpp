@@ -50,9 +50,10 @@ void CoinBlock::draw()
     currentAnimation_->nextFrame();
 }
 
-void CoinBlock::simulate(std::vector<Object*> gameObjects)
+void CoinBlock::update(std::vector<Object*> gameObjects)
 {
-    Object::simulate(gameObjects);
+    Object::update(gameObjects);
+    draw();
 }
 
 void CoinBlock::onCollisionWith(Collision collision, Object& object)
