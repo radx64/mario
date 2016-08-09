@@ -7,6 +7,7 @@
 #include "AnimatedBitmap.hpp"
 #include "Object.hpp"
 #include "PlayerGraphicsComponent.hpp"
+#include "PlayerPhysicsComponent.hpp"
 
 class Context;
 
@@ -18,18 +19,16 @@ class Player : public Object
 public:
     Player(Context& context, int type);
     virtual void update(std::vector<Object*> gameObjects) override;
-    virtual void onCollisionWith(Collision collision, Object& object) override;
+    void onCollisionWith(Collision collision, Object& object);
     bool jumped_{false};
 
 protected:
     virtual void draw();
-    bool isObjectAt(std::vector<Object*> gameObjects, float x, float y);
-    void bouceOfCeiling(Object* ceilingBlock);
+    virtual void simulate();
+
     Context& context_;
     PlayerGraphicsComponent graphics_;
-
-    const float grav_ {0.28};
-    const float horizontalMaxSpeed_ {7.0};
+    PlayerPhysicsComponent physics_;
 };
 
 }  // namespace character
