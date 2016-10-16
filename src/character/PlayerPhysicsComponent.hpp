@@ -6,7 +6,6 @@
 #include "Collision.hpp"
 
 class AnimatedBitmap;
-class Context;
 class Object;
 
 namespace character
@@ -16,7 +15,7 @@ class Player;
 class PlayerPhysicsComponent
 {
 public:
-    PlayerPhysicsComponent(Player& player, Context& context);
+    PlayerPhysicsComponent(Player& player);
     ~PlayerPhysicsComponent();
     void simulate();
     void onCollisionWith(Collision collision, Object& object);
@@ -25,7 +24,6 @@ protected:
     bool isObjectAt(std::vector<Object*> gameObjects, float x, float y);
     void bouceOfCeiling(Object* ceilingBlock);
 
-    Context& context_;
     Player& player_;
 
     const float grav_ {0.28};

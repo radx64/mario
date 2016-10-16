@@ -7,9 +7,9 @@
 namespace environment
 {
 
-BrickBlock::BrickBlock(Context& context, int type) : Object(type), context_(context)
+BrickBlock::BrickBlock(int type) : Object(type)
 {
-    bitmap_ = context_.getBitmapsContainer()->get(BitmapType::BRICK_RED);
+    bitmap_ = Context::getBitmapsContainer()->get(BitmapType::BRICK_RED);
 
     h = bitmap_->getHeight();
     w = bitmap_->getWidth();
@@ -34,11 +34,11 @@ void BrickBlock::onCollisionWith(Collision collision, Object& object)
         hitCount_++;
         if (hitCount_ % 2 == 0)
         {
-            bitmap_ = context_.getBitmapsContainer()->get(BitmapType::BRICK_RED);
+            bitmap_ = Context::getBitmapsContainer()->get(BitmapType::BRICK_RED);
         }
         else
         {
-            bitmap_ = context_.getBitmapsContainer()->get(BitmapType::GROUND_RED);
+            bitmap_ = Context::getBitmapsContainer()->get(BitmapType::GROUND_RED);
         }
     }
     (void) object;

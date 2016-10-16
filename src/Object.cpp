@@ -52,7 +52,7 @@ Collision Object::checkCollision(Object& collider)
     }
     else
     {
-        if (y < collider.y) return Collision(Collision::State::Bottom);
+        if (y+h/2 < collider.y) return Collision(Collision::State::Bottom);
         else return Collision(Collision::State::Top);
     }
 

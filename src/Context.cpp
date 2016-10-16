@@ -23,7 +23,7 @@ FpsCounter* Context::getFpsCounter()
 void Context::setTextRenderer(TextRenderer* tr)
 {
     textRenderer_ = tr;
-}   
+}
 
 TextRenderer* Context::getTextRenderer()
 {
@@ -48,3 +48,19 @@ SDL_Renderer* Context::getRenderer()
 {
     return renderer_;
 }
+
+void Context::setWorld(World* w)
+{
+    world_ = w;
+}
+World* Context::getWorld()
+{
+    return world_;
+}
+
+BitmapsContainer* Context::bitmapsContainer_;
+FpsCounter* Context::fpsCounter_;
+TextRenderer* Context::textRenderer_;
+KeyboardState* Context::keyboardState_;
+SDL_Renderer* Context::renderer_;
+World* Context::world_;

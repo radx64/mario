@@ -17,7 +17,7 @@ namespace character
 class Player : public Object
 {
 public:
-    Player(Context& context, int type);
+    Player(int type);
     virtual void update(std::vector<Object*> gameObjects) override;
     void onCollisionWith(Collision collision, Object& object);
     bool jumped_{false};
@@ -26,7 +26,6 @@ protected:
     virtual void draw();
     virtual void simulate();
 
-    Context& context_;
     PlayerGraphicsComponent graphics_;
     PlayerPhysicsComponent physics_;
 };

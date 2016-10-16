@@ -13,14 +13,13 @@ namespace environment
 class GroundBlock : public Object
 {
 public:
-    GroundBlock(Context& context, int type);
+    GroundBlock(int type);
 
     virtual void update(std::vector<Object*> gameObjects) override;
     virtual void onCollisionWith(Collision collision, Object& object) override;
 
 protected:
     virtual void draw();
-    Context& context_;
     std::shared_ptr<Bitmap> bitmap_;
 };
 

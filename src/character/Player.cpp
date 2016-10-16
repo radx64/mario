@@ -12,14 +12,14 @@
 namespace character
 {
 
-Player::Player(Context& context, int type)
+Player::Player(int type)
 : Object(type),
-context_(context),
-graphics_(*this, context),
-physics_(*this, context)
+graphics_(*this),
+physics_(*this)
 {
-    h = context_.getBitmapsContainer()->get(BitmapType::MARIO_RUNNING_0)->getHeight();
-    w = context_.getBitmapsContainer()->get(BitmapType::MARIO_RUNNING_0)->getWidth();
+    auto bitmap = Context::getBitmapsContainer()->get(BitmapType::MARIO_RUNNING_0);
+    h = bitmap->getHeight();
+    w = bitmap->getWidth();
 }
 
 void Player::draw()
@@ -43,8 +43,8 @@ void Player::update(std::vector<Object*> gameObjects)
     Object::update(gameObjects);
     draw();
 
-    context_.getTextRenderer()->draw(std::string("AX: ") + std::to_string(ax),10,24,1.0);
-    context_.getTextRenderer()->draw(std::string("AY: ") + std::to_string(ay),10,32,1.0);
+    Context::getTextRenderer()->draw(std::string("AX: ") + std::to_string(ax),10,24,1.0);
+    Context::getTextRenderer()->draw(std::string("AY: ") + std::to_string(ay),10,32,1.0);
 }
 
 

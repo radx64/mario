@@ -7,9 +7,9 @@
 namespace environment
 {
 
-GroundBlock::GroundBlock(Context& context, int type) : Object(type), context_(context)
+GroundBlock::GroundBlock(int type) : Object(type)
 {
-    bitmap_ = context_.getBitmapsContainer()->get(BitmapType::GROUND_RED);
+    bitmap_ = Context::getBitmapsContainer()->get(BitmapType::GROUND_RED);
 
     h = bitmap_->getHeight();
     w = bitmap_->getWidth();

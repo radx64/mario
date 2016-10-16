@@ -7,11 +7,12 @@
 #include "AnimatedBitmap.hpp"
 #include "BitmapsContainer.hpp"
 #include "Context.hpp"
+#include "World.hpp"
 
 namespace environment
 {
 
-CoinBlock::CoinBlock(Context& context, int type) : Object(type), context_(context)
+CoinBlock::CoinBlock(int type) : Object(type)
 {
     fullAnimation_ = new AnimatedBitmap({
         BitmapType::QUESTIONBLOCK_0,
@@ -19,20 +20,20 @@ CoinBlock::CoinBlock(Context& context, int type) : Object(type), context_(contex
         BitmapType::QUESTIONBLOCK_2,
         BitmapType::QUESTIONBLOCK_1},
         10,
-        *context_.getBitmapsContainer()
+        *Context::getBitmapsContainer()
     );
 
     depletedAnimation_ = new AnimatedBitmap({BitmapType::QUESTIONBLOCK_1}, 1,
-        *context_.getBitmapsContainer()
+        *Context::getBitmapsContainer()
     );
 
 
     currentAnimation_= fullAnimation_;
 
-    coins_ = 10;
+    coins_ = 50;
 
-    h = context_.getBitmapsContainer()->get(BitmapType::QUESTIONBLOCK_0)->getHeight();
-    w = context_.getBitmapsContainer()->get(BitmapType::QUESTIONBLOCK_0)->getWidth();
+    h = Context::getBitmapsContainer()->get(BitmapType::QUESTIONBLOCK_0)->getHeight();
+    w = Context::getBitmapsContainer()->get(BitmapType::QUESTIONBLOCK_0)->getWidth();
 }
 
 void CoinBlock::draw()
@@ -53,7 +54,21 @@ void CoinBlock::draw()
 void CoinBlock::update(std::vector<Object*> gameObjects)
 {
     Object::update(gameObjects);
+    double y_bak = y;
+    if (bounce_)
+    {
+        bounceTick_++;
+        y = y - sin(bounceTick_/5.0)*32;
+
+        if (bounceTick_ >= 12)
+        {
+            bounce_ = false;
+            bounceTick_ = 0;
+        }
+    }
+
     draw();
+    y = y_bak;
 }
 
 void CoinBlock::onCollisionWith(Collision collision, Object& object)
@@ -63,8 +78,13 @@ void CoinBlock::onCollisionWith(Collision collision, Object& object)
 
     if (collision.get() == Collision::State::Bottom && coins_!=0)
     {
-        --coins_;
-        std::cout << "COIN! Left inside: "<< static_cast<uint16_t>(coins_) << std::endl;
+        if (!bounce_)
+        {
+            bounce_ = true;
+            --coins_;
+            Context::getWorld()->coins_++;
+            std::cout << "COIN! Left inside: "<< static_cast<uint16_t>(coins_) << std::endl;
+        }
     }
 
 }

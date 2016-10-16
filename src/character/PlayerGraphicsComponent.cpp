@@ -10,23 +10,23 @@
 namespace character
 {
 
-PlayerGraphicsComponent::PlayerGraphicsComponent(Player& player, Context& context)
-: context_(context), player_(player)
+PlayerGraphicsComponent::PlayerGraphicsComponent(Player& player)
+: player_(player)
 {
     runningAnimation_ = new AnimatedBitmap({
         BitmapType::MARIO_RUNNING_0,
         BitmapType::MARIO_RUNNING_1,
         BitmapType::MARIO_RUNNING_2},
         3,
-        *context_.getBitmapsContainer()
+        *Context::getBitmapsContainer()
     );
 
     standingAnimation_ = new AnimatedBitmap({BitmapType::MARIO_STANDING}, 3,
-        *context_.getBitmapsContainer()
+        *Context::getBitmapsContainer()
     );
 
     jumpAnimation_= new AnimatedBitmap({BitmapType::MARIO_JUMPING}, 3,
-        *context_.getBitmapsContainer()
+        *Context::getBitmapsContainer()
     );
 
     currentAnimation_ = standingAnimation_;
@@ -67,36 +67,36 @@ void PlayerGraphicsComponent::draw()
 
     /* some debug draws below */
 
-    auto renderer = context_.getRenderer();
+    // auto renderer = Context::getRenderer();
 
 
-    SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0x77);
-    SDL_RenderDrawLine(renderer,
-        (int)player_.x, (int)player_.y, (int)player_.x+(int)player_.ax*4.0, (int)player_.y);
+    // SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0x77);
+    // SDL_RenderDrawLine(renderer,
+    //     (int)player_.x, (int)player_.y, (int)player_.x+(int)player_.ax*4.0, (int)player_.y);
 
-    SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0x77);
-    SDL_RenderDrawLine(
-        renderer, (int)player_.x, (int)player_.y, (int)player_.x, (int)player_.y+(int)player_.ay*4.0);
+    // SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0x77);
+    // SDL_RenderDrawLine(
+    //     renderer, (int)player_.x, (int)player_.y, (int)player_.x, (int)player_.y+(int)player_.ay*4.0);
 
-    if (fabs(player_.ax) > 1.0 || fabs(player_.ay) > 1.0)
-    {
-        debugFrames_.push_back({player_.x,player_.y});
-    }
+    // if (fabs(player_.ax) > 1.0 || fabs(player_.ay) > 1.0)
+    // {
+    //     debugFrames_.push_back({player_.x,player_.y});
+    // }
 
-    if (debugFrames_.size() > 30)
-    {
-        debugFrames_.erase(debugFrames_.begin());
-    }
+    // if (debugFrames_.size() > 30)
+    // {
+    //     debugFrames_.erase(debugFrames_.begin());
+    // }
 
-    for (auto frame : debugFrames_)
-    {
-        SDL_Rect r{(int)frame.first, (int)frame.second, (int)player_.w, (int)player_.h};
-        SDL_RenderDrawRect(renderer, &r);
-    }
+    // for (auto frame : debugFrames_)
+    // {
+    //     SDL_Rect r{(int)frame.first, (int)frame.second, (int)player_.w, (int)player_.h};
+    //     SDL_RenderDrawRect(renderer, &r);
+    // }
 
-    SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0xAA, 0x77);
-    SDL_Rect r{(int)player_.x, (int)player_.y, (int)player_.w, (int)player_.h};
-    SDL_RenderDrawRect(renderer, &r);
+    // SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0xAA, 0x77);
+    // SDL_Rect r{(int)player_.x, (int)player_.y, (int)player_.w, (int)player_.h};
+    // SDL_RenderDrawRect(renderer, &r);
 }
 
 }  // namespace character

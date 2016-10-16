@@ -10,6 +10,7 @@
 #include "FpsCounter.hpp"
 #include "TextRenderer.hpp"
 #include "Timer.hpp"
+#include "World.hpp"
 
 #include "character/Player.hpp"
 #include "environment/BrickBlock.hpp"
@@ -62,7 +63,7 @@ void Main::initBitmapsContainter()
        { BitmapType::QUESTIONBLOCK_2, rootPath + "environment/blockq_2.bmp"}
     }
     );
-    context_.setBitmapsContainer(bitmaps_);
+    Context::setBitmapsContainer(bitmaps_);
 }
 
 void Main::init()
@@ -87,18 +88,20 @@ void Main::init()
         return;
     }
 
-    //SDL_SetWindowFullscreen(window_, SDL_WINDOW_FULLSCREEN);
+    SDL_SetWindowFullscreen(window_, 0);
 
     renderer_ = SDL_CreateRenderer(window_, -1, SDL_RENDERER_ACCELERATED);
     SDL_SetRenderTarget(renderer_, NULL);
     initBitmapsContainter();
-    context_.setRenderer(renderer_);
+    Context::setRenderer(renderer_);
     FpsCounter* fps = new FpsCounter();
-    context_.setFpsCounter(fps);
+    Context::setFpsCounter(fps);
     TextRenderer* text = new TextRenderer(renderer_);
-    context_.setTextRenderer(text);
-    context_.setKeyboardState(&keys_);
+    Context::setTextRenderer(text);
+    Context::setKeyboardState(&keys_);
     frame_ = 0;
+    world_.lives_ = 3;
+    Context::setWorld(&world_);
 }
 
 void Main::input()
@@ -150,7 +153,7 @@ void Main::clear()
 
 void Main::initGameObjects()
 {
-    Object* debugObject = new character::Player(context_, 0);
+    Object* debugObject = new character::Player(0);
         debugObject->x = 200;
         debugObject->y = 0;
 
@@ -158,7 +161,7 @@ void Main::initGameObjects()
 
     for (int i = 2; i < 10; ++i)
     {
-        Object* debugObject = new environment::BrickBlock(context_, i);
+        Object* debugObject = new environment::BrickBlock(i);
         debugObject->x = 100 + i * 32;
         debugObject->y = 100;
         debugObject->w = 32;
@@ -169,7 +172,7 @@ void Main::initGameObjects()
 
     for (int i = 10; i < 20; ++i)
     {
-        Object* debugObject = new environment::BrickBlock(context_, i);
+        Object* debugObject = new environment::BrickBlock(i);
         debugObject->x = 100 + i * 32;
         debugObject->y = 132;
         debugObject->w = 32;
@@ -180,7 +183,7 @@ void Main::initGameObjects()
 
     for (int i = 6; i < 26; ++i)
     {
-        Object* debugObject = new environment::BrickBlock(context_, i);
+        Object* debugObject = new environment::BrickBlock(i);
         debugObject->x = (i-1) * 32;
         debugObject->y = 350;
         debugObject->w = 32;
@@ -191,7 +194,7 @@ void Main::initGameObjects()
 
      for (int i = 1; i < 10; ++i)
     {
-        Object* debugObject = new environment::BrickBlock(context_, i);
+        Object* debugObject = new environment::BrickBlock(i);
         debugObject->x = (i-1) * 32;
         debugObject->y = 200;
         debugObject->w = 32;
@@ -202,7 +205,7 @@ void Main::initGameObjects()
 
     for (int i = 0; i < 10; ++i)
     {
-        Object* debugObject = new environment::BrickBlock(context_, i*10);
+        Object* debugObject = new environment::BrickBlock(i*10);
         debugObject->x = i * 32;
         debugObject->y = 450;
         debugObject->w = 32;
@@ -211,7 +214,7 @@ void Main::initGameObjects()
         gameObjects_.push_back(debugObject);
     }
 
-    debugObject = new environment::BrickBlock(context_, 90);
+    debugObject = new environment::BrickBlock(90);
     debugObject->x = 0;
     debugObject->y = 386;
     debugObject->w = 32;
@@ -222,7 +225,7 @@ void Main::initGameObjects()
     {
         for (int i = 0; i < 25; ++i)
         {
-            Object* debugObject = new environment::GroundBlock(context_, i*10+j);
+            Object* debugObject = new environment::GroundBlock(i*10+j);
             debugObject->x = i * 32;
             debugObject->y = 550 + j*32;
             debugObject->w = 32;
@@ -232,7 +235,7 @@ void Main::initGameObjects()
         }
     }
 
-    debugObject = new environment::CoinBlock(context_, 100);
+    debugObject = new environment::CoinBlock(100);
     debugObject->x = 350;
     debugObject->y = 240;
     debugObject->w = 32;
@@ -245,11 +248,15 @@ void Main::initGameObjects()
 
 void Main::simpleScene()
 {
-    int fps =  context_.getFpsCounter()->getLastMeasurement();
-    auto text = context_.getTextRenderer();
+    int fps =  Context::getFpsCounter()->getLastMeasurement();
+    auto text = Context::getTextRenderer();
     text->draw(std::string("FPS: " + std::to_string(fps)), width_ - 150, 4, 2.0);
     text->draw(std::string("frame_:  " + std::to_string(frame_)), 10, 4, 2.0);
 
+    auto world = Context::getWorld();
+
+    text->draw(std::string("LIVES: " + std::to_string(world->lives_)), 250, 4, 2.0);
+    text->draw(std::string("COINS: " + std::to_string(world->coins_)), 450, 4, 2.0);
     for (unsigned int index = 0; index < gameObjects_.size(); ++index)
     {
         Object* obj = gameObjects_[index];
@@ -280,7 +287,7 @@ void Main::loop()
         double frameFreezeTime = 1000.0 / desiredFPS - frameTimer.getTicks();
 
         SDL_Delay(frameFreezeTime<0?0:frameFreezeTime);
-        context_.getFpsCounter()->measure();
+        Context::getFpsCounter()->measure();
         ++frame_;
     }
 }

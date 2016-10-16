@@ -9,8 +9,8 @@
 namespace character
 {
 
-PlayerPhysicsComponent::PlayerPhysicsComponent(Player& player, Context& context)
-: context_(context), player_(player)
+PlayerPhysicsComponent::PlayerPhysicsComponent(Player& player)
+: player_(player)
 {}
 
 PlayerPhysicsComponent::~PlayerPhysicsComponent()
@@ -42,7 +42,7 @@ bool PlayerPhysicsComponent::isObjectAt(std::vector<Object*> gameObjects, float 
 
 void PlayerPhysicsComponent::simulate()
 {
-    auto keys = context_.getKeyboardState();
+    auto keys = Context::getKeyboardState();
 
     player_.ay += grav_;
     player_.x += player_.ax;

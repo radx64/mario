@@ -8,6 +8,7 @@
 #include "Context.hpp"
 #include "KeyboardState.hpp"
 #include "Object.hpp"
+#include "World.hpp"
 
 class AnimatedBitmap;
 class Bitmap;
@@ -42,6 +43,7 @@ private:
     AnimatedBitmap* questionBlock_;
     Context context_;
     std::vector<Object*> gameObjects_;
+    World world_;
 };
 
 #endif  // MAIN_HPP_

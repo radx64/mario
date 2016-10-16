@@ -4,7 +4,6 @@
 #include <vector>
 
 class AnimatedBitmap;
-class Context;
 
 namespace character
 {
@@ -13,12 +12,11 @@ class Player;
 class PlayerGraphicsComponent
 {
 public:
-    PlayerGraphicsComponent(Player& player, Context& context);
+    PlayerGraphicsComponent(Player& player);
     ~PlayerGraphicsComponent();
     void draw();
 
 protected:
-    Context& context_;
     Player& player_;
 
     AnimatedBitmap* runningAnimation_;

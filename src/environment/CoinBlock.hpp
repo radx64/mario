@@ -5,7 +5,6 @@
 #include "Bitmap.hpp"
 #include <memory>
 
-class Context;
 class AnimatedBitmap;
 
 namespace environment
@@ -14,18 +13,19 @@ namespace environment
 class CoinBlock : public Object
 {
 public:
-    CoinBlock(Context& context, int type);
+    CoinBlock(int type);
 
     virtual void update(std::vector<Object*> gameObjects) override;
     virtual void onCollisionWith(Collision collision, Object& object) override;
 
 protected:
     virtual void draw();
-    Context& context_;
     AnimatedBitmap* fullAnimation_;
     AnimatedBitmap* depletedAnimation_;
     AnimatedBitmap* currentAnimation_;
     int8_t coins_;
+    bool bounce_{false};
+    int8_t bounceTick_{0};
 };
 
 }  // namespace environment
