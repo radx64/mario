@@ -17,10 +17,21 @@ namespace character
 class Player : public Object
 {
 public:
+
+    enum class State
+    {
+        Standing,
+        Sliding,
+        Running,
+        Jumping
+    };
+
+
     Player(int type);
     virtual void update(std::vector<Object*> gameObjects) override;
     void onCollisionWith(Collision collision, Object& object);
     bool jumped_{false};
+    State state{State::Standing};
 
 protected:
     virtual void draw();

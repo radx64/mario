@@ -21,6 +21,7 @@ protected:
 
     AnimatedBitmap* runningAnimation_;
     AnimatedBitmap* standingAnimation_;
+    AnimatedBitmap* slideAnimation_;
     AnimatedBitmap* jumpAnimation_;
     AnimatedBitmap* currentAnimation_;
     std::vector<std::pair<int,int>> debugFrames_;

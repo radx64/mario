@@ -57,6 +57,7 @@ void Main::initBitmapsContainter()
        { BitmapType::MARIO_RUNNING_1, rootPath + "characters/mario/move1.bmp"},
        { BitmapType::MARIO_RUNNING_2, rootPath + "characters/mario/move2.bmp"},
        { BitmapType::MARIO_STANDING,  rootPath + "characters/mario/standing.bmp"},
+       { BitmapType::MARIO_SLIDING,   rootPath + "characters/mario/sliding.bmp"},
        { BitmapType::SQUID_0,         rootPath + "characters/squid/move0.bmp"},
        { BitmapType::SQUID_1,         rootPath + "characters/squid/move1.bmp"},
        { BitmapType::QUESTIONBLOCK_0, rootPath + "environment/blockq_0.bmp"},
@@ -276,7 +277,7 @@ void Main::simpleScene()
 
 void Main::loop()
 {
-    const float desiredFPS = 60.0;
+    const float desiredFPS = 50.0;
     initGameObjects();
     running_ = true;
     Timer frameTimer;

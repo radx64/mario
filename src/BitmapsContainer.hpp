@@ -17,6 +17,7 @@ enum class BitmapType
     MARIO_RUNNING_1,
     MARIO_RUNNING_2,
     MARIO_STANDING,
+    MARIO_SLIDING,
     QUESTIONBLOCK_0,
     QUESTIONBLOCK_1,
     QUESTIONBLOCK_2,
@@ -31,7 +32,7 @@ public:
     std::shared_ptr<Bitmap> get(BitmapType type);
 
 private:
-   std::map<BitmapType, std::shared_ptr<Bitmap>> items_; 
+   std::map<BitmapType, std::shared_ptr<Bitmap>> items_;
 };
 
 #endif  // BITMAPS_CONTAINER_HPP_

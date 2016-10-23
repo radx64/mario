@@ -1,5 +1,6 @@
 #include "PlayerPhysicsComponent.hpp"
 
+#include <cmath>
 #include <iostream>
 
 #include "Camera.hpp"
@@ -52,10 +53,13 @@ void PlayerPhysicsComponent::simulate()
     Context::getCamera()->setX(player_.x);
     Context::getCamera()->setY(player_.y);
 
+    if (fabs(player_.ax) > 1.0) player_.state = Player::State::Running;
+    else player_.state = Player::State::Standing;
+
     if (keys->up)
     {
         if (!player_.jumped_)
-       {
+        {
             player_.ay = -8.0;
             player_.jumped_ = true;
         }
@@ -63,27 +67,29 @@ void PlayerPhysicsComponent::simulate()
         {
             player_.ay -= 0.04;
         }
-
     }
     else
     {
        player_.ay += 0.2;
     }
 
+
     if (keys->left)
     {
         player_.ax += -0.6;
-        if (player_.ax > 0) std::cout << "sliding!" << std::endl;
+        if (player_.ax > 0) player_.state = Player::State::Sliding;
     }
 
     if (keys->right)
     {
         player_.ax += 0.6;
-        if (player_.ax < 0) std::cout << "sliding!" << std::endl;
+        if (player_.ax < 0) player_.state = Player::State::Sliding;
     }
 
     if (player_.ax > horizontalMaxSpeed_) player_.ax = horizontalMaxSpeed_;
     if (player_.ax < -horizontalMaxSpeed_) player_.ax = -horizontalMaxSpeed_;
+
+    if (player_.jumped_) player_.state = Player::State::Jumping;
 
     if (!keys->left && !keys->right) player_.ax *= 0.65;
 }

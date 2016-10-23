@@ -30,6 +30,10 @@ PlayerGraphicsComponent::PlayerGraphicsComponent(Player& player)
         *Context::getBitmapsContainer()
     );
 
+    slideAnimation_= new AnimatedBitmap({BitmapType::MARIO_SLIDING}, 1,
+        *Context::getBitmapsContainer()
+    );
+
     currentAnimation_ = standingAnimation_;
 }
 
@@ -38,27 +42,19 @@ PlayerGraphicsComponent::~PlayerGraphicsComponent(){}
 void PlayerGraphicsComponent::draw()
 {
    currentAnimation_->nextFrame();
-   if (player_.jumped_)
-    {
-        currentAnimation_ = jumpAnimation_;
-    }
-    else
-    {
-        if (fabs(player_.ax) > 1.0)
-        {
-            currentAnimation_ = runningAnimation_;
-        }
-        else
-        {
-            currentAnimation_ = standingAnimation_;
-        }
-    }
 
+   switch (player_.state)
+   {
+        case Player::State::Standing : currentAnimation_ = standingAnimation_; break;
+        case Player::State::Running : currentAnimation_  = runningAnimation_; break;
+        case Player::State::Jumping : currentAnimation_  = jumpAnimation_; break;
+        case Player::State::Sliding : currentAnimation_ = slideAnimation_; break;
+   }
     FlipFlags flip;
 
     auto camera = Context::getCamera();
 
-    if (player_.ax <= 0)
+    if (player_.ax < 0.2)
     {
         flip.FLIP_HORIZONTAL();
     }
