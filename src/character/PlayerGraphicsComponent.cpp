@@ -3,6 +3,7 @@
 #include <SDL2/SDL.h>
 
 #include "AnimatedBitmap.hpp"
+#include "Camera.hpp"
 #include "Context.hpp"
 #include "FlipFlags.hpp"
 #include "Player.hpp"
@@ -14,18 +15,18 @@ PlayerGraphicsComponent::PlayerGraphicsComponent(Player& player)
 : player_(player)
 {
     runningAnimation_ = new AnimatedBitmap({
+        BitmapType::MARIO_RUNNING_2,
         BitmapType::MARIO_RUNNING_0,
-        BitmapType::MARIO_RUNNING_1,
-        BitmapType::MARIO_RUNNING_2},
-        3,
+        BitmapType::MARIO_RUNNING_1},
+        5,
         *Context::getBitmapsContainer()
     );
 
-    standingAnimation_ = new AnimatedBitmap({BitmapType::MARIO_STANDING}, 3,
+    standingAnimation_ = new AnimatedBitmap({BitmapType::MARIO_STANDING}, 1,
         *Context::getBitmapsContainer()
     );
 
-    jumpAnimation_= new AnimatedBitmap({BitmapType::MARIO_JUMPING}, 3,
+    jumpAnimation_= new AnimatedBitmap({BitmapType::MARIO_JUMPING}, 1,
         *Context::getBitmapsContainer()
     );
 
@@ -55,15 +56,18 @@ void PlayerGraphicsComponent::draw()
 
     FlipFlags flip;
 
-    if (player_.ax < 0)
+    auto camera = Context::getCamera();
+
+    if (player_.ax <= 0)
     {
-            flip.FLIP_HORIZONTAL();
-            currentAnimation_->draw(player_.x, player_.y, flip);
+        flip.FLIP_HORIZONTAL();
     }
     else
-    {       flip.NO_FLIP();
-            currentAnimation_->draw(player_.x, player_.y, flip);
+    {
+        flip.NO_FLIP();
     }
+
+    currentAnimation_->draw(player_.x - camera->getX(), player_.y - camera->getY(), flip);
 
     /* some debug draws below */
 

@@ -5,6 +5,7 @@
 #include <SDL2/SDL.h>
 
 #include "AnimatedBitmap.hpp"
+#include "Camera.hpp"
 #include "BitmapsContainer.hpp"
 #include "Context.hpp"
 #include "World.hpp"
@@ -47,7 +48,8 @@ void CoinBlock::draw()
         currentAnimation_ = depletedAnimation_;
     }
 
-    currentAnimation_->draw(x,y);
+    auto camera = Context::getCamera();
+    currentAnimation_->draw(x - camera->getX(),y - camera->getY());
     currentAnimation_->nextFrame();
 }
 

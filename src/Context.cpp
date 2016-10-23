@@ -58,9 +58,20 @@ World* Context::getWorld()
     return world_;
 }
 
+void Context::setCamera(Camera* c)
+{
+    camera_ = c;
+}
+Camera* Context::getCamera()
+{
+    return camera_;
+}
+
+
 BitmapsContainer* Context::bitmapsContainer_;
 FpsCounter* Context::fpsCounter_;
 TextRenderer* Context::textRenderer_;
 KeyboardState* Context::keyboardState_;
 SDL_Renderer* Context::renderer_;
 World* Context::world_;
+Camera* Context::camera_;

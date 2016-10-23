@@ -1,6 +1,7 @@
 #include "BrickBlock.hpp"
 
 #include "BitmapsContainer.hpp"
+#include "Camera.hpp"
 #include "Context.hpp"
 #include <SDL2/SDL.h>
 
@@ -17,7 +18,8 @@ BrickBlock::BrickBlock(int type) : Object(type)
 
 void BrickBlock::draw()
 {
-    bitmap_->draw(x,y);
+    auto camera = Context::getCamera();
+    bitmap_->draw(x - camera->getX(),y - camera->getY());
 }
 
 void BrickBlock::update(std::vector<Object*> gameObjects)

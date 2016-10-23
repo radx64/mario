@@ -1,8 +1,11 @@
 #include "FlipFlags.hpp"
 
-FlipFlags::FlipFlags(){}
+FlipFlags::FlipFlags()
+{
+    flags_ = SDL_FLIP_NONE;
+}
 
-void FlipFlags::NO_FLIP() { flags_  = SDL_FLIP_NONE;}
+void FlipFlags::NO_FLIP() { flags_ = SDL_FLIP_NONE;}
 
 void FlipFlags::FLIP_HORIZONTAL()
 {

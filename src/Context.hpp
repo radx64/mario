@@ -7,6 +7,7 @@ class TextRenderer;
 struct KeyboardState;
 class SDL_Renderer;
 class World;
+class Camera;
 
 class Context
 {
@@ -29,6 +30,9 @@ public:
     static void setWorld(World*);
     static World* getWorld();
 
+    static void setCamera(Camera*);
+    static Camera* getCamera();
+
 
 private:
     static BitmapsContainer* bitmapsContainer_;
@@ -37,6 +41,7 @@ private:
     static KeyboardState* keyboardState_;
     static SDL_Renderer* renderer_;
     static World* world_;
+    static Camera* camera_;
 };
 
 #endif  // CONTEXT_HPP_

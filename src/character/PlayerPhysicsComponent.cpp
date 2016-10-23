@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include "Camera.hpp"
 #include "Context.hpp"
 #include "Player.hpp"
 #include "KeyboardState.hpp"
@@ -47,6 +48,9 @@ void PlayerPhysicsComponent::simulate()
     player_.ay += grav_;
     player_.x += player_.ax;
     player_.y += player_.ay;
+
+    Context::getCamera()->setX(player_.x);
+    Context::getCamera()->setY(player_.y);
 
     if (keys->up)
     {

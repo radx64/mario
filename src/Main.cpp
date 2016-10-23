@@ -7,6 +7,7 @@
 
 #include "AnimatedBitmap.hpp"
 #include "Bitmap.hpp"
+#include "Camera.hpp"
 #include "FpsCounter.hpp"
 #include "TextRenderer.hpp"
 #include "Timer.hpp"
@@ -102,6 +103,9 @@ void Main::init()
     frame_ = 0;
     world_.lives_ = 3;
     Context::setWorld(&world_);
+
+    Camera* camera = new Camera();
+    Context::setCamera(camera);
 }
 
 void Main::input()
@@ -223,7 +227,7 @@ void Main::initGameObjects()
 
     for (int j = 0; j < 2 ; ++j)
     {
-        for (int i = 0; i < 25; ++i)
+        for (int i = 0; i < 50; ++i)
         {
             Object* debugObject = new environment::GroundBlock(i*10+j);
             debugObject->x = i * 32;
@@ -248,6 +252,17 @@ void Main::initGameObjects()
 
 void Main::simpleScene()
 {
+    for (unsigned int index = 0; index < gameObjects_.size(); ++index)
+    {
+        Object* obj = gameObjects_[index];
+        obj->update(gameObjects_);
+    }
+
+    if (gameObjects_.front()->x > width_*2) gameObjects_.front()->x = 0;
+    if (gameObjects_.front()->x < 0) gameObjects_.front()->x = width_*2;
+
+    if (gameObjects_.front()->y > height_) gameObjects_.front()->y = 0;
+
     int fps =  Context::getFpsCounter()->getLastMeasurement();
     auto text = Context::getTextRenderer();
     text->draw(std::string("FPS: " + std::to_string(fps)), width_ - 150, 4, 2.0);
@@ -257,16 +272,6 @@ void Main::simpleScene()
 
     text->draw(std::string("LIVES: " + std::to_string(world->lives_)), 250, 4, 2.0);
     text->draw(std::string("COINS: " + std::to_string(world->coins_)), 450, 4, 2.0);
-    for (unsigned int index = 0; index < gameObjects_.size(); ++index)
-    {
-        Object* obj = gameObjects_[index];
-        obj->update(gameObjects_);
-    }
-
-    if (gameObjects_.front()->x > width_) gameObjects_.front()->x = 0;
-    if (gameObjects_.front()->x < 0) gameObjects_.front()->x = width_;
-
-    if (gameObjects_.front()->y > height_) gameObjects_.front()->y = 0;
 }
 
 void Main::loop()
