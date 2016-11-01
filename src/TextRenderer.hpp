@@ -10,9 +10,9 @@ class SDL_Renderer;
 class TextRenderer
 {
 public:
-    TextRenderer(SDL_Renderer* renderer);
+    TextRenderer();
     void draw(const std::string text, const int& x, const int& y);
-    void draw(const std::string text, const int& x, const int& y, const float& scale); 
+    void draw(const std::string text, const int& x, const int& y, const float& scale);
     void setColor(int r,int g, int b);
 
 private:
@@ -21,7 +21,6 @@ private:
     int g_;
     int b_;
 
-    SDL_Renderer* renderer_;
     Bitmap font_;
     char fontCharacterBitmapWidth_;
 };

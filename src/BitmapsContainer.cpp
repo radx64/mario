@@ -5,12 +5,11 @@
 #include <iostream>
 #include <stdexcept>
 
-BitmapsContainer::BitmapsContainer(SDL_Renderer* renderer,
-    std::map<BitmapType, std::string> bitmapFiles)
+BitmapsContainer::BitmapsContainer(std::map<BitmapType, std::string> bitmapFiles)
 {
     for (const auto& entity : bitmapFiles)
     {
-        std::shared_ptr<Bitmap> bitmap = std::make_shared<Bitmap>(renderer, entity.second);
+        std::shared_ptr<Bitmap> bitmap = std::make_shared<Bitmap>(entity.second);
         items_[entity.first] = bitmap;
 
         std::cout << "Loading bitmap " << entity.second << std::endl;

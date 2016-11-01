@@ -21,3 +21,23 @@ int32_t Camera::getY()
     return y_;
 }
 
+void Camera::setW(int32_t w)
+{
+    w_ = w;
+}
+
+void Camera::setH(int32_t h)
+{
+    h_= h;
+}
+
+int32_t Camera::getW()
+{
+    return w_;
+}
+
+int32_t Camera::getH()
+{
+    return h_;
+}
+

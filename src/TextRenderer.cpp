@@ -1,11 +1,14 @@
 #include "TextRenderer.hpp"
 
-#include <SDL2/SDL.h>
-
 #include <iostream>
 
-TextRenderer::TextRenderer(SDL_Renderer* renderer) 
-: renderer_(renderer), font_(renderer, "../img/font.bmp"), fontCharacterBitmapWidth_(8)
+#include <SDL2/SDL.h>
+
+#include "Context.hpp"
+#include "graphics/StillRenderer.hpp"
+
+TextRenderer::TextRenderer()
+: font_("../img/font.bmp"), fontCharacterBitmapWidth_(8)
 {
     r_ = 0xFF;
     g_ = 0xFF;
@@ -34,7 +37,7 @@ void TextRenderer::draw(const std::string text, const int& x, const int& y, cons
     {
         crop.x = getOffset(text.at(index));
         render.x = x + fontCharacterBitmapWidth_* scale * index;
-        font_.copy(&crop, &render);
+        font_.copy(Context::getStillRenderer(), &crop, &render);
     }
 }
 

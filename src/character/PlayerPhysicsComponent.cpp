@@ -22,7 +22,7 @@ void PlayerPhysicsComponent::bouceOfCeiling(Object* ceilingBlock)
 {
     if (player_.ay < 0.0)
     {
-        player_.ay = -player_.ay;
+        //player_.ay = 0;
         player_.y += player_.ay;
         std::cout << "Watch Your head!" << std::endl;
         player_.y = ceilingBlock->y + ceilingBlock->h;

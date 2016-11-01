@@ -1,9 +1,11 @@
 #include "BrickBlock.hpp"
 
+#include <SDL2/SDL.h>
+
 #include "BitmapsContainer.hpp"
 #include "Camera.hpp"
 #include "Context.hpp"
-#include <SDL2/SDL.h>
+#include "graphics/CameraRenderer.hpp"
 
 namespace environment
 {
@@ -18,8 +20,7 @@ BrickBlock::BrickBlock(int type) : Object(type)
 
 void BrickBlock::draw()
 {
-    auto camera = Context::getCamera();
-    bitmap_->draw(x - camera->getX(),y - camera->getY());
+    bitmap_->draw(Context::getCameraRenderer(), x, y);
 }
 
 void BrickBlock::update(std::vector<Object*> gameObjects)

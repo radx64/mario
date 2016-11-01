@@ -17,6 +17,8 @@
 #include "environment/BrickBlock.hpp"
 #include "environment/CoinBlock.hpp"
 #include "environment/GroundBlock.hpp"
+#include "graphics/StillRenderer.hpp"
+#include "graphics/CameraRenderer.hpp"
 
 #include <iostream>
 #include <iomanip>
@@ -48,7 +50,7 @@ void Main::initBitmapsContainter()
 {
     std::string rootPath = "../img/";
 
-    bitmaps_ = new BitmapsContainer(renderer_,
+    bitmaps_ = new BitmapsContainer(
     {
        { BitmapType::BRICK_RED,       rootPath + "environment/brickred.bmp" },
        { BitmapType::GROUND_RED,      rootPath + "environment/gnd_red_1.bmp"},
@@ -94,19 +96,30 @@ void Main::init()
 
     renderer_ = SDL_CreateRenderer(window_, -1, SDL_RENDERER_ACCELERATED);
     SDL_SetRenderTarget(renderer_, NULL);
-    initBitmapsContainter();
-    Context::setRenderer(renderer_);
+    Context::setSdlRenderer(renderer_);
+
+    graphics::StillRenderer* stillRenderer = new graphics::StillRenderer();
+    Context::setStillRenderer(stillRenderer);
+
+    Camera* camera = new Camera();
+    camera->setW(width_);
+    camera->setH(height_);
+    Context::setCamera(camera);
+
+    graphics::CameraRenderer* cameraRenderer = new graphics::CameraRenderer(camera);
+    Context::setCameraRenderer(cameraRenderer);
+
     FpsCounter* fps = new FpsCounter();
     Context::setFpsCounter(fps);
-    TextRenderer* text = new TextRenderer(renderer_);
+    TextRenderer* text = new TextRenderer();
     Context::setTextRenderer(text);
     Context::setKeyboardState(&keys_);
     frame_ = 0;
     world_.lives_ = 3;
     Context::setWorld(&world_);
 
-    Camera* camera = new Camera();
-    Context::setCamera(camera);
+
+    initBitmapsContainter();
 }
 
 void Main::input()
@@ -267,7 +280,8 @@ void Main::simpleScene()
     int fps =  Context::getFpsCounter()->getLastMeasurement();
     auto text = Context::getTextRenderer();
     text->draw(std::string("FPS: " + std::to_string(fps)), width_ - 150, 4, 2.0);
-    text->draw(std::string("frame_:  " + std::to_string(frame_)), 10, 4, 2.0);
+    text->draw(std::string("FT:" + std::to_string(1.0/fps)), width_ - 150, 20, 2.0);
+    text->draw(std::string("frame :  " + std::to_string(frame_)), 10, 4, 2.0);
 
     auto world = Context::getWorld();
 
@@ -277,7 +291,7 @@ void Main::simpleScene()
 
 void Main::loop()
 {
-    const float desiredFPS = 50.0;
+    const float desiredFPS = 60.0;
     initGameObjects();
     running_ = true;
     Timer frameTimer;
@@ -292,7 +306,7 @@ void Main::loop()
 
         double frameFreezeTime = 1000.0 / desiredFPS - frameTimer.getTicks();
 
-        SDL_Delay(frameFreezeTime<0?0:frameFreezeTime);
+        SDL_Delay(frameFreezeTime < 0 ? 0 : frameFreezeTime);
         Context::getFpsCounter()->measure();
         ++frame_;
     }

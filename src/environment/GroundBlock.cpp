@@ -1,9 +1,12 @@
 #include "GroundBlock.hpp"
 
+#include <SDL2/SDL.h>
+
 #include "BitmapsContainer.hpp"
 #include "Camera.hpp"
 #include "Context.hpp"
-#include <SDL2/SDL.h>
+#include "graphics/CameraRenderer.hpp"
+
 
 namespace environment
 {
@@ -18,8 +21,7 @@ GroundBlock::GroundBlock(int type) : Object(type)
 
 void GroundBlock::draw()
 {
-    auto camera = Context::getCamera();
-    bitmap_->draw(x - camera->getX(),y - camera->getY());
+    bitmap_->draw(Context::getCameraRenderer(), x, y);
 }
 
 void GroundBlock::update(std::vector<Object*> gameObjects)

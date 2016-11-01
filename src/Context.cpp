@@ -40,13 +40,30 @@ KeyboardState* Context::getKeyboardState()
     return keyboardState_;
 }
 
-void Context::setRenderer(SDL_Renderer* r)
+void Context::setSdlRenderer(SDL_Renderer* r)
 {
-    renderer_ = r;
+    sdlRenderer_ = r;
 }
-SDL_Renderer* Context::getRenderer()
+SDL_Renderer* Context::getSdlRenderer()
 {
-    return renderer_;
+    return sdlRenderer_;
+}
+void Context::setStillRenderer(graphics::StillRenderer* r)
+{
+    stillRenderer_ = r;
+}
+graphics::StillRenderer* Context::getStillRenderer()
+{
+    return stillRenderer_;
+}
+
+void Context::setCameraRenderer(graphics::CameraRenderer* r)
+{
+    cameraRenderer_ = r;
+}
+graphics::CameraRenderer* Context::getCameraRenderer()
+{
+    return cameraRenderer_;
 }
 
 void Context::setWorld(World* w)
@@ -72,6 +89,8 @@ BitmapsContainer* Context::bitmapsContainer_;
 FpsCounter* Context::fpsCounter_;
 TextRenderer* Context::textRenderer_;
 KeyboardState* Context::keyboardState_;
-SDL_Renderer* Context::renderer_;
+SDL_Renderer* Context::sdlRenderer_;
 World* Context::world_;
 Camera* Context::camera_;
+graphics::StillRenderer* Context::stillRenderer_;
+graphics::CameraRenderer* Context::cameraRenderer_;

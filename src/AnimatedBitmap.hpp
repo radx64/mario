@@ -11,15 +11,19 @@
 class SDL_Renderer;
 class FlipFlags;
 
+namespace graphics
+{
+    class IRenderer;
+}
+
 class AnimatedBitmap
 {
 public:
     AnimatedBitmap(std::list<BitmapType> bitmaps,
         short speed,
         BitmapsContainer& bitmapContainer);
-    void draw(int x, int y);
-    void draw(int x, int y, const FlipFlags& f);
-
+    void draw(graphics::IRenderer* renderer, int x, int y);
+    void draw(graphics::IRenderer* renderer, int x, int y, const FlipFlags& f);
     void nextFrame();
 
 private:

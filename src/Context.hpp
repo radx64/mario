@@ -9,6 +9,12 @@ class SDL_Renderer;
 class World;
 class Camera;
 
+namespace graphics
+{
+    class StillRenderer;
+    class CameraRenderer;
+}  // namespace graphics
+
 class Context
 {
 public:
@@ -24,8 +30,14 @@ public:
     static void setKeyboardState(KeyboardState*);
     static KeyboardState* getKeyboardState();
 
-    static void setRenderer(SDL_Renderer*);
-    static SDL_Renderer* getRenderer();
+    static void setSdlRenderer(SDL_Renderer*);
+    static SDL_Renderer* getSdlRenderer();
+
+    static void setStillRenderer(graphics::StillRenderer*);
+    static graphics::StillRenderer* getStillRenderer();
+
+    static void setCameraRenderer(graphics::CameraRenderer*);
+    static graphics::CameraRenderer* getCameraRenderer();
 
     static void setWorld(World*);
     static World* getWorld();
@@ -39,9 +51,11 @@ private:
     static FpsCounter* fpsCounter_;
     static TextRenderer* textRenderer_;
     static KeyboardState* keyboardState_;
-    static SDL_Renderer* renderer_;
+    static SDL_Renderer* sdlRenderer_;
     static World* world_;
     static Camera* camera_;
+    static graphics::StillRenderer* stillRenderer_;
+    static graphics::CameraRenderer* cameraRenderer_;
 };
 
 #endif  // CONTEXT_HPP_

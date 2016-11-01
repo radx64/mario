@@ -9,14 +9,14 @@ AnimatedBitmap::AnimatedBitmap(std::list<BitmapType> bitmaps,
     currentFrameLifeTime_ = 0;
 }
 
-void AnimatedBitmap::draw(int x, int y)
+void AnimatedBitmap::draw(graphics::IRenderer* renderer, int x, int y)
 {
-    bitmapContainer_.get(*currentFrame_)->draw(x,y);
+    bitmapContainer_.get(*currentFrame_)->draw(renderer, x, y);
 }
 
-void AnimatedBitmap::draw(int x, int y, const FlipFlags& f)
+void AnimatedBitmap::draw(graphics::IRenderer* renderer, int x, int y, const FlipFlags& f)
 {
-    bitmapContainer_.get(*currentFrame_)->draw(x,y,f);
+    bitmapContainer_.get(*currentFrame_)->draw(renderer, x, y, f);
 }
 
 void AnimatedBitmap::nextFrame()

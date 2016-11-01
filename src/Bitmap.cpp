@@ -1,16 +1,15 @@
-#include "Bitmap.hpp"
-#include "FlipFlags.hpp"
-
+#include <iostream>
 #include <stdexcept>
 
 #include <SDL2/SDL.h>
 
-#include <iostream>
+#include "Bitmap.hpp"
+#include "Context.hpp"
+#include "FlipFlags.hpp"
+#include "graphics/StillRenderer.hpp"
 
 
-
-Bitmap::Bitmap(SDL_Renderer* renderer, const std::string& filename) :
-renderer_(renderer), filename_(filename)
+Bitmap::Bitmap(const std::string& filename) : filename_(filename)
 {
     SDL_Surface* bitmap = SDL_LoadBMP(filename.c_str());
     if (bitmap == nullptr)
@@ -20,7 +19,7 @@ renderer_(renderer), filename_(filename)
     }
 
     SDL_SetColorKey(bitmap, SDL_TRUE, SDL_MapRGB(bitmap->format, 255, 0, 255));
-    texture_ =  SDL_CreateTextureFromSurface(renderer_, bitmap);
+    texture_ =  SDL_CreateTextureFromSurface(Context::getSdlRenderer(), bitmap);
     SDL_FreeSurface(bitmap);
     SDL_QueryTexture(texture_, NULL, NULL, &width_, &height_);
 }
@@ -41,24 +40,21 @@ int Bitmap::getHeight()
     return height_;
 }
 
-void Bitmap::draw(int x, int y)
+void Bitmap::draw(graphics::IRenderer* renderer, int x, int y)
 {
     SDL_Rect renderQuad = {x, y, width_, height_};
-    SDL_RenderCopy(renderer_, texture_, NULL, &renderQuad);
+    renderer->draw(texture_, &renderQuad);
 }
 
-void Bitmap::draw(int x, int y, const FlipFlags& f)
+void Bitmap::draw(graphics::IRenderer* renderer, int x, int y, const FlipFlags& f)
 {
     SDL_Rect renderQuad = {x, y, width_, height_};
-
-    SDL_RendererFlip rf = f.getSDL();
-
-    SDL_RenderCopyEx(renderer_, texture_, NULL, &renderQuad, 0, NULL, rf);
+    renderer->draw(texture_, &renderQuad, &f);
 }
 
-void Bitmap::copy(SDL_Rect* source, SDL_Rect* destination)
+void Bitmap::copy(graphics::IRenderer* renderer, SDL_Rect* source, SDL_Rect* destination)
 {
-    SDL_RenderCopy(renderer_, texture_, source, destination);
+    renderer->draw(texture_, source, destination);
 }
 
 void Bitmap::setColor(int r, int g, int b)

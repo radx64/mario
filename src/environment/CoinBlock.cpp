@@ -5,9 +5,10 @@
 #include <SDL2/SDL.h>
 
 #include "AnimatedBitmap.hpp"
-#include "Camera.hpp"
 #include "BitmapsContainer.hpp"
+#include "Camera.hpp"
 #include "Context.hpp"
+#include "graphics/StillRenderer.hpp"
 #include "World.hpp"
 
 namespace environment
@@ -31,7 +32,7 @@ CoinBlock::CoinBlock(int type) : Object(type)
 
     currentAnimation_= fullAnimation_;
 
-    coins_ = 50;
+    coins_ = 10;
 
     h = Context::getBitmapsContainer()->get(BitmapType::QUESTIONBLOCK_0)->getHeight();
     w = Context::getBitmapsContainer()->get(BitmapType::QUESTIONBLOCK_0)->getWidth();
@@ -49,7 +50,7 @@ void CoinBlock::draw()
     }
 
     auto camera = Context::getCamera();
-    currentAnimation_->draw(x - camera->getX(),y - camera->getY());
+    currentAnimation_->draw(Context::getStillRenderer(), x - camera->getX(),y - camera->getY());
     currentAnimation_->nextFrame();
 }
 
@@ -60,9 +61,9 @@ void CoinBlock::update(std::vector<Object*> gameObjects)
     if (bounce_)
     {
         bounceTick_++;
-        y = y - sin(bounceTick_/5.0)*32;
+        y = y - sin(bounceTick_/10.0)*32;
 
-        if (bounceTick_ >= 12)
+        if (bounceTick_ >= 30)
         {
             bounce_ = false;
             bounceTick_ = 0;

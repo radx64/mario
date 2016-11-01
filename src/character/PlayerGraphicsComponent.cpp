@@ -6,6 +6,7 @@
 #include "Camera.hpp"
 #include "Context.hpp"
 #include "FlipFlags.hpp"
+#include "graphics/StillRenderer.hpp"
 #include "Player.hpp"
 
 namespace character
@@ -54,7 +55,7 @@ void PlayerGraphicsComponent::draw()
 
     auto camera = Context::getCamera();
 
-    if (player_.ax < 0.2)
+    if (player_.ax < 0.0)
     {
         flip.FLIP_HORIZONTAL();
     }
@@ -63,11 +64,12 @@ void PlayerGraphicsComponent::draw()
         flip.NO_FLIP();
     }
 
-    currentAnimation_->draw(player_.x - camera->getX(), player_.y - camera->getY(), flip);
+    currentAnimation_->draw(Context::getStillRenderer(),
+        player_.x - camera->getX(), player_.y - camera->getY(), flip);
 
     /* some debug draws below */
 
-    // auto renderer = Context::getRenderer();
+    // auto renderer = Context::getSdlRenderer();
 
 
     // SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0x77);

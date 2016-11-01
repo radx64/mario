@@ -28,7 +28,7 @@ enum class BitmapType
 class BitmapsContainer
 {
 public:
-    BitmapsContainer(SDL_Renderer* renderer, std::map<BitmapType, std::string> bitmapFiles);
+    BitmapsContainer(std::map<BitmapType, std::string> bitmapFiles);
     std::shared_ptr<Bitmap> get(BitmapType type);
 
 private:
