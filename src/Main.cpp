@@ -9,9 +9,11 @@
 #include "Bitmap.hpp"
 #include "Camera.hpp"
 #include "FpsCounter.hpp"
+#include "LevelLoader.hpp"
 #include "TextRenderer.hpp"
 #include "Timer.hpp"
 #include "World.hpp"
+
 
 #include "character/Player.hpp"
 #include "environment/BrickBlock.hpp"
@@ -52,19 +54,29 @@ void Main::initBitmapsContainter()
 
     bitmaps_ = new BitmapsContainer(
     {
-       { BitmapType::BRICK_RED,       rootPath + "environment/brickred.bmp" },
-       { BitmapType::GROUND_RED,      rootPath + "environment/gnd_red_1.bmp"},
-       { BitmapType::MARIO_JUMPING,   rootPath + "characters/mario/jump.bmp"},
-       { BitmapType::MARIO_RUNNING_0, rootPath + "characters/mario/move0.bmp"},
-       { BitmapType::MARIO_RUNNING_1, rootPath + "characters/mario/move1.bmp"},
-       { BitmapType::MARIO_RUNNING_2, rootPath + "characters/mario/move2.bmp"},
-       { BitmapType::MARIO_STANDING,  rootPath + "characters/mario/standing.bmp"},
-       { BitmapType::MARIO_SLIDING,   rootPath + "characters/mario/sliding.bmp"},
-       { BitmapType::SQUID_0,         rootPath + "characters/squid/move0.bmp"},
-       { BitmapType::SQUID_1,         rootPath + "characters/squid/move1.bmp"},
-       { BitmapType::QUESTIONBLOCK_0, rootPath + "environment/blockq_0.bmp"},
-       { BitmapType::QUESTIONBLOCK_1, rootPath + "environment/blockq_1.bmp"},
-       { BitmapType::QUESTIONBLOCK_2, rootPath + "environment/blockq_2.bmp"}
+        { BitmapType::BRICK_RED,       rootPath + "environment/brickred.bmp" },
+        { BitmapType::GROUND_RED,      rootPath + "environment/gnd_red_1.bmp"},
+        { BitmapType::MARIO_JUMPING,   rootPath + "characters/mario/jump.bmp"},
+        { BitmapType::MARIO_RUNNING_0, rootPath + "characters/mario/move0.bmp"},
+        { BitmapType::MARIO_RUNNING_1, rootPath + "characters/mario/move1.bmp"},
+        { BitmapType::MARIO_RUNNING_2, rootPath + "characters/mario/move2.bmp"},
+        { BitmapType::MARIO_STANDING,  rootPath + "characters/mario/standing.bmp"},
+        { BitmapType::MARIO_SLIDING,   rootPath + "characters/mario/sliding.bmp"},
+        { BitmapType::SQUID_0,         rootPath + "characters/squid/move0.bmp"},
+        { BitmapType::SQUID_1,         rootPath + "characters/squid/move1.bmp"},
+        { BitmapType::QUESTIONBLOCK_0, rootPath + "environment/blockq_0.bmp"},
+        { BitmapType::QUESTIONBLOCK_1, rootPath + "environment/blockq_1.bmp"},
+        { BitmapType::QUESTIONBLOCK_2, rootPath + "environment/blockq_2.bmp"},
+        { BitmapType::BUSH_LEFT,       rootPath + "environment/bush_left.bmp"},
+        { BitmapType::BUSH_MIDDLE,     rootPath + "environment/bush_middle.bmp"},
+        { BitmapType::BUSH_RIGHT,      rootPath + "environment/bush_right.bmp"},
+        { BitmapType::HILL_LEFT,       rootPath + "environment/hill_left.bmp"},
+        { BitmapType::HILL_MIDDLE,     rootPath + "environment/hill_middle.bmp"},
+        { BitmapType::HILL_MIDDLE_2,   rootPath + "environment/hill_middle_2.bmp"},
+        { BitmapType::HILL_MIDDLE_3,   rootPath + "environment/hill_middle_3.bmp"},
+        { BitmapType::HILL_RIGHT,      rootPath + "environment/hill_right.bmp"},
+        { BitmapType::HILL_TOP,        rootPath + "environment/hill_top.bmp"},
+
     }
     );
     Context::setBitmapsContainer(bitmaps_);
@@ -171,116 +183,31 @@ void Main::clear()
 
 void Main::initGameObjects()
 {
-    Object* debugObject = new character::Player(0);
-        debugObject->x = 200;
-        debugObject->y = 0;
+    auto objects = LevelLoader::load("../levels/0-0.lvl");
+    world_.gameObjects_.insert(world_.gameObjects_.end(), objects.begin(), objects.end());
 
-    gameObjects_.push_back(debugObject);
+    Object* object = new character::Player(0);
+    object->x = 256;
+    object->y = 128;
 
-    for (int i = 2; i < 10; ++i)
-    {
-        Object* debugObject = new environment::BrickBlock(i);
-        debugObject->x = 100 + i * 32;
-        debugObject->y = 100;
-        debugObject->w = 32;
-        debugObject->h = 32;
-
-        gameObjects_.push_back(debugObject);
-    }
-
-    for (int i = 10; i < 20; ++i)
-    {
-        Object* debugObject = new environment::BrickBlock(i);
-        debugObject->x = 100 + i * 32;
-        debugObject->y = 132;
-        debugObject->w = 32;
-        debugObject->h = 32;
-
-        gameObjects_.push_back(debugObject);
-    }
-
-    for (int i = 6; i < 26; ++i)
-    {
-        Object* debugObject = new environment::BrickBlock(i);
-        debugObject->x = (i-1) * 32;
-        debugObject->y = 350;
-        debugObject->w = 32;
-        debugObject->h = 32;
-
-        gameObjects_.push_back(debugObject);
-    }
-
-     for (int i = 1; i < 10; ++i)
-    {
-        Object* debugObject = new environment::BrickBlock(i);
-        debugObject->x = (i-1) * 32;
-        debugObject->y = 200;
-        debugObject->w = 32;
-        debugObject->h = 32;
-
-        gameObjects_.push_back(debugObject);
-    }
-
-    for (int i = 0; i < 10; ++i)
-    {
-        Object* debugObject = new environment::BrickBlock(i*10);
-        debugObject->x = i * 32;
-        debugObject->y = 450;
-        debugObject->w = 32;
-        debugObject->h = 32;
-
-        gameObjects_.push_back(debugObject);
-    }
-
-    debugObject = new environment::BrickBlock(90);
-    debugObject->x = 0;
-    debugObject->y = 386;
-    debugObject->w = 32;
-    debugObject->h = 32;
-    gameObjects_.push_back(debugObject);
-
-    for (int j = 0; j < 2 ; ++j)
-    {
-        for (int i = 0; i < 50; ++i)
-        {
-            Object* debugObject = new environment::GroundBlock(i*10+j);
-            debugObject->x = i * 32;
-            debugObject->y = 550 + j*32;
-            debugObject->w = 32;
-            debugObject->h = 32;
-
-            gameObjects_.push_back(debugObject);
-        }
-    }
-
-    debugObject = new environment::CoinBlock(100);
-    debugObject->x = 350;
-    debugObject->y = 240;
-    debugObject->w = 32;
-    debugObject->h = 32;
-    gameObjects_.push_back(debugObject);
-
+    world_.gameObjects_.push_back(object);
     // remember to destroy objects above when done, duh...
 }
 
 
 void Main::simpleScene()
 {
-    for (unsigned int index = 0; index < gameObjects_.size(); ++index)
+    for (unsigned int index = 0; index < world_.gameObjects_.size(); ++index)
     {
-        Object* obj = gameObjects_[index];
-        obj->update(gameObjects_);
+        Object* obj = world_.gameObjects_[index];
+        obj->update(world_.gameObjects_);
     }
 
-    if (gameObjects_.front()->x > width_*2) gameObjects_.front()->x = 0;
-    if (gameObjects_.front()->x < 0) gameObjects_.front()->x = width_*2;
-
-    if (gameObjects_.front()->y > height_) gameObjects_.front()->y = 0;
+    if (world_.gameObjects_.front()->y > height_) world_.gameObjects_.front()->y = 0;
 
     int fps =  Context::getFpsCounter()->getLastMeasurement();
     auto text = Context::getTextRenderer();
     text->draw(std::string("FPS: " + std::to_string(fps)), width_ - 150, 4, 2.0);
-    text->draw(std::string("FT:" + std::to_string(1.0/fps)), width_ - 150, 20, 2.0);
     text->draw(std::string("frame :  " + std::to_string(frame_)), 10, 4, 2.0);
 
     auto world = Context::getWorld();
@@ -302,10 +229,9 @@ void Main::loop()
         clear();
         input();
         simpleScene();
+
         SDL_RenderPresent(renderer_);
-
         double frameFreezeTime = 1000.0 / desiredFPS - frameTimer.getTicks();
-
         SDL_Delay(frameFreezeTime < 0 ? 0 : frameFreezeTime);
         Context::getFpsCounter()->measure();
         ++frame_;
