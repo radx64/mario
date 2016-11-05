@@ -184,27 +184,28 @@ void Main::clear()
 void Main::initGameObjects()
 {
     auto objects = LevelLoader::load("../levels/0-0.lvl");
-    world_.gameObjects_.insert(world_.gameObjects_.end(), objects.begin(), objects.end());
+    world_.level = LevelLoader::load("../levels/0-0.lvl");
 
     Object* object = new character::Player(0);
     object->x = 256;
     object->y = 128;
 
-    world_.gameObjects_.push_back(object);
+    world_.level.gameObjects.push_back(object);
     // remember to destroy objects above when done, duh...
 }
 
 
 void Main::simpleScene()
 {
-    for (unsigned int index = 0; index < world_.gameObjects_.size(); ++index)
+    for (auto const& object : world_.level.backgroundObjects)
     {
-        Object* obj = world_.gameObjects_[index];
-        obj->update(world_.gameObjects_);
+        object->update(std::vector<Object*>{});
     }
 
-    if (world_.gameObjects_.front()->y > height_) world_.gameObjects_.front()->y = 0;
-
+    for (auto const& object : world_.level.gameObjects)
+    {
+        object->update(world_.level.gameObjects);
+    }
     int fps =  Context::getFpsCounter()->getLastMeasurement();
     auto text = Context::getTextRenderer();
     text->draw(std::string("FPS: " + std::to_string(fps)), width_ - 150, 4, 2.0);
