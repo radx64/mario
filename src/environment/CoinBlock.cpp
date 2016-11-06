@@ -8,7 +8,7 @@
 #include "BitmapsContainer.hpp"
 #include "Camera.hpp"
 #include "Context.hpp"
-#include "graphics/StillRenderer.hpp"
+#include "graphics/CameraRenderer.hpp"
 #include "World.hpp"
 
 namespace environment
@@ -49,8 +49,7 @@ void CoinBlock::draw()
         currentAnimation_ = depletedAnimation_;
     }
 
-    auto camera = Context::getCamera();
-    currentAnimation_->draw(Context::getStillRenderer(), x - camera->getX(),y - camera->getY());
+    currentAnimation_->draw(Context::getCameraRenderer(), x, y);
     currentAnimation_->nextFrame();
 }
 

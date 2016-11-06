@@ -99,7 +99,7 @@ void Main::init()
         SDL_WINDOWPOS_CENTERED,
         width_,
         height_,
-        SDL_WINDOW_SHOWN);
+        SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL |  SDL_WINDOW_RESIZABLE);
 
     if (window_ == nullptr)
     {
