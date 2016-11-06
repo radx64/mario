@@ -9,7 +9,6 @@ addons:
     packages:
       - g++
       - cmake
-      - libsdl2-dev
 
 before_install:
   - echo $LANG
