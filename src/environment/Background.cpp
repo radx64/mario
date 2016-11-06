@@ -21,7 +21,7 @@ void Background::draw()
 
 void Background::update(std::vector<Object*> gameObjects)
 {
-    Object::update(gameObjects);
+    (void) gameObjects;
     draw();
 }
 

@@ -6,6 +6,10 @@
 #include "Camera.hpp"
 #include "Context.hpp"
 #include "graphics/CameraRenderer.hpp"
+#include "environment/SmallBrick.hpp"
+#include "World.hpp"
+
+#include <iostream>
 
 namespace environment
 {
@@ -31,20 +35,21 @@ void BrickBlock::update(std::vector<Object*> gameObjects)
 
 void BrickBlock::onCollisionWith(Collision collision, Object& object)
 {
-
-    if (collision.get() == Collision::State::Bottom)
-    {
-        hitCount_++;
-        if (hitCount_ % 2 == 0)
-        {
-            bitmap_ = Context::getBitmapsContainer()->get(BitmapType::BRICK_RED);
-        }
-        else
-        {
-            bitmap_ = Context::getBitmapsContainer()->get(BitmapType::GROUND_RED);
-        }
-    }
     (void) object;
+    if (collision.get() == Collision::State::Bottom && !dead)
+    {
+        dead = true;
+        double spawn_x = x + (w / 2.0);
+        double spawn_y = y + (h / 2.0);
+        Object* brick = new SmallBrick(spawn_x, spawn_y, 1.0, -7.0);
+        Context::getWorld()->level.toSpawnObjects.push_back(brick);
+        brick = new SmallBrick(spawn_x, spawn_y, 1.0, -5.0);
+        Context::getWorld()->level.toSpawnObjects.push_back(brick);
+        brick = new SmallBrick(spawn_x, spawn_y, -1.0, -7.0);
+        Context::getWorld()->level.toSpawnObjects.push_back(brick);
+        brick = new SmallBrick(spawn_x, spawn_y, -1.0, -5.0);
+        Context::getWorld()->level.toSpawnObjects.push_back(brick);
+    }
 }
 
 }  // namespace environment

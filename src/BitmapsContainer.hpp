@@ -35,7 +35,9 @@ enum class BitmapType
     PIPE_TOP_LEFT,
     PIPE_TOP_RIGHT,
     PIPE_BOTTOM_LEFT,
-    PIPE_BOTTOM_RIGHT
+    PIPE_BOTTOM_RIGHT,
+    SMALL_BRICK_1,
+    SMALL_BRICK_2
 };
 
 class BitmapsContainer

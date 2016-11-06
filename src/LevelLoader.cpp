@@ -80,5 +80,5 @@ Level LevelLoader::load(std::string filename)
         }
         lineIndex++;
     }
-    return Level {backgroundObjects, gameObjects};
+    return Level {backgroundObjects, gameObjects, {}};
 }

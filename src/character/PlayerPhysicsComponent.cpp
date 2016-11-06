@@ -27,7 +27,6 @@ void PlayerPhysicsComponent::bouceOfCeiling(Object* ceilingBlock)
     {
         player_.ay = 0;
         player_.y += player_.ay;
-        std::cout << "Watch Your head!" << std::endl;
         player_.y = ceilingBlock->y + ceilingBlock->h;
     }
 }
@@ -112,7 +111,7 @@ void PlayerPhysicsComponent::simulate()
 
     for(int i=0; i<3; ++i)
     {
-        for(int j=0; j<3; ++j)
+        for(int j=0; j<4; ++j)
         {
             if (isObjectAt(
                 Context::getWorld()->level.gameObjects,

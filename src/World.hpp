@@ -8,7 +8,8 @@ class Object;
 struct Level
 {
     std::vector<Object*> backgroundObjects;
-    std::vector<Object*> gameObjects;  
+    std::vector<Object*> gameObjects;
+    std::vector<Object*> toSpawnObjects;
 };
 
 class World

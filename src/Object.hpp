@@ -23,6 +23,8 @@ public:
     double ax{};
     double ay{};
 
+    bool dead {false};
+
     int type_{};
 
 protected:

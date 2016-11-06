@@ -80,6 +80,8 @@ void Main::initBitmapsContainter()
         { BitmapType::PIPE_TOP_RIGHT,       rootPath + "environment/pipe_top_right.bmp"},
         { BitmapType::PIPE_BOTTOM_LEFT,     rootPath + "environment/pipe_bottom_left.bmp"},
         { BitmapType::PIPE_BOTTOM_RIGHT,    rootPath + "environment/pipe_bottom_right.bmp"},
+        { BitmapType::SMALL_BRICK_1,        rootPath + "environment/small_brick_1.bmp"},
+        { BitmapType::SMALL_BRICK_2,        rootPath + "environment/small_brick_2.bmp"}
 
     }
     );
@@ -192,7 +194,7 @@ void Main::initGameObjects()
 
     Object* object = new character::Player(0);
     object->x = 256;
-    object->y = 128;
+    object->y = 400;
 
     world_.level.gameObjects.push_back(object);
     // remember to destroy objects above when done, duh...
@@ -206,10 +208,26 @@ void Main::simpleScene()
         object->update(std::vector<Object*>{});
     }
 
-    for (auto const& object : world_.level.gameObjects)
+    std::vector<Object*>::iterator it;
+
+    for (it = world_.level.gameObjects.begin(); it != world_.level.gameObjects.end(); ++it)
     {
+        auto object = *it;
         object->update(world_.level.gameObjects);
+        if (object->dead)
+        {
+           world_.level.gameObjects.erase(it); 
+        }
     }
+
+    world_.level.backgroundObjects.insert(
+        world_.level.backgroundObjects.end(), 
+        world_.level.toSpawnObjects.begin(),
+        world_.level.toSpawnObjects.end());
+
+    world_.level.toSpawnObjects.clear();
+
+
     int fps =  Context::getFpsCounter()->getLastMeasurement();
     auto text = Context::getTextRenderer();
     text->draw(std::string("FPS: " + std::to_string(fps)), width_ - 150, 4, 2.0);
@@ -223,7 +241,7 @@ void Main::simpleScene()
 
 void Main::loop()
 {
-    const float desiredFPS = 60.0;
+    const float desiredFPS = 70.0;
     initGameObjects();
     running_ = true;
     Timer frameTimer;

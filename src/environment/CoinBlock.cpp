@@ -60,7 +60,7 @@ void CoinBlock::update(std::vector<Object*> gameObjects)
     if (bounce_)
     {
         bounceTick_++;
-        y = y - sin(bounceTick_/10.0)*32;
+        y = y - sin(bounceTick_/8.5)*32;
 
         if (bounceTick_ >= 30)
         {
