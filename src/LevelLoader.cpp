@@ -45,6 +45,12 @@ Level LevelLoader::load(std::string filename)
                 case 'f' : object = new environment::Background(BitmapType::HILL_MIDDLE); break;
                 case 'g' : object = new environment::Background(BitmapType::HILL_RIGHT); break;
                 case 'h' : object = new environment::Background(BitmapType::HILL_TOP); break;
+
+                /** background but collidable - nasty hack for now **/
+                case 'z' : object = new environment::Background(BitmapType::PIPE_TOP_LEFT); break;
+                case 'x' : object = new environment::Background(BitmapType::PIPE_TOP_RIGHT); break;
+                case 'c' : object = new environment::Background(BitmapType::PIPE_BOTTOM_LEFT); break;
+                case 'v' : object = new environment::Background(BitmapType::PIPE_BOTTOM_RIGHT); break;
             }
 
             object->x = columnIndex * 32;
@@ -54,7 +60,11 @@ Level LevelLoader::load(std::string filename)
             {
                 case '0':
                 case '1':
-                case '2': gameObjects.push_back(object); break;
+                case '2': 
+                case 'z':
+                case 'x':
+                case 'c': 
+                case 'v': gameObjects.push_back(object); break;
 
                 case 'q': 
                 case 'w': 

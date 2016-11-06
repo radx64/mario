@@ -31,7 +31,11 @@ enum class BitmapType
     QUESTIONBLOCK_1,
     QUESTIONBLOCK_2,
     SQUID_0,
-    SQUID_1
+    SQUID_1,
+    PIPE_TOP_LEFT,
+    PIPE_TOP_RIGHT,
+    PIPE_BOTTOM_LEFT,
+    PIPE_BOTTOM_RIGHT
 };
 
 class BitmapsContainer
