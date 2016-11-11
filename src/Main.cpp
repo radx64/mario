@@ -193,8 +193,7 @@ void Main::initGameObjects()
     world_.level = LevelLoader::load("../levels/0-0.lvl");
 
     Object* object = new character::Player(0);
-    object->x = 256;
-    object->y = 400;
+    object->position = {256, 400};
 
     world_.level.gameObjects.push_back(object);
     // remember to destroy objects above when done, duh...
@@ -203,25 +202,39 @@ void Main::initGameObjects()
 
 void Main::simpleScene()
 {
-    for (auto const& object : world_.level.backgroundObjects)
+    std::vector<Object*>::iterator it;
+    
+    for (it = world_.level.backgroundObjects.begin(); it != world_.level.backgroundObjects.end();)
     {
+        auto object = *it;
         object->update(std::vector<Object*>{});
+        if (object->dead)
+        {
+           world_.level.backgroundObjects.erase(it); 
+        }
+        else
+        {
+            ++it;
+        }
     }
 
-    std::vector<Object*>::iterator it;
 
-    for (it = world_.level.gameObjects.begin(); it != world_.level.gameObjects.end(); ++it)
+    for (it = world_.level.gameObjects.begin(); it != world_.level.gameObjects.end();)
     {
         auto object = *it;
         object->update(world_.level.gameObjects);
         if (object->dead)
         {
-           world_.level.gameObjects.erase(it); 
+           it = world_.level.gameObjects.erase(it); 
+        }
+        else
+        {
+            ++it;
         }
     }
 
-    world_.level.backgroundObjects.insert(
-        world_.level.backgroundObjects.end(), 
+    world_.level.gameObjects.insert(
+        world_.level.gameObjects.end(), 
         world_.level.toSpawnObjects.begin(),
         world_.level.toSpawnObjects.end());
 
@@ -231,8 +244,10 @@ void Main::simpleScene()
     int fps =  Context::getFpsCounter()->getLastMeasurement();
     auto text = Context::getTextRenderer();
     text->draw(std::string("FPS: " + std::to_string(fps)), width_ - 150, 4, 2.0);
-    text->draw(std::string("frame :  " + std::to_string(frame_)), 10, 4, 2.0);
+    text->draw(std::string("frame : " + std::to_string(frame_)), 10, 4, 2.0);
 
+    text->draw(std::string("BO:" + std::to_string(world_.level.backgroundObjects.size())), 10, 64, 1.0);
+    text->draw(std::string("GO:" + std::to_string(world_.level.gameObjects.size())), 10, 72, 1.0);
     auto world = Context::getWorld();
 
     text->draw(std::string("LIVES: " + std::to_string(world->lives_)), 250, 4, 2.0);

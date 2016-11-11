@@ -18,8 +18,8 @@ graphics_(*this),
 physics_(*this)
 {
     auto bitmap = Context::getBitmapsContainer()->get(BitmapType::MARIO_RUNNING_0);
-    h = bitmap->getHeight();
-    w = bitmap->getWidth();
+    size.y = bitmap->getHeight();
+    size.x = bitmap->getWidth();
 }
 
 void Player::draw()

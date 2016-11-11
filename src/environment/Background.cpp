@@ -10,13 +10,13 @@ namespace environment
 Background::Background(BitmapType bitmap) : Object(0)
 {
     bitmap_ = Context::getBitmapsContainer()->get(bitmap);
-    h = bitmap_->getHeight();
-    w = bitmap_->getWidth();
+    size.y = bitmap_->getHeight();
+    size.x = bitmap_->getWidth();
 }
 
 void Background::draw()
 {
-    bitmap_->draw(Context::getCameraRenderer(), x, y);
+    bitmap_->draw(Context::getCameraRenderer(), position.x, position.y);
 }
 
 void Background::update(std::vector<Object*> gameObjects)

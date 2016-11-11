@@ -19,7 +19,7 @@ PlayerGraphicsComponent::PlayerGraphicsComponent(Player& player)
         BitmapType::MARIO_RUNNING_2,
         BitmapType::MARIO_RUNNING_0,
         BitmapType::MARIO_RUNNING_1},
-        5,
+        4,
         *Context::getBitmapsContainer()
     );
 
@@ -65,7 +65,7 @@ void PlayerGraphicsComponent::draw()
     }
 
     currentAnimation_->draw(Context::getStillRenderer(),
-        player_.x - camera->getX(), player_.y - camera->getY(), flip);
+        player_.position.x - camera->getX(), player_.position.y - camera->getY(), flip);
 
     /* some debug draws below */
 

@@ -2,6 +2,7 @@
 #define OBJECT_HPP_
 
 #include <vector>
+#include "math/Vector2.hpp"
 
 #include "Collision.hpp"
 
@@ -15,10 +16,8 @@ public:
     virtual void update(std::vector<Object*> gameObjects);
     virtual void onCollisionWith(Collision collision, Object& object) = 0;
 
-    double x{};
-    double y{};
-    int w{};
-    int h{};
+    math::Vector2f position;
+    math::Vector2f size; 
 
     double ax{};
     double ay{};

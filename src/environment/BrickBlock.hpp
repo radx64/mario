@@ -19,7 +19,6 @@ public:
 protected:
     virtual void draw();
     std::shared_ptr<Bitmap> bitmap_;
-    int hitCount_{0};
 };
 
 }  // namespace environment

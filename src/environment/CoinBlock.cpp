@@ -29,13 +29,12 @@ CoinBlock::CoinBlock(int type) : Object(type)
         *Context::getBitmapsContainer()
     );
 
-
     currentAnimation_= fullAnimation_;
 
     coins_ = 10;
 
-    h = Context::getBitmapsContainer()->get(BitmapType::QUESTIONBLOCK_0)->getHeight();
-    w = Context::getBitmapsContainer()->get(BitmapType::QUESTIONBLOCK_0)->getWidth();
+    size.y = Context::getBitmapsContainer()->get(BitmapType::QUESTIONBLOCK_0)->getHeight();
+    size.x = Context::getBitmapsContainer()->get(BitmapType::QUESTIONBLOCK_0)->getWidth();
 }
 
 void CoinBlock::draw()
@@ -49,18 +48,18 @@ void CoinBlock::draw()
         currentAnimation_ = depletedAnimation_;
     }
 
-    currentAnimation_->draw(Context::getCameraRenderer(), x, y);
+    currentAnimation_->draw(Context::getCameraRenderer(), position.x, position.y);
     currentAnimation_->nextFrame();
 }
 
 void CoinBlock::update(std::vector<Object*> gameObjects)
 {
     Object::update(gameObjects);
-    double y_bak = y;
+    double y_bak = position.y;
     if (bounce_)
     {
         bounceTick_++;
-        y = y - sin(bounceTick_/8.5)*32;
+        position.y -= sin(bounceTick_/8.5)*32;
 
         if (bounceTick_ >= 30)
         {
@@ -70,7 +69,7 @@ void CoinBlock::update(std::vector<Object*> gameObjects)
     }
 
     draw();
-    y = y_bak;
+    position.y = y_bak;
 }
 
 void CoinBlock::onCollisionWith(Collision collision, Object& object)
@@ -85,7 +84,6 @@ void CoinBlock::onCollisionWith(Collision collision, Object& object)
             bounce_ = true;
             --coins_;
             Context::getWorld()->coins_++;
-            std::cout << "COIN! Left inside: "<< static_cast<uint16_t>(coins_) << std::endl;
         }
     }
 

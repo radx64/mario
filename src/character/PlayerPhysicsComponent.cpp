@@ -26,8 +26,8 @@ void PlayerPhysicsComponent::bouceOfCeiling(Object* ceilingBlock)
     if (player_.ay < 0.0)
     {
         player_.ay = 0;
-        player_.y += player_.ay;
-        player_.y = ceilingBlock->y + ceilingBlock->h;
+        player_.position.y += player_.ay;
+        player_.position.y = ceilingBlock->position.y + ceilingBlock->size.y;
     }
 }
 
@@ -35,8 +35,8 @@ bool PlayerPhysicsComponent::isObjectAt(std::vector<Object*> gameObjects, float 
 {
     for(auto object : gameObjects)
     {
-        if ((x >= object->x && x < object->x + object->w) &&
-            (y >= object->y && y < object->y + object->h) &&
+        if ((x >= object->position.x && x < object->position.x + object->size.x) &&
+            (y >= object->position.y && y < object->position.y + object->size.y) &&
             (object != &player_))
         {
             return true;
@@ -50,11 +50,11 @@ void PlayerPhysicsComponent::simulate()
     auto keys = Context::getKeyboardState();
 
     player_.ay += grav_;
-    player_.x += player_.ax;
-    player_.y += player_.ay;
+    player_.position.x += player_.ax;
+    player_.position.y += player_.ay;
 
-    Context::getCamera()->setX(player_.x);
-    Context::getCamera()->setY(player_.y);
+    Context::getCamera()->setX(player_.position.x);
+    Context::getCamera()->setY(player_.position.y);
 
     if (fabs(player_.ax) > 1.0) player_.state = Player::State::Running;
     else player_.state = Player::State::Standing;
@@ -95,51 +95,6 @@ void PlayerPhysicsComponent::simulate()
     if (player_.jumped_) player_.state = Player::State::Jumping;
 
     if (!keys->left && !keys->right) player_.ax *= 0.65;
-
-
-    int playerXRendererPosition = (int)player_.x - Context::getCamera()->getX();
-    int playerYRendererPosition = (int)player_.y - Context::getCamera()->getY();
-
-    auto renderer = Context::getSdlRenderer();
-    SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0xAA, 0x77);
-    SDL_Rect r{
-        playerXRendererPosition, 
-        playerYRendererPosition, 
-        (int)player_.w, 
-        (int)player_.h};
-    SDL_RenderDrawRect(renderer, &r);
-
-    for(int i=0; i<3; ++i)
-    {
-        for(int j=0; j<4; ++j)
-        {
-            if (isObjectAt(
-                Context::getWorld()->level.gameObjects,
-                player_.x+ (i-1)*32+16,
-                player_.y+ (j-1)*32+16))
-            {
-                SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0x77);
-            }
-            else
-            {
-                SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0xAA, 0x77); 
-            }
-
-
-
-            r = SDL_Rect{
-                playerXRendererPosition + (i-1)*32, 
-                playerYRendererPosition + (j-1)*32, 
-                32, 
-                32};
-            SDL_RenderDrawRect(renderer, &r);
-        }
-    }
-
-
-
-
-
 }
 
 void PlayerPhysicsComponent::onCollisionWith(Collision collision, Object& object)
@@ -148,18 +103,18 @@ void PlayerPhysicsComponent::onCollisionWith(Collision collision, Object& object
     {
 
          if (player_.ax < 0) player_.ax = 0;
-         if (object.x + object.w > player_.x) player_.x = object.x + player_.w;
+         if (object.position.x + object.size.x > player_.position.x) player_.position.x = object.position.x + player_.size.x;
     }
 
     if (collision.get() == Collision::State::Right)
     {
         if (player_.ax > 0) player_.ax = 0;
-        if (player_.x + player_.w < object.x ) player_.x = object.x - player_.w;
+        if (player_.position.x + player_.size.x < object.position.x ) player_.position.x = object.position.x - player_.size.x;
     }
 
     if (collision.get() == Collision::State::Bottom)
     {
-        player_.y = object.y - player_.h;
+        player_.position.y = object.position.y - player_.size.y;
         if (player_.ay > 0) player_.ay = 0;
         player_.jumped_ = false;
     }
@@ -174,11 +129,11 @@ void PlayerPhysicsComponent::onCollisionWith(Collision collision, Object& object
     **/
         bouceOfCeiling(&object);
 
-        if ( player_.x + player_.w - object.x < 10.0f)
+        if ( player_.position.x + player_.size.x - object.position.x < 10.0f)
         {
-            // if (!isObjectAt(gameObjects, object.x - player_.w, object.y))
+            // if (!isObjectAt(gameObjects, object.position.x - player_.size.x, object.y))
             // {
-            //     player_.x = object.x - player_.w;
+            //     player_.position.x = object.position.x - player_.size.x;
             // }
             // else
             // {
@@ -186,11 +141,11 @@ void PlayerPhysicsComponent::onCollisionWith(Collision collision, Object& object
             // }
         }
 
-        else if(object.x + object.w - player_.x < 10.0f)
+        else if(object.position.x + object.size.x - player_.position.x < 10.0f)
         {
-            // if (!isObjectAt(gameObjects, object.x + object.w , object.y))
+            // if (!isObjectAt(gameObjects, object.position.x + object.size.x , object.y))
             // {
-            //     player_.x = object.x + player_.w;
+            //     player_.position.x = object.position.x + player_.size.x;
             // }
             // else
             // {

@@ -3,7 +3,8 @@
 
 #include "Object.hpp"
 #include "Bitmap.hpp"
-#include <memory>
+
+#include "math/Vector2.hpp"
 
 class AnimatedBitmap;
 
@@ -13,7 +14,7 @@ namespace environment
 class SmallBrick : public Object
 {
 public:
-    SmallBrick(double ix, double iy, double x_velocity, double y_velocity);
+    SmallBrick(math::Vector2f initialPosition, math::Vector2f velocity);
 
     virtual void update(std::vector<Object*> gameObjects) override;
     virtual void onCollisionWith(Collision collision, Object& object) override;
@@ -23,8 +24,7 @@ protected:
 
     AnimatedBitmap* bitmap_;
 
-    double x_velocity_;
-    double y_velocity_;
+    math::Vector2f velocity_;
 };
 
 }  // namespace environment

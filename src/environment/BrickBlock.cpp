@@ -8,6 +8,7 @@
 #include "graphics/CameraRenderer.hpp"
 #include "environment/SmallBrick.hpp"
 #include "World.hpp"
+#include "math/Vector2.hpp"
 
 #include <iostream>
 
@@ -18,13 +19,13 @@ BrickBlock::BrickBlock(int type) : Object(type)
 {
     bitmap_ = Context::getBitmapsContainer()->get(BitmapType::BRICK_RED);
 
-    h = bitmap_->getHeight();
-    w = bitmap_->getWidth();
+    size.x = bitmap_->getWidth();
+    size.y = bitmap_->getHeight();
 }
 
 void BrickBlock::draw()
 {
-    bitmap_->draw(Context::getCameraRenderer(), x, y);
+    bitmap_->draw(Context::getCameraRenderer(), position.x, position.y);
 }
 
 void BrickBlock::update(std::vector<Object*> gameObjects)
@@ -39,15 +40,15 @@ void BrickBlock::onCollisionWith(Collision collision, Object& object)
     if (collision.get() == Collision::State::Bottom && !dead)
     {
         dead = true;
-        double spawn_x = x + (w / 2.0);
-        double spawn_y = y + (h / 2.0);
-        Object* brick = new SmallBrick(spawn_x, spawn_y, 1.0, -7.0);
+        math::Vector2f spawnPoint = position + size / 2.0;
+
+        Object* brick = new SmallBrick(spawnPoint, {1.0, -7.0});
         Context::getWorld()->level.toSpawnObjects.push_back(brick);
-        brick = new SmallBrick(spawn_x, spawn_y, 1.0, -5.0);
+        brick = new SmallBrick(spawnPoint, {1.0, -5.0});
         Context::getWorld()->level.toSpawnObjects.push_back(brick);
-        brick = new SmallBrick(spawn_x, spawn_y, -1.0, -7.0);
+        brick = new SmallBrick(spawnPoint, {-1.0, -7.0});
         Context::getWorld()->level.toSpawnObjects.push_back(brick);
-        brick = new SmallBrick(spawn_x, spawn_y, -1.0, -5.0);
+        brick = new SmallBrick(spawnPoint, {-1.0, -5.0});
         Context::getWorld()->level.toSpawnObjects.push_back(brick);
     }
 }

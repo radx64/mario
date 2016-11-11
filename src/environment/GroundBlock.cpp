@@ -15,13 +15,13 @@ GroundBlock::GroundBlock(int type) : Object(type)
 {
     bitmap_ = Context::getBitmapsContainer()->get(BitmapType::GROUND_RED);
 
-    h = bitmap_->getHeight();
-    w = bitmap_->getWidth();
+    size.y = bitmap_->getHeight();
+    size.x = bitmap_->getWidth();
 }
 
 void GroundBlock::draw()
 {
-    bitmap_->draw(Context::getCameraRenderer(), x, y);
+    bitmap_->draw(Context::getCameraRenderer(), position.x, position.y);
 }
 
 void GroundBlock::update(std::vector<Object*> gameObjects)

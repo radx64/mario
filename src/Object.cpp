@@ -32,27 +32,26 @@ void Object::update(std::vector<Object*> gameObjects)
 
 Collision Object::checkCollision(Object& collider)
 {
-    float distanceX = fabs(collider.x - x);
-    float distanceY = fabs(collider.y - y);
+    math::Vector2f distance = collider.position - position;
 
-    if (!(x < collider.x + collider.w &&
-       x + w > collider.x &&
-       y < collider.y + collider.h &&
-       h + y > collider.y))
+    if (!(position.x < collider.position.x + collider.size.x &&
+       position.x + size.x > collider.position.x &&
+       position.y < collider.position.y + collider.size.y &&
+       size.y + position.y > collider.position.y))
     {
         return Collision(Collision::State::None);
     }
 
     const float sideCollisionThreshold {7.0}; // because side collisions are more important
 
-    if (distanceY <  distanceX + sideCollisionThreshold)
+    if (fabs(distance.y) <  fabs(distance.x) + sideCollisionThreshold)
     {
-        if (x < collider.x) return Collision(Collision::State::Right);
+        if (position.x < collider.position.x) return Collision(Collision::State::Right);
         else return Collision(Collision::State::Left);
     }
     else
     {
-        if (y+h/2 < collider.y) return Collision(Collision::State::Bottom);
+        if (position.y+size.y/2 < collider.position.y) return Collision(Collision::State::Bottom);
         else return Collision(Collision::State::Top);
     }
 
