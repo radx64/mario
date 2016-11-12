@@ -43,8 +43,8 @@ void Player::update(std::vector<Object*> gameObjects)
     Object::update(gameObjects);
     draw();
 
-    Context::getTextRenderer()->draw(std::string("AX: ") + std::to_string(ax),10,24,1.0);
-    Context::getTextRenderer()->draw(std::string("AY: ") + std::to_string(ay),10,32,1.0);
+    Context::getTextRenderer()->draw(std::string("VX: ") + std::to_string(velocity.x),10,24,1.0);
+    Context::getTextRenderer()->draw(std::string("VY: ") + std::to_string(velocity.y),10,32,1.0);
 }
 
 

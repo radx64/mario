@@ -46,12 +46,12 @@ Collision Object::checkCollision(Object& collider)
 
     if (fabs(distance.y) <  fabs(distance.x) + sideCollisionThreshold)
     {
-        if (position.x < collider.position.x) return Collision(Collision::State::Right);
+        if (position.x <= collider.position.x) return Collision(Collision::State::Right);
         else return Collision(Collision::State::Left);
     }
     else
     {
-        if (position.y+size.y/2 < collider.position.y) return Collision(Collision::State::Bottom);
+        if (position.y+size.y/2 <= collider.position.y) return Collision(Collision::State::Bottom);
         else return Collision(Collision::State::Top);
     }
 

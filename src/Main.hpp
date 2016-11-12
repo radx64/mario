@@ -44,6 +44,7 @@ private:
     Context context_;
     std::vector<Object*> gameObjects_;
     World world_;
+    Object* player_;
 };
 
 #endif  // MAIN_HPP_

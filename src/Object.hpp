@@ -17,10 +17,8 @@ public:
     virtual void onCollisionWith(Collision collision, Object& object) = 0;
 
     math::Vector2f position;
-    math::Vector2f size; 
-
-    double ax{};
-    double ay{};
+    math::Vector2f velocity;  
+    math::Vector2f size;
 
     bool dead {false};
 

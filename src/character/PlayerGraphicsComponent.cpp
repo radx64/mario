@@ -55,7 +55,7 @@ void PlayerGraphicsComponent::draw()
 
     auto camera = Context::getCamera();
 
-    if (player_.ax < 0.0)
+    if (player_.velocity.x < 0.0)
     {
         flip.FLIP_HORIZONTAL();
     }
@@ -66,39 +66,6 @@ void PlayerGraphicsComponent::draw()
 
     currentAnimation_->draw(Context::getStillRenderer(),
         player_.position.x - camera->getX(), player_.position.y - camera->getY(), flip);
-
-    /* some debug draws below */
-
-    // auto renderer = Context::getSdlRenderer();
-
-
-    // SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0x77);
-    // SDL_RenderDrawLine(renderer,
-    //     (int)player_.x, (int)player_.y, (int)player_.x+(int)player_.ax*4.0, (int)player_.y);
-
-    // SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0x77);
-    // SDL_RenderDrawLine(
-    //     renderer, (int)player_.x, (int)player_.y, (int)player_.x, (int)player_.y+(int)player_.ay*4.0);
-
-    // if (fabs(player_.ax) > 1.0 || fabs(player_.ay) > 1.0)
-    // {
-    //     debugFrames_.push_back({player_.x,player_.y});
-    // }
-
-    // if (debugFrames_.size() > 30)
-    // {
-    //     debugFrames_.erase(debugFrames_.begin());
-    // }
-
-    // for (auto frame : debugFrames_)
-    // {
-    //     SDL_Rect r{(int)frame.first, (int)frame.second, (int)player_.w, (int)player_.h};
-    //     SDL_RenderDrawRect(renderer, &r);
-    // }
-
-    // SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0xAA, 0x77);
-    // SDL_Rect r{(int)player_.x, (int)player_.y, (int)player_.w, (int)player_.h};
-    // SDL_RenderDrawRect(renderer, &r);
 }
 
 }  // namespace character

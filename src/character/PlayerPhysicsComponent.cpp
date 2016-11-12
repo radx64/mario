@@ -23,10 +23,10 @@ PlayerPhysicsComponent::~PlayerPhysicsComponent()
 
 void PlayerPhysicsComponent::bouceOfCeiling(Object* ceilingBlock)
 {
-    if (player_.ay < 0.0)
+    if (player_.velocity.y < 0.0)
     {
-        player_.ay = 0;
-        player_.position.y += player_.ay;
+        player_.velocity.y = 0;
+        player_.position.y += player_.velocity.y;
         player_.position.y = ceilingBlock->position.y + ceilingBlock->size.y;
     }
 }
@@ -49,73 +49,64 @@ void PlayerPhysicsComponent::simulate()
 {
     auto keys = Context::getKeyboardState();
 
-    player_.ay += grav_;
-    player_.position.x += player_.ax;
-    player_.position.y += player_.ay;
+    player_.velocity.y += grav_;
+    player_.position.x += player_.velocity.x;
+    player_.position.y += player_.velocity.y;
 
     Context::getCamera()->setX(player_.position.x);
     Context::getCamera()->setY(player_.position.y);
 
-    if (fabs(player_.ax) > 1.0) player_.state = Player::State::Running;
+    if (fabs(player_.velocity.x) > 1.0) player_.state = Player::State::Running;
     else player_.state = Player::State::Standing;
 
     if (keys->up)
     {
         if (!player_.jumped_)
         {
-            player_.ay = -8.0;
+            player_.velocity.y = -8.0;
             player_.jumped_ = true;
         }
         else
         {
-            player_.ay -= 0.04;
+            player_.velocity.y -= 0.04;
         }
     }
     else
     {
-       player_.ay += 0.2;
+       player_.velocity.y += 0.2;
     }
 
 
     if (keys->left)
     {
-        player_.ax += -0.6;
-        if (player_.ax > 0) player_.state = Player::State::Sliding;
+        player_.velocity.x += -0.6;
+        if (player_.velocity.x > 0) player_.state = Player::State::Sliding;
     }
 
     if (keys->right)
     {
-        player_.ax += 0.6;
-        if (player_.ax < 0) player_.state = Player::State::Sliding;
+        player_.velocity.x += 0.6;
+        if (player_.velocity.x < 0) player_.state = Player::State::Sliding;
     }
 
-    if (player_.ax > horizontalMaxSpeed_) player_.ax = horizontalMaxSpeed_;
-    if (player_.ax < -horizontalMaxSpeed_) player_.ax = -horizontalMaxSpeed_;
+    if (player_.velocity.x > horizontalMaxSpeed_) player_.velocity.x = horizontalMaxSpeed_;
+    if (player_.velocity.x < -horizontalMaxSpeed_) player_.velocity.x = -horizontalMaxSpeed_;
 
     if (player_.jumped_) player_.state = Player::State::Jumping;
 
-    if (!keys->left && !keys->right) player_.ax *= 0.65;
+    if (!keys->left && !keys->right) player_.velocity.x *= 0.65;
 }
 
 void PlayerPhysicsComponent::onCollisionWith(Collision collision, Object& object)
 {
-    if (collision.get() == Collision::State::Left)
-    {
+    std::cout << "Collision at x:" << object.position.x << " y:" << object.position.y << std::endl; 
 
-         if (player_.ax < 0) player_.ax = 0;
-         if (object.position.x + object.size.x > player_.position.x) player_.position.x = object.position.x + player_.size.x;
-    }
 
-    if (collision.get() == Collision::State::Right)
-    {
-        if (player_.ax > 0) player_.ax = 0;
-        if (player_.position.x + player_.size.x < object.position.x ) player_.position.x = object.position.x - player_.size.x;
-    }
 
     if (collision.get() == Collision::State::Bottom)
     {
         player_.position.y = object.position.y - player_.size.y;
-        if (player_.ay > 0) player_.ay = 0;
+        if (player_.velocity.y > 0) player_.velocity.y = 0;
         player_.jumped_ = false;
     }
 
@@ -157,6 +148,22 @@ void PlayerPhysicsComponent::onCollisionWith(Collision collision, Object& object
             bouceOfCeiling(&object);
         }
     }
+
+    if (collision.get() == Collision::State::Left)
+    {
+
+         if (player_.velocity.x < 0) player_.velocity.x = 0;
+         if (object.position.x + object.size.x > player_.position.x) player_.position.x = object.position.x + player_.size.x;
+    }
+
+    if (collision.get() == Collision::State::Right)
+    {
+        if (player_.velocity.x > 0) player_.velocity.x = 0;
+        if (player_.position.x + player_.size.x < object.position.x ) player_.position.x = object.position.x - player_.size.x;
+    }
+
+
+
 }
 
 }  // namespace character

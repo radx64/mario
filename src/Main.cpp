@@ -196,6 +196,7 @@ void Main::initGameObjects()
     object->position = {256, 400};
 
     world_.level.gameObjects.push_back(object);
+    player_ = object;
     // remember to destroy objects above when done, duh...
 }
 
@@ -246,8 +247,12 @@ void Main::simpleScene()
     text->draw(std::string("FPS: " + std::to_string(fps)), width_ - 150, 4, 2.0);
     text->draw(std::string("frame : " + std::to_string(frame_)), 10, 4, 2.0);
 
-    text->draw(std::string("BO:" + std::to_string(world_.level.backgroundObjects.size())), 10, 64, 1.0);
-    text->draw(std::string("GO:" + std::to_string(world_.level.gameObjects.size())), 10, 72, 1.0);
+    text->draw(std::string("PX: " + std::to_string(player_->position.x)), 10, 48, 1.0);
+    text->draw(std::string("PY: " + std::to_string(player_->position.y)), 10, 56, 1.0);
+
+
+    text->draw(std::string("BO: " + std::to_string(world_.level.backgroundObjects.size())), 10, 64, 1.0);
+    text->draw(std::string("GO: " + std::to_string(world_.level.gameObjects.size())), 10, 72, 1.0);
     auto world = Context::getWorld();
 
     text->draw(std::string("LIVES: " + std::to_string(world->lives_)), 250, 4, 2.0);
