@@ -25,8 +25,6 @@ void PlayerPhysicsComponent::bouceOfCeiling(Object* ceilingBlock)
 {
     if (player_.velocity.y < 0.0)
     {
-        player_.velocity.y = 0;
-        player_.position.y += player_.velocity.y;
         player_.position.y = ceilingBlock->position.y + ceilingBlock->size.y;
     }
 }
@@ -100,8 +98,6 @@ void PlayerPhysicsComponent::simulate()
 
 void PlayerPhysicsComponent::onCollisionWith(Collision collision, Object& object)
 {
-    std::cout << "Collision at x:" << object.position.x << " y:" << object.position.y << " " << collision.toString() << std::endl; 
-
     if (collision.get() == Collision::State::Bottom)
     {
         player_.position.y = object.position.y - player_.size.y;
@@ -111,41 +107,7 @@ void PlayerPhysicsComponent::onCollisionWith(Collision collision, Object& object
 
     if (collision.get() == Collision::State::Top)
     {
-    /**
-        Below is special behaviour for future Mario development
-        When Mario is jumping up and hit obstacle with his head
-        He slides a bit to be next to the block (to jump on block above him)
-        instead of just bouncing down
-    **/
         bouceOfCeiling(&object);
-
-        if ( player_.position.x + player_.size.x - object.position.x < 10.0f)
-        {
-            // if (!isObjectAt(gameObjects, object.position.x - player_.size.x, object.y))
-            // {
-            //     player_.position.x = object.position.x - player_.size.x;
-            // }
-            // else
-            // {
-                bouceOfCeiling(&object);
-            // }
-        }
-
-        else if(object.position.x + object.size.x - player_.position.x < 10.0f)
-        {
-            // if (!isObjectAt(gameObjects, object.position.x + object.size.x , object.y))
-            // {
-            //     player_.position.x = object.position.x + player_.size.x;
-            // }
-            // else
-            // {
-                bouceOfCeiling(&object);
-            // }
-        }
-        else
-        {
-            bouceOfCeiling(&object);
-        }
     }
 
     if (collision.get() == Collision::State::Left)
