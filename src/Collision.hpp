@@ -1,6 +1,8 @@
 #ifndef COLLISION_HPP_
 #define COLLISION_HPP_
 
+#include <string>
+
 class Collision
 {
 public:
@@ -30,6 +32,18 @@ public:
             case State::Bottom : return Collision{State::Top};
             default            : return Collision {State::None};
         }
+    }
+
+    std::string toString()
+    {
+        switch(state_)
+        {
+            case State::Left   : return "Left";
+            case State::Right  : return "Right";
+            case State::Top    : return "Top";
+            case State::Bottom : return "Bottom";
+            default            : return "None";
+        }        
     }
 
     State get()

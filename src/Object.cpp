@@ -42,7 +42,7 @@ Collision Object::checkCollision(Object& collider)
         return Collision(Collision::State::None);
     }
 
-    const float sideCollisionThreshold {7.0}; // because side collisions are more important
+    const float sideCollisionThreshold {10.0}; // because side collisions are more important
 
     if (fabs(distance.y) <  fabs(distance.x) + sideCollisionThreshold)
     {

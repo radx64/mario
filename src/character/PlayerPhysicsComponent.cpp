@@ -50,8 +50,6 @@ void PlayerPhysicsComponent::simulate()
     auto keys = Context::getKeyboardState();
 
     player_.velocity.y += grav_;
-    player_.position.x += player_.velocity.x;
-    player_.position.y += player_.velocity.y;
 
     Context::getCamera()->setX(player_.position.x);
     Context::getCamera()->setY(player_.position.y);
@@ -79,7 +77,7 @@ void PlayerPhysicsComponent::simulate()
 
     if (keys->left)
     {
-        player_.velocity.x += -0.6;
+        player_.velocity.x -= 0.6;
         if (player_.velocity.x > 0) player_.state = Player::State::Sliding;
     }
 
@@ -95,13 +93,14 @@ void PlayerPhysicsComponent::simulate()
     if (player_.jumped_) player_.state = Player::State::Jumping;
 
     if (!keys->left && !keys->right) player_.velocity.x *= 0.65;
+
+    player_.position.x += player_.velocity.x;
+    player_.position.y += player_.velocity.y;
 }
 
 void PlayerPhysicsComponent::onCollisionWith(Collision collision, Object& object)
 {
-    std::cout << "Collision at x:" << object.position.x << " y:" << object.position.y << std::endl; 
-
-
+    std::cout << "Collision at x:" << object.position.x << " y:" << object.position.y << " " << collision.toString() << std::endl; 
 
     if (collision.get() == Collision::State::Bottom)
     {
@@ -151,18 +150,15 @@ void PlayerPhysicsComponent::onCollisionWith(Collision collision, Object& object
 
     if (collision.get() == Collision::State::Left)
     {
-
-         if (player_.velocity.x < 0) player_.velocity.x = 0;
-         if (object.position.x + object.size.x > player_.position.x) player_.position.x = object.position.x + player_.size.x;
+        player_.velocity.x = 0;
+        player_.position.x = object.position.x + object.size.x;
     }
 
     if (collision.get() == Collision::State::Right)
     {
-        if (player_.velocity.x > 0) player_.velocity.x = 0;
-        if (player_.position.x + player_.size.x < object.position.x ) player_.position.x = object.position.x - player_.size.x;
+        player_.velocity.x = 0;
+        player_.position.x = object.position.x - player_.size.x ;
     }
-
-
 
 }
 
