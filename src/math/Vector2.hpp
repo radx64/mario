@@ -56,7 +56,7 @@ struct Vector2
 
 };
 
-using Vector2i = Vector2<uint32_t>;
+using Vector2i = Vector2<int32_t>;
 using Vector2f = Vector2<double>;
 
 }  // namespace math

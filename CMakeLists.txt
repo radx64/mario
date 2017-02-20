@@ -19,16 +19,18 @@ if (NOT CONFIGURED_ONCE)
 endif()
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}
-					src)
+					src
+                    libs)
 
 add_definitions(-std=c++11)
 add_definitions(-O3)
 
 add_subdirectory(src)
+add_subdirectory(libs)
 
 add_executable(${projectName} main.cpp)
 
-target_link_libraries(${projectName} game_core SDL2)
+target_link_libraries(${projectName} game_core SDL2 externalLibs)
 
 set(CONFIGURED_ONCE TRUE CACHE INTERNAL
     "A flag showing that CMake has configured at least once.")

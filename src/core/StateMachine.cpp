@@ -15,10 +15,6 @@ StateMachine::StateMachine(const TransitionMap& tm)
 
 StateMachine::~StateMachine()
 {
-    for (auto& state : states_)
-    {
-        if (state != nullptr) delete state;
-    }
 }
 
 void StateMachine::setInitialState(State* initialState)

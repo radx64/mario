@@ -13,18 +13,18 @@ int main(int argc, char** argv)
     UNUSED(argc);
     UNUSED(argv);
 
-    std::cout << "Hello in Mario World!" << std::endl;
+    std::cout << "Hello from the Mario World!" << std::endl;
 
     /** Some PoC of state machines, not yet incorporated into game itself **/
-    core::DemoState* start = new core::DemoState("Start");
-    core::DemoState* running  = new core::DemoState("End");
+    core::DemoState start("Start");
+    core::DemoState running("End");
 
     core::StateMachine sm({
-        core::Transition {start, running, "Go"},
-        core::Transition {running, start, "Stop"}
+        core::Transition {&start, &running, "Go"},
+        core::Transition {&running, &start, "Stop"}
     });
 
-    sm.setInitialState(start);
+    sm.setInitialState(&start);
     sm.processEvent(core::Event("Stop"));
     sm.processEvent(core::Event("Go"));
     sm.processEvent(core::Event("Stop"));
