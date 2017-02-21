@@ -205,7 +205,7 @@ void Main::initGameObjects()
 }
 
 
-void Main::simpleScene()
+void Main::scene()
 {
     std::vector<Object*>::iterator it;
     
@@ -223,7 +223,6 @@ void Main::simpleScene()
         }
     }
 
-
     for (it = world_.level.gameObjects.begin(); it != world_.level.gameObjects.end();)
     {
         auto object = *it;
@@ -238,13 +237,15 @@ void Main::simpleScene()
         }
     }
 
-    world_.level.gameObjects.insert(
-        world_.level.gameObjects.end(), 
-        world_.level.toSpawnObjects.begin(),
-        world_.level.toSpawnObjects.end());
+    if (world_.level.toSpawnObjects.size() > 0)
+    {
+        world_.level.gameObjects.insert(
+            world_.level.gameObjects.end(), 
+            world_.level.toSpawnObjects.begin(),
+            world_.level.toSpawnObjects.end());
 
-    world_.level.toSpawnObjects.clear();
-
+        world_.level.toSpawnObjects.clear();
+    }
 
     int fps =  Context::getFpsCounter()->getLastMeasurement();
     auto text = Context::getTextRenderer();
@@ -274,7 +275,7 @@ void Main::loop()
         frameTimer.start();
         clear();
         input();
-        simpleScene();
+        scene();
 
         SDL_RenderPresent(renderer_);
         double frameFreezeTime = 1000.0 / desiredFPS_ - frameTimer.getTicks();

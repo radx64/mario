@@ -21,6 +21,7 @@ BrickBlock::BrickBlock(int type) : Object(type)
 
     size.x = bitmap_->getWidth();
     size.y = bitmap_->getHeight();
+    moving = true;
 }
 
 void BrickBlock::draw()

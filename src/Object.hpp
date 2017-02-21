@@ -18,14 +18,21 @@ public:
     math::Vector2f velocity;  
     math::Vector2f size;
 
+    bool moving{false};  // this will make collsions calculations faster (now info is staticaly initialized
+                         // in constructor but can be dynamically calculated)
+
     bool dead {false};
 
     int type_{};  // this will be removed later, temporary hack for object detection
 
 protected:
-
     Object* getObjectAt(std::vector<Object*> gameObjects, math::Vector2f point);
 
+    struct CollisionPoint
+    {
+        Collision collision;
+        math::Vector2f point;
+    };
 };
 
 #endif  //OBJECT_HPP_

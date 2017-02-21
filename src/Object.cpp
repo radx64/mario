@@ -14,52 +14,38 @@ Object::~Object()
 
 void Object::update(std::vector<Object*> gameObjects)
 {
-
-    auto collider = getObjectAt(gameObjects, {position.x + size.x/2.0, position.y+size.y-1.0});
-
-    if (collider)
+    if (!moving)
     {
-        Collision collision {Collision::State::Bottom};
-        onCollisionWith(collision, *collider);
-        collider->onCollisionWith(collision.opposite(), *this);
+        return;  // there is no sense for checking collison when object is not moving
     }
 
-    collider = getObjectAt(gameObjects, {position.x + size.x/2.0, position.y});
+    std::vector<CollisionPoint> collisionsPoints{
+        {Collision::State::Bottom, {position.x + size.x/2.0, position.y+size.y-1.0}},
+        {Collision::State::Top,    {position.x + size.x/2.0, position.y}},
+        {Collision::State::Left,   {position.x , position.y + size.y/2.0}},
+        {Collision::State::Right,  {position.x + size.x-1.0, position.y + size.y/2.0}},
+    };
 
-    if (collider)
+    for(auto collisionPoint : collisionsPoints)
     {
-        Collision collision {Collision::State::Top};
-        onCollisionWith(collision, *collider);
-        collider->onCollisionWith(collision.opposite(), *this);
+        auto collider = getObjectAt(gameObjects, collisionPoint.point);
+        if (collider)
+        {
+            Collision collision {collisionPoint.collision};
+            onCollisionWith(collision, *collider);
+            collider->onCollisionWith(collision.opposite(), *this);
+        }
     }
-
-    collider = getObjectAt(gameObjects, {position.x , position.y + size.y/2.0});
-
-    if (collider)
-    {
-        Collision collision {Collision::State::Left};
-        onCollisionWith(collision, *collider);
-        collider->onCollisionWith(collision.opposite(), *this);
-    }
-
-    collider = getObjectAt(gameObjects, {position.x + size.x-1.0, position.y + size.y/2.0});
-
-    if (collider)
-    {
-        Collision collision {Collision::State::Right};
-        onCollisionWith(collision, *collider);
-        collider->onCollisionWith(collision.opposite(), *this);
-    }
-
 }
 
 Object* Object::getObjectAt(std::vector<Object*> gameObjects, math::Vector2f point)
 {
     for(auto object : gameObjects)  // this is not an optimal way to check collsions
     {                               // spatial cheking maybe divided to smaller sectors or something
-        if ((point.x > object->position.x && point.x < object->position.x + object->size.x) &&
-            (point.y > object->position.y && point.y < object->position.y + object->size.y) &&
-            object != this) // no collsion with self
+        if (object != this &&
+            (point.x > object->position.x && point.x < object->position.x + object->size.x) &&
+            (point.y > object->position.y && point.y < object->position.y + object->size.y)
+            ) // no collsion with self
         {
             return object;
         }

@@ -29,7 +29,7 @@ public:
 
 private:
     void clear();
-    void simpleScene();
+    void scene();
     void initGameObjects();
     void initBitmapsContainter();
     KeyboardState keys_;
