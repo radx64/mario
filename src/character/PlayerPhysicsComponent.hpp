@@ -21,7 +21,6 @@ public:
     void onCollisionWith(Collision collision, Object& object);
 
 protected:
-    bool isObjectAt(std::vector<Object*> gameObjects, float x, float y);
     void bouceOfCeiling(Object* ceilingBlock);
 
     Player& player_;

@@ -42,13 +42,13 @@ void BrickBlock::onCollisionWith(Collision collision, Object& object)
         dead = true;
         math::Vector2f spawnPoint = position + size / 2.0;
 
-        Object* brick = new SmallBrick(spawnPoint, {1.0, -7.0});
+        Object* brick = new SmallBrick(spawnPoint, {0.8, -7.0});
         Context::getWorld()->level.toSpawnObjects.push_back(brick);
-        brick = new SmallBrick(spawnPoint, {1.0, -5.0});
+        brick = new SmallBrick(spawnPoint, {0.8, -5.0});
         Context::getWorld()->level.toSpawnObjects.push_back(brick);
-        brick = new SmallBrick(spawnPoint, {-1.0, -7.0});
+        brick = new SmallBrick(spawnPoint, {-0.8, -7.0});
         Context::getWorld()->level.toSpawnObjects.push_back(brick);
-        brick = new SmallBrick(spawnPoint, {-1.0, -5.0});
+        brick = new SmallBrick(spawnPoint, {-0.8, -5.0});
         Context::getWorld()->level.toSpawnObjects.push_back(brick);
     }
 }

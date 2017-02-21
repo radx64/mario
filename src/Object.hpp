@@ -6,8 +6,6 @@
 
 #include "Collision.hpp"
 
-
-
 class Object
 {
 public:
@@ -22,11 +20,12 @@ public:
 
     bool dead {false};
 
-    int type_{};
+    int type_{};  // this will be removed later, temporary hack for object detection
 
 protected:
 
-    virtual Collision checkCollision(Object& different);
+    Object* getObjectAt(std::vector<Object*> gameObjects, math::Vector2f point);
+
 };
 
 #endif  //OBJECT_HPP_

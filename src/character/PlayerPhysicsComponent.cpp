@@ -29,20 +29,6 @@ void PlayerPhysicsComponent::bouceOfCeiling(Object* ceilingBlock)
     }
 }
 
-bool PlayerPhysicsComponent::isObjectAt(std::vector<Object*> gameObjects, float x, float y)
-{
-    for(auto object : gameObjects)
-    {
-        if ((x >= object->position.x && x < object->position.x + object->size.x) &&
-            (y >= object->position.y && y < object->position.y + object->size.y) &&
-            (object != &player_))
-        {
-            return true;
-        }
-    }
-    return false;
-}
-
 void PlayerPhysicsComponent::simulate()
 {
     auto keys = Context::getKeyboardState();

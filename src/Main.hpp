@@ -33,8 +33,8 @@ private:
     void initGameObjects();
     void initBitmapsContainter();
     KeyboardState keys_;
-    bool running_;
-    int frame_;
+    bool running_{true};
+    int frame_{};
     SDL_Window* window_;
     SDL_Renderer* renderer_;
     const unsigned int width_;
@@ -45,6 +45,7 @@ private:
     std::vector<Object*> gameObjects_;
     World world_;
     Object* player_;
+    float desiredFPS_{60.0};
 };
 
 #endif  // MAIN_HPP_

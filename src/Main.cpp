@@ -132,10 +132,8 @@ void Main::init()
     TextRenderer* text = new TextRenderer();
     Context::setTextRenderer(text);
     Context::setKeyboardState(&keys_);
-    frame_ = 0;
     world_.lives_ = 3;
     Context::setWorld(&world_);
-
 
     initBitmapsContainter();
 }
@@ -175,6 +173,12 @@ void Main::input()
                     break;
                 case SDLK_RETURN:
                     keys_.enter = isKeyDown;
+                    break;
+                case SDLK_1:
+                    desiredFPS_ -= 1.0;
+                    break;
+                case SDLK_2:
+                    desiredFPS_ += 1.0;
                     break;
             }
         }
@@ -245,6 +249,7 @@ void Main::simpleScene()
     int fps =  Context::getFpsCounter()->getLastMeasurement();
     auto text = Context::getTextRenderer();
     text->draw(std::string("FPS: " + std::to_string(fps)), width_ - 150, 4, 2.0);
+    text->draw(std::string("LMT: " + std::to_string((int)desiredFPS_)), width_ - 150, 20, 2.0);
     text->draw(std::string("frame : " + std::to_string(frame_)), 10, 4, 2.0);
 
     text->draw(std::string("PX: " + std::to_string(player_->position.x)), 10, 48, 1.0);
@@ -261,9 +266,7 @@ void Main::simpleScene()
 
 void Main::loop()
 {
-    const float desiredFPS = 70.0;
     initGameObjects();
-    running_ = true;
     Timer frameTimer;
 
     while (running_)
@@ -274,7 +277,7 @@ void Main::loop()
         simpleScene();
 
         SDL_RenderPresent(renderer_);
-        double frameFreezeTime = 1000.0 / desiredFPS - frameTimer.getTicks();
+        double frameFreezeTime = 1000.0 / desiredFPS_ - frameTimer.getTicks();
         SDL_Delay(frameFreezeTime < 0 ? 0 : frameFreezeTime);
         Context::getFpsCounter()->measure();
         ++frame_;
