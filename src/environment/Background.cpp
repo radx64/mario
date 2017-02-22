@@ -22,7 +22,6 @@ void Background::draw()
 void Background::update(std::vector<Object*> gameObjects)
 {
     (void) gameObjects;
-    draw();
 }
 
 void Background::onCollisionWith(Collision collision, Object& object)

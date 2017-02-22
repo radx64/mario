@@ -27,7 +27,6 @@ void GroundBlock::draw()
 void GroundBlock::update(std::vector<Object*> gameObjects)
 {
     Object::update(gameObjects);
-    draw();
 }
 
 void GroundBlock::onCollisionWith(Collision collision, Object& object)

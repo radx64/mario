@@ -13,12 +13,12 @@ class Background : public Object
 {
 public:
     Background(BitmapType bitmap);
-
+    
+    virtual void draw() override;
     virtual void update(std::vector<Object*> gameObjects) override;
     virtual void onCollisionWith(Collision collision, Object& object) override;
 
 protected:
-    virtual void draw();
     std::shared_ptr<Bitmap> bitmap_;
 };
 

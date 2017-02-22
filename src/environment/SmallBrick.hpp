@@ -15,13 +15,12 @@ class SmallBrick : public Object
 {
 public:
     SmallBrick(math::Vector2f initialPosition, math::Vector2f velocity);
-
+    
+    virtual void draw() override;
     virtual void update(std::vector<Object*> gameObjects) override;
     virtual void onCollisionWith(Collision collision, Object& object) override;
 
 protected:
-    virtual void draw();
-
     AnimatedBitmap* bitmap_;
 
     math::Vector2f velocity_;

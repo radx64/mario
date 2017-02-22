@@ -28,11 +28,6 @@ void Player::draw()
     graphics_.draw();
 }
 
-void Player::simulate()
-{
-    physics_.simulate();
-}
-
 void Player::onCollisionWith(Collision collision, Object& object)
 {
     physics_.onCollisionWith(collision, object);
@@ -40,9 +35,8 @@ void Player::onCollisionWith(Collision collision, Object& object)
 
 void Player::update(std::vector<Object*> gameObjects)
 {
-    simulate();
+    physics_.simulate();
     Object::update(gameObjects);
-    draw();
 
     Context::getTextRenderer()->draw(std::string("VX: ") + std::to_string(velocity.x),10,24,1.0);
     Context::getTextRenderer()->draw(std::string("VY: ") + std::to_string(velocity.y),10,32,1.0);

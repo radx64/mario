@@ -55,21 +55,19 @@ void CoinBlock::draw()
 void CoinBlock::update(std::vector<Object*> gameObjects)
 {
     Object::update(gameObjects);
-    double y_bak = position.y;
     if (bounce_)
     {
         bounceTick_++;
-        position.y -= sin(bounceTick_/8.5)*32;
+        position.y = oryginalY_ - sin(bounceTick_/8.0)*32;
 
-        if (bounceTick_ >= 30)
+        if (bounceTick_ >= 25)
         {
             bounce_ = false;
             bounceTick_ = 0;
+            position.y = oryginalY_;
         }
     }
 
-    draw();
-    position.y = y_bak;
 }
 
 void CoinBlock::onCollisionWith(Collision collision, Object& object)
@@ -81,6 +79,7 @@ void CoinBlock::onCollisionWith(Collision collision, Object& object)
     {
         if (!bounce_)
         {
+            oryginalY_ = position.y;
             bounce_ = true;
             --coins_;
             Context::getWorld()->coins_++;

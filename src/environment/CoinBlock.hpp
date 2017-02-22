@@ -15,17 +15,18 @@ class CoinBlock : public Object
 public:
     CoinBlock(int type);
 
+    virtual void draw() override;
     virtual void update(std::vector<Object*> gameObjects) override;
     virtual void onCollisionWith(Collision collision, Object& object) override;
 
 protected:
-    virtual void draw();
     AnimatedBitmap* fullAnimation_;
     AnimatedBitmap* depletedAnimation_;
     AnimatedBitmap* currentAnimation_;
     int8_t coins_;
     bool bounce_{false};
     int8_t bounceTick_{0};
+    float oryginalY_{};
 };
 
 }  // namespace environment

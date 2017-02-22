@@ -20,7 +20,8 @@ void Object::update(std::vector<Object*> gameObjects)
     }
 
     std::vector<CollisionPoint> collisionsPoints{
-        {Collision::State::Bottom, {position.x + size.x/2.0, position.y+size.y-1.0}},
+        {Collision::State::Bottom, {position.x + size.x*1.0/4.0, position.y+size.y-1.0}},
+        {Collision::State::Bottom, {position.x + size.x*3.0/4.0, position.y+size.y-1.0}},
         {Collision::State::Top,    {position.x + size.x/2.0, position.y}},
         {Collision::State::Left,   {position.x , position.y + size.y/2.0}},
         {Collision::State::Right,  {position.x + size.x-1.0, position.y + size.y/2.0}},
@@ -29,12 +30,11 @@ void Object::update(std::vector<Object*> gameObjects)
     for(auto collisionPoint : collisionsPoints)
     {
         auto collider = getObjectAt(gameObjects, collisionPoint.point);
-        if (collider)
-        {
-            Collision collision {collisionPoint.collision};
-            onCollisionWith(collision, *collider);
-            collider->onCollisionWith(collision.opposite(), *this);
-        }
+        if (!collider) continue;
+
+        Collision collision {collisionPoint.collision};
+        onCollisionWith(collision, *collider);
+        collider->onCollisionWith(collision.opposite(), *this);
     }
 }
 

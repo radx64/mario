@@ -23,9 +23,10 @@ PlayerPhysicsComponent::~PlayerPhysicsComponent()
 
 void PlayerPhysicsComponent::bouceOfCeiling(Object* ceilingBlock)
 {
+    (void) ceilingBlock;
     if (player_.velocity.y < 0.0)
     {
-        player_.position.y = ceilingBlock->position.y + ceilingBlock->size.y;
+        player_.velocity.y *= -1.0;
     }
 }
 

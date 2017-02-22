@@ -26,17 +26,16 @@ public:
         Jumping
     };
 
-
     Player(int type);
+
     virtual void update(std::vector<Object*> gameObjects) override;
+    virtual void draw() override;
     void onCollisionWith(Collision collision, Object& object);
+
     bool jumped_{false};
     State state{State::Standing};
 
 protected:
-    virtual void draw();
-    virtual void simulate();
-
     PlayerGraphicsComponent graphics_;
     PlayerPhysicsComponent physics_;
 };

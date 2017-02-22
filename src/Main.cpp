@@ -207,20 +207,23 @@ void Main::initGameObjects()
 
 void Main::scene()
 {
+    Timer profiler;
+    profiler.start();
     std::vector<Object*>::iterator it;
-    
     for (it = world_.level.backgroundObjects.begin(); it != world_.level.backgroundObjects.end();)
     {
         auto object = *it;
         object->update(std::vector<Object*>{});
-        if (object->dead)
-        {
-           world_.level.backgroundObjects.erase(it); 
-        }
-        else
-        {
-            ++it;
-        }
+        ++it;
+    }
+
+    if (world_.level.toSpawnObjects.size() > 0)
+    {
+        world_.level.gameObjects.insert(
+            world_.level.gameObjects.end(), 
+            world_.level.toSpawnObjects.begin(),
+            world_.level.toSpawnObjects.end());
+        world_.level.toSpawnObjects.clear();
     }
 
     for (it = world_.level.gameObjects.begin(); it != world_.level.gameObjects.end();)
@@ -237,20 +240,28 @@ void Main::scene()
         }
     }
 
-    if (world_.level.toSpawnObjects.size() > 0)
+    uint32_t physicsTime = profiler.getTicks();
+    profiler.start();
+    for(auto object : world_.level.backgroundObjects)
     {
-        world_.level.gameObjects.insert(
-            world_.level.gameObjects.end(), 
-            world_.level.toSpawnObjects.begin(),
-            world_.level.toSpawnObjects.end());
-
-        world_.level.toSpawnObjects.clear();
+        object->draw();
     }
+
+    for(auto object : world_.level.gameObjects)
+    {
+        object->draw();
+    }
+
+    uint32_t drawingTime = profiler.getTicks();
 
     int fps =  Context::getFpsCounter()->getLastMeasurement();
     auto text = Context::getTextRenderer();
     text->draw(std::string("FPS: " + std::to_string(fps)), width_ - 150, 4, 2.0);
-    text->draw(std::string("LMT: " + std::to_string((int)desiredFPS_)), width_ - 150, 20, 2.0);
+    text->draw(std::string("LMT: " + std::to_string((int)desiredFPS_)), width_ - 150, 20, 1.0);
+
+    text->draw(std::string("PHY: " + std::to_string(physicsTime) + " ms"), width_ - 150, 28, 1.0);
+    text->draw(std::string("DRW: " + std::to_string(drawingTime) + " ms"), width_ - 150, 36, 1.0);
+
     text->draw(std::string("frame : " + std::to_string(frame_)), 10, 4, 2.0);
 
     text->draw(std::string("PX: " + std::to_string(player_->position.x)), 10, 48, 1.0);

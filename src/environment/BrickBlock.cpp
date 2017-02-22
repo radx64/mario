@@ -32,7 +32,6 @@ void BrickBlock::draw()
 void BrickBlock::update(std::vector<Object*> gameObjects)
 {
     Object::update(gameObjects);
-    draw();
 }
 
 void BrickBlock::onCollisionWith(Collision collision, Object& object)

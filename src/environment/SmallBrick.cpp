@@ -41,9 +41,7 @@ void SmallBrick::update(std::vector<Object*> gameObjects)
 
     position += velocity_;
 
-    draw();
-
-    if ( position.y > 800)       // TODO: use real screen size for killing this particle
+    if ( position.y > 800)       // TODO: use real screen size for killing particles
     {
         dead = true;
     }

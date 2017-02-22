@@ -12,6 +12,7 @@ public:
     Object(int type);
     virtual ~Object();
     virtual void update(std::vector<Object*> gameObjects);
+    virtual void draw() = 0;
     virtual void onCollisionWith(Collision collision, Object& object) = 0;
 
     math::Vector2f position;
