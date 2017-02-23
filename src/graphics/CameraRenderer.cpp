@@ -50,8 +50,8 @@ void CameraRenderer::draw(SDL_Texture* texture, SDL_Rect* renderQuad, const Flip
 
 void CameraRenderer::draw(SDL_Texture* texture, SDL_Rect* source, SDL_Rect* destination)
 {
-    destination->x -= camera_->getX();
-    destination->y -= camera_->getY();
+    destination->x -= (int)camera_->getX();
+    destination->y -= (int)camera_->getY();
     if (isRenderNeeded(destination, camera_))
     {
         SDL_RenderCopy(Context::getSdlRenderer(), texture, source, destination);

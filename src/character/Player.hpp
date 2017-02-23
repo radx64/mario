@@ -31,6 +31,7 @@ public:
     virtual void update(std::vector<Object*> gameObjects) override;
     virtual void draw() override;
     void onCollisionWith(Collision collision, Object& object);
+    void setAnimationSpeed(short speed);
 
     bool jumped_{false};
     State state{State::Standing};

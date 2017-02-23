@@ -15,6 +15,7 @@ public:
     PlayerGraphicsComponent(Player& player);
     ~PlayerGraphicsComponent();
     void draw();
+    void setSpeed(short speed);
 
 protected:
     Player& player_;

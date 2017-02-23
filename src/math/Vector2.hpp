@@ -44,20 +44,20 @@ struct Vector2
         return Vector2{x/v.x, y.v.y};
     }
 
-    Vector2 operator*(const double d)
+    Vector2 operator*(const T d)
     {
         return Vector2{x*d, y*d};
     }
 
-    Vector2 operator/(const double d)
+    Vector2 operator/(const T d)
     {
         return Vector2{x/d, y/d};
-    }
+    } 
 
 };
 
 using Vector2i = Vector2<int32_t>;
-using Vector2f = Vector2<double>;
+using Vector2f = Vector2<float>;
 
 }  // namespace math
 

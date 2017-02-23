@@ -21,12 +21,13 @@ public:
     void onCollisionWith(Collision collision, Object& object);
 
 protected:
-    void bouceOfCeiling(Object* ceilingBlock);
+    void bouceOfCeiling();
 
     Player& player_;
 
-    const float grav_ {0.28};
-    const float horizontalMaxSpeed_ {7.0};
+    const float grav_ {0.20};
+    const float horizontalMaxSpeedWalk_ {1.0};
+    const float horizontalMaxSpeedRun_ {3.0};
 };
 
 

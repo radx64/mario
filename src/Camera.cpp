@@ -2,7 +2,7 @@
 
 void Camera::setX(int32_t x)
 {
-    x_ = x - 240;
+    x_ = x - 120.0;
 }
 
 void Camera::setY(int32_t y)

@@ -19,6 +19,11 @@ void AnimatedBitmap::draw(graphics::IRenderer* renderer, int x, int y, const Fli
     bitmapContainer_.get(*currentFrame_)->draw(renderer, x, y, f);
 }
 
+void AnimatedBitmap::setSpeed(short speed)
+{
+    speed_ = speed;
+}
+
 void AnimatedBitmap::nextFrame()
 {
     currentFrameLifeTime_++;

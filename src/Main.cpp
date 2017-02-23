@@ -34,7 +34,7 @@ If it ugly, hacky and and makes You cry, it should be done that way :).
 
 **/
 
-Main::Main(): width_(800), height_(600)
+Main::Main(): width_(640), height_(480)
 {
 
 }
@@ -110,11 +110,14 @@ void Main::init()
         return;
     }
 
-    SDL_SetWindowFullscreen(window_, 0);
+    SDL_MaximizeWindow(window_);
+    
+    //SDL_SetWindowFullscreen(window_, 1);
 
     renderer_ = SDL_CreateRenderer(window_, -1, SDL_RENDERER_ACCELERATED);
     SDL_SetRenderTarget(renderer_, NULL);
     Context::setSdlRenderer(renderer_);
+    SDL_RenderSetScale(renderer_, 4.0, 4.0);
 
     graphics::StillRenderer* stillRenderer = new graphics::StillRenderer();
     Context::setStillRenderer(stillRenderer);
@@ -193,11 +196,10 @@ void Main::clear()
 
 void Main::initGameObjects()
 {
-    auto objects = LevelLoader::load("../levels/0-0.lvl");
     world_.level = LevelLoader::load("../levels/0-0.lvl");
 
     Object* object = new character::Player(0);
-    object->position = {256, 400};
+    object->position = {64, 200};
 
     world_.level.gameObjects.push_back(object);
     player_ = object;
@@ -256,24 +258,24 @@ void Main::scene()
 
     int fps =  Context::getFpsCounter()->getLastMeasurement();
     auto text = Context::getTextRenderer();
-    text->draw(std::string("FPS: " + std::to_string(fps)), width_ - 150, 4, 2.0);
-    text->draw(std::string("LMT: " + std::to_string((int)desiredFPS_)), width_ - 150, 20, 1.0);
+    text->draw(std::string("FPS: " + std::to_string(fps)), width_/2 - 75, 4, 1.0);
+    text->draw(std::string("LMT: " + std::to_string((int)desiredFPS_)), width_/2 - 75, 20, 0.5);
 
-    text->draw(std::string("PHY: " + std::to_string(physicsTime) + " ms"), width_ - 150, 28, 1.0);
-    text->draw(std::string("DRW: " + std::to_string(drawingTime) + " ms"), width_ - 150, 36, 1.0);
+    text->draw(std::string("PHY: " + std::to_string(physicsTime) + " ms"), width_/2 - 75, 28, 0.5);
+    text->draw(std::string("DRW: " + std::to_string(drawingTime) + " ms"), width_/2 - 75, 36, 0.5);
+    text->draw(std::string("SLP: " + std::to_string((int)frameFreezeTime_) + " ms"), width_/2 - 75, 44, 0.5);
 
-    text->draw(std::string("frame : " + std::to_string(frame_)), 10, 4, 2.0);
+    text->draw(std::string("PLAYER X: " + std::to_string((int)player_->position.x)), 10, 20, 0.5);
+    text->draw(std::string("PLAYER Y: " + std::to_string((int)player_->position.y)), 10, 28, 0.5);
+    text->draw(std::string("PLAYER VX: " + std::to_string((int)player_->velocity.x)), 10, 36, 0.5);
+    text->draw(std::string("PLAYER VY: " + std::to_string((int)player_->velocity.y)), 10, 44, 0.5);
 
-    text->draw(std::string("PX: " + std::to_string(player_->position.x)), 10, 48, 1.0);
-    text->draw(std::string("PY: " + std::to_string(player_->position.y)), 10, 56, 1.0);
-
-
-    text->draw(std::string("BO: " + std::to_string(world_.level.backgroundObjects.size())), 10, 64, 1.0);
-    text->draw(std::string("GO: " + std::to_string(world_.level.gameObjects.size())), 10, 72, 1.0);
+    text->draw(std::string("BACKGROUND OBJECTS: " + std::to_string(world_.level.backgroundObjects.size())), 10, 52, 0.5);
+    text->draw(std::string("GAME OBJECTS: " + std::to_string(world_.level.gameObjects.size())), 10, 60, 0.5);
     auto world = Context::getWorld();
 
-    text->draw(std::string("LIVES: " + std::to_string(world->lives_)), 250, 4, 2.0);
-    text->draw(std::string("COINS: " + std::to_string(world->coins_)), 450, 4, 2.0);
+    text->draw(std::string("LIVES: " + std::to_string(world->lives_)), 25, 4, 1.0);
+    text->draw(std::string("COINS: " + std::to_string(world->coins_)), 125, 4, 1.0);
 }
 
 void Main::loop()
@@ -289,8 +291,8 @@ void Main::loop()
         scene();
 
         SDL_RenderPresent(renderer_);
-        double frameFreezeTime = 1000.0 / desiredFPS_ - frameTimer.getTicks();
-        SDL_Delay(frameFreezeTime < 0 ? 0 : frameFreezeTime);
+        frameFreezeTime_ = 1000.0 / desiredFPS_ - frameTimer.getTicks();
+        SDL_Delay(frameFreezeTime_ < 0 ? 0 : frameFreezeTime_);
         Context::getFpsCounter()->measure();
         ++frame_;
     }

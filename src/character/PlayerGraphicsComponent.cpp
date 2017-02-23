@@ -19,7 +19,7 @@ PlayerGraphicsComponent::PlayerGraphicsComponent(Player& player)
         BitmapType::MARIO_RUNNING_2,
         BitmapType::MARIO_RUNNING_0,
         BitmapType::MARIO_RUNNING_1},
-        4,
+        3,
         *Context::getBitmapsContainer()
     );
 
@@ -65,7 +65,13 @@ void PlayerGraphicsComponent::draw()
     }
 
     currentAnimation_->draw(Context::getStillRenderer(),
-        player_.position.x - camera->getX(), player_.position.y - camera->getY(), flip);
+        player_.position.x - camera->getX(),
+         player_.position.y - camera->getY(), flip);
+}
+
+void PlayerGraphicsComponent::setSpeed(short speed)
+{
+    currentAnimation_->setSpeed(speed);
 }
 
 }  // namespace character

@@ -37,10 +37,11 @@ void Player::update(std::vector<Object*> gameObjects)
 {
     physics_.simulate();
     Object::update(gameObjects);
-
-    Context::getTextRenderer()->draw(std::string("VX: ") + std::to_string(velocity.x),10,24,1.0);
-    Context::getTextRenderer()->draw(std::string("VY: ") + std::to_string(velocity.y),10,32,1.0);
 }
 
+void Player::setAnimationSpeed(short speed)
+{
+    graphics_.setSpeed(speed);
+}
 
 }  // namespace character

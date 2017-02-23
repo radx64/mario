@@ -40,7 +40,7 @@ void BrickBlock::onCollisionWith(Collision collision, Object& object)
     if (collision.get() == Collision::State::Bottom && !dead)
     {
         dead = true;
-        math::Vector2f spawnPoint = position + size / 2.0;
+        math::Vector2f spawnPoint = position + size / 2.0f;
 
         Object* brick = new SmallBrick(spawnPoint, {0.8, -7.0});
         Context::getWorld()->level.toSpawnObjects.push_back(brick);

@@ -24,6 +24,7 @@ public:
         BitmapsContainer& bitmapContainer);
     void draw(graphics::IRenderer* renderer, int x, int y);
     void draw(graphics::IRenderer* renderer, int x, int y, const FlipFlags& f);
+    void setSpeed(short speed);
     void nextFrame();
 
 private:

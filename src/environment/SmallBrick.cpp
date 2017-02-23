@@ -24,7 +24,7 @@ SmallBrick::SmallBrick(math::Vector2f initialPosition, math::Vector2f velocity)
 
     size.y = Context::getBitmapsContainer()->get(BitmapType::SMALL_BRICK_1)->getHeight();
     size.x = Context::getBitmapsContainer()->get(BitmapType::SMALL_BRICK_1)->getWidth();
-    position = initialPosition - size / 2.0;
+    position = initialPosition - size / 2.0f;
 }
 
 void SmallBrick::draw()
@@ -37,7 +37,7 @@ void SmallBrick::update(std::vector<Object*> gameObjects)
 {
     (void) gameObjects;
 
-    velocity_.y += 0.4;
+    velocity_.y += 0.4f;
 
     position += velocity_;
 

@@ -45,7 +45,8 @@ private:
     std::vector<Object*> gameObjects_;
     World world_;
     Object* player_;
-    float desiredFPS_{60.0};
+    float desiredFPS_{50.0};
+    double frameFreezeTime_;
 };
 
 #endif  // MAIN_HPP_

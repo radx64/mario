@@ -53,7 +53,7 @@ Level LevelLoader::load(std::string filename)
                 case 'v' : object = new environment::Background(BitmapType::PIPE_BOTTOM_RIGHT); break;
             }
 
-            object->position = {columnIndex * 32.0f, lineIndex * 32.0f};
+            object->position = {columnIndex * 16.0f, lineIndex * 16.0f};
 
             switch(c)
             {

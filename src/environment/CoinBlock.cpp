@@ -58,7 +58,7 @@ void CoinBlock::update(std::vector<Object*> gameObjects)
     if (bounce_)
     {
         bounceTick_++;
-        position.y = oryginalY_ - sin(bounceTick_/8.0)*32;
+        position.y = oryginalY_ - sin(bounceTick_/8.0)*16;
 
         if (bounceTick_ >= 25)
         {

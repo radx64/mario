@@ -20,11 +20,11 @@ void Object::update(std::vector<Object*> gameObjects)
     }
 
     std::vector<CollisionPoint> collisionsPoints{
-        {Collision::State::Bottom, {position.x + size.x*1.0/4.0, position.y+size.y-1.0}},
-        {Collision::State::Bottom, {position.x + size.x*3.0/4.0, position.y+size.y-1.0}},
-        {Collision::State::Top,    {position.x + size.x/2.0, position.y}},
-        {Collision::State::Left,   {position.x , position.y + size.y/2.0}},
-        {Collision::State::Right,  {position.x + size.x-1.0, position.y + size.y/2.0}},
+        {Collision::State::Bottom, {position.x + size.x*1.0f/4.0f,  position.y + size.y-1}},
+        {Collision::State::Bottom, {position.x + size.x*3.0f/4.0f,  position.y + size.y-1}},
+        {Collision::State::Top,    {position.x + size.x/2.0f,       position.y}},
+        {Collision::State::Left,   {position.x ,                    position.y + size.y/2.0f}},
+        {Collision::State::Right,  {position.x + size.x,            position.y + size.y/2.0f}},
     };
 
     for(auto collisionPoint : collisionsPoints)
@@ -42,10 +42,10 @@ Object* Object::getObjectAt(std::vector<Object*> gameObjects, math::Vector2f poi
 {
     for(auto object : gameObjects)  // this is not an optimal way to check collsions
     {                               // spatial cheking maybe divided to smaller sectors or something
-        if (object != this &&
+        if (object != this && // no collsion with self
             (point.x > object->position.x && point.x < object->position.x + object->size.x) &&
-            (point.y > object->position.y && point.y < object->position.y + object->size.y)
-            ) // no collsion with self
+            (point.y > object->position.y && point.y < object->position.y + object->size.y)) 
+
         {
             return object;
         }
