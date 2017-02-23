@@ -6,5 +6,5 @@ Reacreation of classic game in C++ and SDL2.
 
 
 <p align="center">
-  <img src="https://github.com/radx64/mario/blob/master/demo.gif?raw=true" alt="Logo image" width="80%" height="80%"/>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/yI7w8lrIqZk" frameborder="0" allowfullscreen></iframe>
 </p>
