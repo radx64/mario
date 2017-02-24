@@ -54,7 +54,11 @@ void Main::initBitmapsContainter()
 
     bitmaps_ = new BitmapsContainer(
     {
-        { BitmapType::BRICK_RED,            rootPath + "environment/brickred.bmp" },
+        { BitmapType::BRICK_RED,            rootPath + "environment/brickred.bmp"},
+        { BitmapType::COIN_PARTICLE_0,      rootPath + "environment/coin_particle_0.bmp"},
+        { BitmapType::COIN_PARTICLE_1,      rootPath + "environment/coin_particle_1.bmp"},
+        { BitmapType::COIN_PARTICLE_2,      rootPath + "environment/coin_particle_2.bmp"},
+        { BitmapType::COIN_PARTICLE_3,      rootPath + "environment/coin_particle_3.bmp"},
         { BitmapType::GROUND_RED,           rootPath + "environment/gnd_red_1.bmp"},
         { BitmapType::MARIO_JUMPING,        rootPath + "characters/mario/jump.bmp"},
         { BitmapType::MARIO_RUNNING_0,      rootPath + "characters/mario/move0.bmp"},

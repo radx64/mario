@@ -8,6 +8,7 @@
 #include "environment/CoinBlock.hpp"
 #include "environment/GroundBlock.hpp"
 #include "environment/Background.hpp"
+#include "math/Vector2.hpp"
 
 class Object;
 
@@ -30,12 +31,13 @@ Level LevelLoader::load(std::string filename)
         for (auto const& c : line)
         {   
             Object* object = nullptr;
+            math::Vector2f position = {columnIndex * 16.0f, lineIndex * 16.0f};
             switch(c)
             {   
                 case ' ' : columnIndex++; continue;
                 case '0' : object = new environment::GroundBlock(columnIndex*lineIndex); break;
                 case '1' : object = new environment::BrickBlock(columnIndex*lineIndex); break;
-                case '2' : object = new environment::CoinBlock(columnIndex*lineIndex); break;
+                case '2' : object = new environment::CoinBlock(columnIndex*lineIndex, position); break;
                 case 'q' : object = new environment::Background(BitmapType::BUSH_LEFT); break;
                 case 'w' : object = new environment::Background(BitmapType::BUSH_MIDDLE); break;
                 case 'e' : object = new environment::Background(BitmapType::BUSH_RIGHT); break;
@@ -53,7 +55,7 @@ Level LevelLoader::load(std::string filename)
                 case 'v' : object = new environment::Background(BitmapType::PIPE_BOTTOM_RIGHT); break;
             }
 
-            object->position = {columnIndex * 16.0f, lineIndex * 16.0f};
+            object->position = position;
 
             switch(c)
             {

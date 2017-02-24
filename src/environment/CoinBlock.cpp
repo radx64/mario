@@ -8,14 +8,16 @@
 #include "BitmapsContainer.hpp"
 #include "Camera.hpp"
 #include "Context.hpp"
+#include "environment/CoinParticle.hpp"
 #include "graphics/CameraRenderer.hpp"
 #include "World.hpp"
 
 namespace environment
 {
 
-CoinBlock::CoinBlock(int type) : Object(type)
+CoinBlock::CoinBlock(int type, math::Vector2f initialPosition) : Object(type)
 {
+    position = originalPosition = initialPosition;
     fullAnimation_ = new AnimatedBitmap({
         BitmapType::QUESTIONBLOCK_0,
         BitmapType::QUESTIONBLOCK_1,
@@ -58,13 +60,13 @@ void CoinBlock::update(std::vector<Object*> gameObjects)
     if (bounce_)
     {
         bounceTick_++;
-        position.y = oryginalY_ - sin(bounceTick_/8.0)*16;
+        position.y = originalPosition.y - sin(bounceTick_/3.0)*8.0f;
 
-        if (bounceTick_ >= 25)
+        if (bounceTick_ >= 10)
         {
             bounce_ = false;
             bounceTick_ = 0;
-            position.y = oryginalY_;
+            position.y = originalPosition.y;
         }
     }
 
@@ -79,10 +81,15 @@ void CoinBlock::onCollisionWith(Collision collision, Object& object)
     {
         if (!bounce_)
         {
-            oryginalY_ = position.y;
             bounce_ = true;
+            bounceTick_ = 0;
             --coins_;
             Context::getWorld()->coins_++;
+            math::Vector2f spawnPoint = position;
+            spawnPoint.x += size.x / 2.0f;
+            //spawnPoint.y -= size.y / 2.0f;
+            Object* coin = new CoinParticle(spawnPoint);
+            Context::getWorld()->level.toSpawnObjects.push_back(coin);
         }
     }
 

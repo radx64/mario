@@ -47,12 +47,12 @@ void PlayerPhysicsComponent::simulate()
         }
         else
         {
-            player_.velocity.y -= 0.02;
+            player_.velocity.y -= 0.015;
         }
     }
     else
     {
-       player_.velocity.y += 0.1;
+       player_.velocity.y += 0.05;
     }
 
     float horizontalAcceleration{};

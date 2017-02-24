@@ -1,9 +1,11 @@
 #ifndef ENVIRONMENT_COINBLOCK_HPP_
 #define ENVIRONMENT_COINBLOCK_HPP_
 
-#include "Object.hpp"
-#include "Bitmap.hpp"
 #include <memory>
+
+#include "Bitmap.hpp"
+#include "Object.hpp"
+#include "math/Vector2.hpp"
 
 class AnimatedBitmap;
 
@@ -13,7 +15,7 @@ namespace environment
 class CoinBlock : public Object
 {
 public:
-    CoinBlock(int type);
+    CoinBlock(int type, math::Vector2f position);
 
     virtual void draw() override;
     virtual void update(std::vector<Object*> gameObjects) override;
@@ -26,7 +28,7 @@ protected:
     int8_t coins_;
     bool bounce_{false};
     int8_t bounceTick_{0};
-    float oryginalY_{};
+    math::Vector2f originalPosition{};
 };
 
 }  // namespace environment
