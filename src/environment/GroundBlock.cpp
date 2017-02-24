@@ -14,7 +14,6 @@ namespace environment
 GroundBlock::GroundBlock(int type) : Object(type)
 {
     bitmap_ = Context::getBitmapsContainer()->get(BitmapType::GROUND_RED);
-
     size.y = bitmap_->getHeight();
     size.x = bitmap_->getWidth();
 }

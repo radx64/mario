@@ -15,12 +15,12 @@ TextRenderer::TextRenderer()
     b_ = 0xFF;
 }
 
-void TextRenderer::draw(const std::string text, const int& x, const int& y)
+void TextRenderer::draw(const std::string& text, const int& x, const int& y)
 {
     draw(text, x, y, 1.0f);
 }
 
-void TextRenderer::draw(const std::string text, const int& x, const int& y, const float& scale)
+void TextRenderer::draw(const std::string& text, const int& x, const int& y, const float& scale)
 {
     font_.setColor(r_, g_, b_);
     SDL_Rect crop{};

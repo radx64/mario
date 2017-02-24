@@ -18,7 +18,6 @@ namespace environment
 BrickBlock::BrickBlock(int type) : Object(type)
 {
     bitmap_ = Context::getBitmapsContainer()->get(BitmapType::BRICK_RED);
-
     size.x = bitmap_->getWidth();
     size.y = bitmap_->getHeight();
     moving = true;

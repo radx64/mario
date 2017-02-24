@@ -14,9 +14,9 @@ public:
 
 private:
     Timer timer_;
-    uint32_t lasttick_;
-    float lastMeasurement_;
-    const float smoothing_;
+    uint32_t lasttick_{};
+    float lastMeasurement_{};
+    const float smoothing_{};
 };
 
 #endif // FPS_COUNTER_HPP_

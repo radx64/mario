@@ -11,8 +11,8 @@ class TextRenderer
 {
 public:
     TextRenderer();
-    void draw(const std::string text, const int& x, const int& y);
-    void draw(const std::string text, const int& x, const int& y, const float& scale);
+    void draw(const std::string& text, const int& x, const int& y);
+    void draw(const std::string& text, const int& x, const int& y, const float& scale);
     void setColor(int r,int g, int b);
 
 private:

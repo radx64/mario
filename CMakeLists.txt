@@ -4,6 +4,8 @@ project (${projectName})
 
 enable_testing()
 
+include(cppcheck.cmake)
+
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR
     "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     set(warnings "-Wall -Wextra -Werror")

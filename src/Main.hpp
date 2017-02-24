@@ -35,18 +35,18 @@ private:
     KeyboardState keys_;
     bool running_{true};
     int frame_{};
-    SDL_Window* window_;
-    SDL_Renderer* renderer_;
+    SDL_Window* window_{};
+    SDL_Renderer* renderer_{};
     const unsigned int width_;
     const unsigned int height_;
-    BitmapsContainer* bitmaps_;
-    AnimatedBitmap* questionBlock_;
-    Context context_;
+    BitmapsContainer* bitmaps_{};
+    AnimatedBitmap* questionBlock_{};
+    Context context_{};
     std::vector<Object*> gameObjects_;
     World world_;
-    Object* player_;
+    Object* player_{};
     float desiredFPS_{50.0};
-    double frameFreezeTime_;
+    double frameFreezeTime_{};
 };
 
 #endif  // MAIN_HPP_
