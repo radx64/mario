@@ -28,7 +28,7 @@ public:
         Jumping
     };
 
-    Player(int type);
+    Player();
 
     virtual void onUpdate(std::vector<Object*> gameObjects) override;
     virtual void draw() override;

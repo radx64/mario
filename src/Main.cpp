@@ -1,5 +1,6 @@
 #include "Main.hpp"
 
+#include <algorithm>
 #include <stdexcept>
 #include <cmath>
 
@@ -205,7 +206,7 @@ void Main::initGameObjects()
 {
     world_.level = LevelLoader::load("../levels/0-0.lvl");
 
-    Object* object = new character::player::Player(0);
+    Object* object = new character::player::Player();
     object->position = {64, 200};
 
     world_.level.objects.push_back(object);
@@ -245,11 +246,12 @@ void Main::scene()
 
     uint32_t physicsTime = profiler.getTicks();
     profiler.start();
-    
-    for(auto object : world_.level.objects)
-    {
-        object->draw();
-    }
+
+    std::for_each(world_.level.objects.begin(), world_.level.objects.end(), 
+        [](Object* o){ if(o->type_ == ObjectType::Background) o->draw(); });
+
+    std::for_each(world_.level.objects.begin(), world_.level.objects.end(), 
+        [](Object* o){ if(o->type_ != ObjectType::Background) o->draw(); });
 
     uint32_t drawingTime = profiler.getTicks();
 

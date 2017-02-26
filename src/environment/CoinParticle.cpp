@@ -12,7 +12,7 @@ namespace environment
 {
 
 CoinParticle::CoinParticle(math::Vector2f initialPosition)
-: Object(0)
+: Object(ObjectType::Particle)
 {
     bitmap_ = new AnimatedBitmap({
     BitmapType::COIN_PARTICLE_0,

@@ -10,8 +10,8 @@ namespace character
 namespace player
 {
 
-Player::Player(int type)
-: Object(type),
+Player::Player()
+: Object(ObjectType::Player),
 graphics_(*this),
 physics_(*this)
 {

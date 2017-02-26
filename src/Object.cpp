@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-Object::Object(int type) : type_(type)
+Object::Object(ObjectType type) : type_(type)
 {
 }
 

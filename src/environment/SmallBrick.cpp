@@ -12,7 +12,7 @@ namespace environment
 {
 
 SmallBrick::SmallBrick(math::Vector2f initialPosition, math::Vector2f velocity)
-: Object(0),
+: Object(ObjectType::Particle),
     velocity_(velocity)
 {
     bitmap_ = new AnimatedBitmap({

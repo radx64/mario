@@ -11,7 +11,7 @@ namespace environment
 class BrickBlock : public Object
 {
 public:
-    BrickBlock(int type);
+    BrickBlock();
 
     virtual void draw() override;
     virtual void onUpdate(std::vector<Object*> gameObjects) override;

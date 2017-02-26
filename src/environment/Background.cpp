@@ -7,7 +7,7 @@
 namespace environment
 {
 
-Background::Background(BitmapType bitmap) : Object(0)
+Background::Background(BitmapType bitmap) : Object(ObjectType::Background)
 {
     bitmap_ = Context::getBitmapsContainer()->get(bitmap);
     size.y = bitmap_->getHeight();

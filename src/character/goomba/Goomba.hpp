@@ -16,7 +16,7 @@ namespace goomba
 class Goomba : public Object
 {
 public:
-    Goomba(int type);
+    Goomba();
 
     virtual void draw() override;
     virtual void onUpdate(std::vector<Object*> gameObjects) override;

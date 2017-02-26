@@ -15,7 +15,7 @@
 namespace environment
 {
 
-BrickBlock::BrickBlock(int type) : Object(type)
+BrickBlock::BrickBlock() : Object(ObjectType::Environment)
 {
     bitmap_ = Context::getBitmapsContainer()->get(BitmapType::BRICK_RED);
     size.x = bitmap_->getWidth();

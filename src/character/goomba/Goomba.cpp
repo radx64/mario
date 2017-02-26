@@ -13,7 +13,7 @@ namespace character
 namespace goomba
 {
 
-Goomba::Goomba(int type) : Object(type)
+Goomba::Goomba() : Object(ObjectType::Enemy)
 {
     walking_ = new AnimatedBitmap({
         BitmapType::GOOMBA_WALK_0,

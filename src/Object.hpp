@@ -6,10 +6,20 @@
 
 #include "Collision.hpp"
 
+enum class ObjectType
+{
+    Background,
+    Enemy,
+    Environment,
+    Particle,
+    Player,
+    Undefined
+};
+
 class Object
 {
 public:
-    Object(int type);
+    Object(ObjectType type);
     virtual ~Object();
     void update(std::vector<Object*> gameObjects);
     virtual void onUpdate(std::vector<Object*> gameObjects) = 0;
@@ -33,7 +43,7 @@ public:
     bool dead{false};
         // used for dead bodies cleanup
 
-    int type_{};  // this will be removed later, temporary hack for object type detection
+    ObjectType type_{ObjectType::Undefined};  // this will be removed later, temporary hack for object type detection
 
 protected:
 

@@ -13,7 +13,7 @@
 namespace environment
 {
 
-CoinBlock::CoinBlock(int type, math::Vector2f initialPosition) : Object(type)
+CoinBlock::CoinBlock(math::Vector2f initialPosition) : Object(ObjectType::Environment)
 {
     position = originalPosition = initialPosition;
     fullAnimation_ = new AnimatedBitmap({

@@ -35,9 +35,9 @@ Level LevelLoader::load(std::string filename)
             switch(c)
             {   
                 case ' ' : columnIndex++; continue;
-                case '0' : object = new environment::GroundBlock(columnIndex*lineIndex); break;
-                case '1' : object = new environment::BrickBlock(columnIndex*lineIndex); break;
-                case '2' : object = new environment::CoinBlock(columnIndex*lineIndex, position); break;
+                case '0' : object = new environment::GroundBlock(); break;
+                case '1' : object = new environment::BrickBlock(); break;
+                case '2' : object = new environment::CoinBlock(position); break;
                 case 'q' : object = new environment::Background(BitmapType::BUSH_LEFT); break;
                 case 'w' : object = new environment::Background(BitmapType::BUSH_MIDDLE); break;
                 case 'e' : object = new environment::Background(BitmapType::BUSH_RIGHT); break;
@@ -47,7 +47,7 @@ Level LevelLoader::load(std::string filename)
                 case 'f' : object = new environment::Background(BitmapType::HILL_MIDDLE); break;
                 case 'g' : object = new environment::Background(BitmapType::HILL_RIGHT); break;
                 case 'h' : object = new environment::Background(BitmapType::HILL_TOP); break;
-                case 'p' : object = new character::goomba::Goomba(1); break;
+                case 'p' : object = new character::goomba::Goomba(); break;
 
                 /** background but collidable - nasty hack for now **/
                 case 'z' : object = new environment::Background(BitmapType::PIPE_TOP_LEFT); object->collidable = true; break;

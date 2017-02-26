@@ -13,7 +13,7 @@ namespace environment
 class GroundBlock : public Object
 {
 public:
-    GroundBlock(int type);
+    GroundBlock();
 
     virtual void draw() override;
     virtual void onUpdate(std::vector<Object*> gameObjects) override;

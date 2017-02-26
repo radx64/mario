@@ -15,7 +15,7 @@ namespace environment
 class CoinBlock : public Object
 {
 public:
-    CoinBlock(int type, math::Vector2f position);
+    CoinBlock(math::Vector2f position);
 
     virtual void draw() override;
     virtual void onUpdate(std::vector<Object*> gameObjects) override;
