@@ -1,17 +1,19 @@
-#ifndef CHARACTER_PLAYER_HPP_
-#define CHARACTER_PLAYER_HPP_
+#ifndef CHARACTER_PLAYER_PLAYER_HPP_
+#define CHARACTER_PLAYER_PLAYER_HPP_
 
 #include <vector>
 #include <utility>
 
 #include "AnimatedBitmap.hpp"
+#include "character/player/GraphicsComponent.hpp"
+#include "character/player/PhysicsComponent.hpp"
 #include "Object.hpp"
-#include "PlayerGraphicsComponent.hpp"
-#include "PlayerPhysicsComponent.hpp"
 
 class Context;
 
 namespace character
+{
+namespace player
 {
 
 class Player : public Object
@@ -37,10 +39,11 @@ public:
     State state{State::Standing};
 
 protected:
-    PlayerGraphicsComponent graphics_;
-    PlayerPhysicsComponent physics_;
+    GraphicsComponent graphics_;
+    PhysicsComponent physics_;
 };
 
+}  // namespace player
 }  // namespace character
 
-#endif  // CHARACTER_PLAYER_HPP_
+#endif  // CHARACTER_PLAYER_PLAYER_HPP_

@@ -1,4 +1,4 @@
-#include "PlayerGraphicsComponent.hpp"
+#include "character/player/GraphicsComponent.hpp"
 
 #include <SDL2/SDL.h>
 
@@ -11,8 +11,10 @@
 
 namespace character
 {
+namespace player
+{
 
-PlayerGraphicsComponent::PlayerGraphicsComponent(Player& player)
+GraphicsComponent::GraphicsComponent(Player& player)
 : player_(player)
 {
     runningAnimation_ = new AnimatedBitmap({
@@ -38,9 +40,7 @@ PlayerGraphicsComponent::PlayerGraphicsComponent(Player& player)
     currentAnimation_ = standingAnimation_;
 }
 
-PlayerGraphicsComponent::~PlayerGraphicsComponent(){}
-
-void PlayerGraphicsComponent::draw()
+void GraphicsComponent::draw()
 {
    currentAnimation_->nextFrame();
 
@@ -69,9 +69,10 @@ void PlayerGraphicsComponent::draw()
          player_.position.y - camera->getY(), flip);
 }
 
-void PlayerGraphicsComponent::setSpeed(short speed)
+void GraphicsComponent::setSpeed(short speed)
 {
     currentAnimation_->setSpeed(speed);
 }
 
+}  // namespace player
 }  // namespace character

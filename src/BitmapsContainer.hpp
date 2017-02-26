@@ -5,44 +5,10 @@
 #include <memory>
 #include <string>
 
+#include "BitmapType.hpp"
+
 class Bitmap;
 class SDL_Renderer;
-
-enum class BitmapType
-{
-    BRICK_RED,
-    BUSH_LEFT,
-    BUSH_MIDDLE,
-    BUSH_RIGHT,
-    COIN_PARTICLE_0,
-    COIN_PARTICLE_1,
-    COIN_PARTICLE_2,
-    COIN_PARTICLE_3,
-    GROUND_RED,
-    HILL_LEFT,
-    HILL_MIDDLE,
-    HILL_MIDDLE_2,
-    HILL_MIDDLE_3,
-    HILL_RIGHT,
-    HILL_TOP,
-    MARIO_JUMPING,
-    MARIO_RUNNING_0,
-    MARIO_RUNNING_1,
-    MARIO_RUNNING_2,
-    MARIO_SLIDING,
-    MARIO_STANDING,
-    QUESTIONBLOCK_0,
-    QUESTIONBLOCK_1,
-    QUESTIONBLOCK_2,
-    SQUID_0,
-    SQUID_1,
-    PIPE_TOP_LEFT,
-    PIPE_TOP_RIGHT,
-    PIPE_BOTTOM_LEFT,
-    PIPE_BOTTOM_RIGHT,
-    SMALL_BRICK_1,
-    SMALL_BRICK_2
-};
 
 class BitmapsContainer
 {

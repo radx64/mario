@@ -1,7 +1,6 @@
-#include "PlayerPhysicsComponent.hpp"
+#include "character/player/PhysicsComponent.hpp"
 
 #include <cmath>
-#include <iostream>
 
 #include "Camera.hpp"
 #include "Context.hpp"
@@ -9,19 +8,18 @@
 #include "KeyboardState.hpp"
 #include "World.hpp"
 
-#include <SDL2/SDL.h>
+//#include <SDL2/SDL.h>
 
 namespace character
 {
+namespace player
+{
 
-PlayerPhysicsComponent::PlayerPhysicsComponent(Player& player)
+PhysicsComponent::PhysicsComponent(Player& player)
 : player_(player)
 {}
 
-PlayerPhysicsComponent::~PlayerPhysicsComponent()
-{}
-
-void PlayerPhysicsComponent::bouceOfCeiling()
+void PhysicsComponent::bouceOfCeiling()
 {
     if (player_.velocity.y < 0.0)
     {
@@ -29,7 +27,7 @@ void PlayerPhysicsComponent::bouceOfCeiling()
     }
 }
 
-void PlayerPhysicsComponent::simulate()
+void PhysicsComponent::simulate()
 {
     auto keys = Context::getKeyboardState();
 
@@ -91,7 +89,7 @@ void PlayerPhysicsComponent::simulate()
     Context::getCamera()->setY(player_.position.y);
 }
 
-void PlayerPhysicsComponent::onCollisionWith(Collision collision, Object& object)
+void PhysicsComponent::onCollisionWith(Collision collision, Object& object)
 {
     if (collision.get() == Collision::State::Bottom)
     {
@@ -119,4 +117,5 @@ void PlayerPhysicsComponent::onCollisionWith(Collision collision, Object& object
 
 }
 
+}  // namespace player
 }  // namespace character

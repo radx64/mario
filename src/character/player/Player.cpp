@@ -1,15 +1,13 @@
 #include "Player.hpp"
 
-#include <iostream>
-
-#include <SDL2/SDL.h>
-
 #include "Bitmap.hpp"
 #include "BitmapsContainer.hpp"
 #include "Context.hpp"
 #include "TextRenderer.hpp"
 
 namespace character
+{
+namespace player
 {
 
 Player::Player(int type)
@@ -44,4 +42,5 @@ void Player::setAnimationSpeed(short speed)
     graphics_.setSpeed(speed);
 }
 
+}  // namespace player
 }  // namespace character

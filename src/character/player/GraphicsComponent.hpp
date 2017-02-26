@@ -1,19 +1,19 @@
-#ifndef CHARACTER_PLAYERGRAPHICSCOMPONENT_HPP_
-#define CHARACTER_PLAYERGRAPHICSCOMPONENT_HPP_
-
-#include <vector>
+#ifndef CHARACTER_PLAYER_GRAPHICSCOMPONENT_HPP_
+#define CHARACTER_PLAYER_GRAPHICSCOMPONENT_HPP_
 
 class AnimatedBitmap;
 
 namespace character
 {
+namespace player
+{
+
 class Player;
 
-class PlayerGraphicsComponent
+class GraphicsComponent
 {
 public:
-    PlayerGraphicsComponent(Player& player);
-    ~PlayerGraphicsComponent();
+    GraphicsComponent(Player& player);
     void draw();
     void setSpeed(short speed);
 
@@ -25,9 +25,9 @@ protected:
     AnimatedBitmap* slideAnimation_;
     AnimatedBitmap* jumpAnimation_;
     AnimatedBitmap* currentAnimation_;
-    std::vector<std::pair<int,int>> debugFrames_;
 };
 
+}  // namespace player
 }  // namespace character
 
-#endif  // CHARACTER_PLAYERGRAPHICSCOMPONENT_HPP_
+#endif  // CHARACTER_PLAYER_GRAPHICSCOMPONENT_HPP_

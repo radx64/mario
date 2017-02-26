@@ -1,8 +1,6 @@
 #include "CoinBlock.hpp"
 
-#include <iostream>
-
-#include <SDL2/SDL.h>
+#include <cmath>
 
 #include "AnimatedBitmap.hpp"
 #include "BitmapsContainer.hpp"

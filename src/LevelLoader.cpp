@@ -4,6 +4,7 @@
 #include <fstream>
 #include <vector> 
 
+#include "character/goomba/Goomba.hpp"
 #include "environment/BrickBlock.hpp"
 #include "environment/CoinBlock.hpp"
 #include "environment/GroundBlock.hpp"
@@ -47,6 +48,7 @@ Level LevelLoader::load(std::string filename)
                 case 'f' : object = new environment::Background(BitmapType::HILL_MIDDLE); break;
                 case 'g' : object = new environment::Background(BitmapType::HILL_RIGHT); break;
                 case 'h' : object = new environment::Background(BitmapType::HILL_TOP); break;
+                case 'p' : object = new character::goomba::Goomba(1); break;
 
                 /** background but collidable - nasty hack for now **/
                 case 'z' : object = new environment::Background(BitmapType::PIPE_TOP_LEFT); break;
@@ -64,7 +66,8 @@ Level LevelLoader::load(std::string filename)
                 case '2': 
                 case 'z':
                 case 'x':
-                case 'c': 
+                case 'c':
+                case 'p': 
                 case 'v': gameObjects.push_back(object); break;
 
                 case 'q': 

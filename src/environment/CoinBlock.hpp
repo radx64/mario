@@ -4,8 +4,8 @@
 #include <memory>
 
 #include "Bitmap.hpp"
-#include "Object.hpp"
 #include "math/Vector2.hpp"
+#include "Object.hpp"
 
 class AnimatedBitmap;
 

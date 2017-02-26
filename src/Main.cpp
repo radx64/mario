@@ -15,10 +15,7 @@
 #include "World.hpp"
 
 
-#include "character/Player.hpp"
-#include "environment/BrickBlock.hpp"
-#include "environment/CoinBlock.hpp"
-#include "environment/GroundBlock.hpp"
+#include "character/player/Player.hpp"
 #include "graphics/StillRenderer.hpp"
 #include "graphics/CameraRenderer.hpp"
 
@@ -80,6 +77,9 @@ void Main::initBitmapsContainter()
         { BitmapType::HILL_MIDDLE_3,        rootPath + "environment/hill_middle_3.bmp"},
         { BitmapType::HILL_RIGHT,           rootPath + "environment/hill_right.bmp"},
         { BitmapType::HILL_TOP,             rootPath + "environment/hill_top.bmp"},
+        { BitmapType::GOOMBA_WALK_0,        rootPath + "characters/goomba/walk0.bmp"},
+        { BitmapType::GOOMBA_WALK_1,        rootPath + "characters/goomba/walk1.bmp"},
+        { BitmapType::GOOMBA_SQUASHED,      rootPath + "characters/goomba/squashed.bmp"},
         { BitmapType::PIPE_TOP_LEFT,        rootPath + "environment/pipe_top_left.bmp"},
         { BitmapType::PIPE_TOP_RIGHT,       rootPath + "environment/pipe_top_right.bmp"},
         { BitmapType::PIPE_BOTTOM_LEFT,     rootPath + "environment/pipe_bottom_left.bmp"},
@@ -181,6 +181,9 @@ void Main::input()
                 case SDLK_RETURN:
                     keys_.enter = isKeyDown;
                     break;
+                case SDLK_q:
+                    running_ = isKeyDown;
+                    break;
                 case SDLK_1:
                     desiredFPS_ -= 1.0;
                     break;
@@ -202,7 +205,7 @@ void Main::initGameObjects()
 {
     world_.level = LevelLoader::load("../levels/0-0.lvl");
 
-    Object* object = new character::Player(0);
+    Object* object = new character::player::Player(0);
     object->position = {64, 200};
 
     world_.level.gameObjects.push_back(object);

@@ -43,5 +43,6 @@ int main(int argc, char** argv)
     {
         std::cerr << "Exception was thrown" << std::endl;
     }
+    std::cout << "Good bye!" << std::endl;
     return 0;
 }
