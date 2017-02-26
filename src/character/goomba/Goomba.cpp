@@ -56,7 +56,7 @@ void Goomba::update(std::vector<Object*> gameObjects)
     else if (state_ == State::Dying)
     {
         dyingCounter_ += 1;
-        if(dyingCounter_ > 150)
+        if(dyingCounter_ > 15)
         {
             dead = true;
         }

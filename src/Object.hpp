@@ -26,6 +26,8 @@ public:
 
     bool moving {false};
         // if object is not moving there is no point to check by it is it colliding with anything
+        // long story short - only moving objects are checking collisions with collidable objects.
+
 
     bool dead{false};
 
