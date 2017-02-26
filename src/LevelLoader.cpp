@@ -17,8 +17,7 @@ class Object;
 
 Level LevelLoader::load(std::string filename)
 {
-    std::vector<Object*> collidableObjects;
-    std::vector<Object*> nonCollidableObjects;
+    std::vector<Object*> objects;
     std::ifstream levelFile(filename);
     if (!levelFile.is_open())
     {
@@ -58,18 +57,11 @@ Level LevelLoader::load(std::string filename)
             }
 
             object->position = position;
-
-            if (object->collidable)
-            {
-                collidableObjects.push_back(object); 
-            }
-            else
-            {
-                nonCollidableObjects.push_back(object);
-            }
+            objects.push_back(object);
+            
             columnIndex++;
         }
         lineIndex++;
     }
-    return Level {collidableObjects, nonCollidableObjects, {}};
+    return Level {objects, {}};
 }

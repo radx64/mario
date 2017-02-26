@@ -114,14 +114,14 @@ void Main::init()
         return;
     }
 
-    //SDL_MaximizeWindow(window_);
+    SDL_MaximizeWindow(window_);
     
     //SDL_SetWindowFullscreen(window_, 1);
 
     renderer_ = SDL_CreateRenderer(window_, -1, SDL_RENDERER_ACCELERATED);
     SDL_SetRenderTarget(renderer_, NULL);
     Context::setSdlRenderer(renderer_);
-    SDL_RenderSetScale(renderer_, 2.0, 2.0);
+    SDL_RenderSetScale(renderer_, 4.0, 4.0);
 
     graphics::StillRenderer* stillRenderer = new graphics::StillRenderer();
     Context::setStillRenderer(stillRenderer);
@@ -208,7 +208,7 @@ void Main::initGameObjects()
     Object* object = new character::player::Player(0);
     object->position = {64, 200};
 
-    world_.level.collidableObjects.push_back(object);
+    world_.level.objects.push_back(object);
     player_ = object;
     // remember to destroy objects above when done, duh...
 }
@@ -219,32 +219,13 @@ void Main::scene()
     Timer profiler;
     profiler.start();
     std::vector<Object*>::iterator it;
-    for (it = world_.level.nonCollidableObjects.begin(); it != world_.level.nonCollidableObjects.end();)
+    for (it = world_.level.objects.begin(); it != world_.level.objects.end();)
     {
         auto object = *it;
-        object->update(std::vector<Object*>{});
+        object->update(world_.level.objects);
         if (object->dead)
         {
-           it = world_.level.nonCollidableObjects.erase(it); 
-        }
-        else
-        {
-            ++it;
-        }
-    }
-
-    for (it = world_.level.collidableObjects.begin(); it != world_.level.collidableObjects.end();)
-    {
-        auto object = *it;
-        object->update(world_.level.collidableObjects);
-        if (!object->collidable)
-        {
-            world_.level.nonCollidableObjects.push_back(object);
-            it = world_.level.collidableObjects.erase(it); 
-        }
-        else if (object->dead)
-        {
-           it = world_.level.collidableObjects.erase(it); 
+           it = world_.level.objects.erase(it); 
         }
         else
         {
@@ -257,26 +238,15 @@ void Main::scene()
 
         for (auto objectToSpawn : world_.level.toSpawnObjects)
         {
-            if (objectToSpawn->collidable)
-            {
-               world_.level.collidableObjects.push_back(objectToSpawn);
-            }
-            else
-            {
-                world_.level.nonCollidableObjects.push_back(objectToSpawn);
-            }
+            world_.level.objects.push_back(objectToSpawn);
         }
         world_.level.toSpawnObjects.clear();
     }
 
     uint32_t physicsTime = profiler.getTicks();
     profiler.start();
-    for(auto object : world_.level.nonCollidableObjects)
-    {
-        object->draw();
-    }
-
-    for(auto object : world_.level.collidableObjects)
+    
+    for(auto object : world_.level.objects)
     {
         object->draw();
     }
@@ -297,8 +267,7 @@ void Main::scene()
     text->draw(std::string("PLAYER VX: " + std::to_string((int)player_->velocity.x)), 10, 36, 0.5);
     text->draw(std::string("PLAYER VY: " + std::to_string((int)player_->velocity.y)), 10, 44, 0.5);
 
-    text->draw(std::string("NON COLLDIABLE OBJECTS: " + std::to_string(world_.level.nonCollidableObjects.size())), 10, 52, 0.5);
-    text->draw(std::string("COLLIDABLE OBJECTS: " + std::to_string(world_.level.collidableObjects.size())), 10, 60, 0.5);
+    text->draw(std::string("OBJECTS: " + std::to_string(world_.level.objects.size())), 10, 60, 0.5);
     auto world = Context::getWorld();
 
     text->draw(std::string("LIVES: " + std::to_string(world->lives_)), 25, 4, 1.0);

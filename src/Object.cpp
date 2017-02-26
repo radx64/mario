@@ -45,6 +45,7 @@ Object* Object::getObjectAt(std::vector<Object*> gameObjects, math::Vector2f poi
     for(auto object : gameObjects)  // this is not an optimal way to check collsions
     {                               // spatial cheking maybe divided to smaller sectors or something
         if (object != this && // no collsion with self
+            object->collidable &&
             (point.x > object->position.x && point.x < object->position.x + object->size.x) &&
             (point.y > object->position.y && point.y < object->position.y + object->size.y)) 
 

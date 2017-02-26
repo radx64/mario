@@ -39,8 +39,8 @@ Goomba::Goomba(int type) : Object(type)
 
 void Goomba::draw()
 {
-    currentAnimation_->draw(Context::getCameraRenderer(), position.x, position.y);
     currentAnimation_->nextFrame();
+    currentAnimation_->draw(Context::getCameraRenderer(), position.x, position.y);
 }
 
 void Goomba::onUpdate(std::vector<Object*> gameObjects)
