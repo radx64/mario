@@ -8,8 +8,6 @@
 #include "World.hpp"
 #include "math/Vector2.hpp"
 
-#include <iostream>
-
 namespace character
 {
 namespace goomba
@@ -71,7 +69,6 @@ void Goomba::onCollisionWith(Collision collision, Object& object)
         collidable = false;
         currentAnimation_ = squashed_;
         position.y += Context::getBitmapsContainer()->get(BitmapType::GOOMBA_SQUASHED)->getHeight();
-        std::cout <<"T:"<< position.y << std::endl;
         return;
     }
 
