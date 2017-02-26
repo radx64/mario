@@ -20,8 +20,6 @@ if (NOT CONFIGURED_ONCE)
         CACHE STRING "Flags used by the compiler during all build types." FORCE)
 endif()
 
-find_package(SDL2 REQUIRED)
-
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}
 					src
                     libs)
