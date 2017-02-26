@@ -43,12 +43,12 @@ void Goomba::draw()
     currentAnimation_->nextFrame();
 }
 
-void Goomba::update(std::vector<Object*> gameObjects)
+void Goomba::onUpdate(std::vector<Object*> gameObjects)
 {
     if(state_ == State::Walking)
     {
         velocity.y += grav_;
-        Object::update(gameObjects);
+        findCollisions(gameObjects);
         position += velocity;
     }
     else if (state_ == State::Dying)

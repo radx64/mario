@@ -25,9 +25,9 @@ void GroundBlock::draw()
     bitmap_->draw(Context::getCameraRenderer(), position.x, position.y);
 }
 
-void GroundBlock::update(std::vector<Object*> gameObjects)
+void GroundBlock::onUpdate(std::vector<Object*> gameObjects)
 {
-    Object::update(gameObjects);
+    (void) gameObjects;
 }
 
 void GroundBlock::onCollisionWith(Collision collision, Object& object)

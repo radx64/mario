@@ -32,10 +32,10 @@ void Player::onCollisionWith(Collision collision, Object& object)
     physics_.onCollisionWith(collision, object);
 }
 
-void Player::update(std::vector<Object*> gameObjects)
+void Player::onUpdate(std::vector<Object*> gameObjects)
 {
     physics_.simulate();
-    Object::update(gameObjects);
+    findCollisions(gameObjects);
 }
 
 void Player::setAnimationSpeed(short speed)

@@ -30,7 +30,7 @@ public:
 
     Player(int type);
 
-    virtual void update(std::vector<Object*> gameObjects) override;
+    virtual void onUpdate(std::vector<Object*> gameObjects) override;
     virtual void draw() override;
     void onCollisionWith(Collision collision, Object& object);
     void setAnimationSpeed(short speed);

@@ -11,7 +11,8 @@ class Object
 public:
     Object(int type);
     virtual ~Object();
-    virtual void update(std::vector<Object*> gameObjects);
+    void update(std::vector<Object*> gameObjects);
+    virtual void onUpdate(std::vector<Object*> gameObjects) = 0;
     virtual void draw() = 0;
     virtual void onCollisionWith(Collision collision, Object& object) = 0;
 
@@ -30,17 +31,22 @@ public:
 
 
     bool dead{false};
+        // used for dead bodies cleanup
 
-    int type_{};  // this will be removed later, temporary hack for object detection
+    int type_{};  // this will be removed later, temporary hack for object type detection
 
 protected:
-    Object* getObjectAt(std::vector<Object*> gameObjects, math::Vector2f point);
 
     struct CollisionPoint
     {
         Collision collision;
         math::Vector2f point;
     };
+
+    void findCollisions(std::vector<Object*> gameObjects);
+    Object* getObjectAt(std::vector<Object*> gameObjects, math::Vector2f point);
+
+    uint32_t lifetime_{0};
 };
 
 #endif  //OBJECT_HPP_

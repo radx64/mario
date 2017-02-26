@@ -16,7 +16,7 @@ public:
     GroundBlock(int type);
 
     virtual void draw() override;
-    virtual void update(std::vector<Object*> gameObjects) override;
+    virtual void onUpdate(std::vector<Object*> gameObjects) override;
     virtual void onCollisionWith(Collision collision, Object& object) override;
 
 protected:

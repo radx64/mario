@@ -54,9 +54,9 @@ void CoinBlock::draw()
     currentAnimation_->nextFrame();
 }
 
-void CoinBlock::update(std::vector<Object*> gameObjects)
+void CoinBlock::onUpdate(std::vector<Object*> gameObjects)
 {
-    Object::update(gameObjects);
+    (void) gameObjects;
     if (bounce_)
     {
         bounceTick_++;

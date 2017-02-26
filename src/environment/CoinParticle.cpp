@@ -36,7 +36,7 @@ void CoinParticle::draw()
     bitmap_->nextFrame();
 }
 
-void CoinParticle::update(std::vector<Object*> gameObjects)
+void CoinParticle::onUpdate(std::vector<Object*> gameObjects)
 {
     (void) gameObjects;
     lifetime_++;

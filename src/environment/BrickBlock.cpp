@@ -28,9 +28,9 @@ void BrickBlock::draw()
     bitmap_->draw(Context::getCameraRenderer(), position.x, position.y);
 }
 
-void BrickBlock::update(std::vector<Object*> gameObjects)
+void BrickBlock::onUpdate(std::vector<Object*> gameObjects)
 {
-    Object::update(gameObjects);
+    (void) gameObjects;
 }
 
 void BrickBlock::onCollisionWith(Collision collision, Object& object)

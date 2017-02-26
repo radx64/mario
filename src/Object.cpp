@@ -12,7 +12,13 @@ Object::~Object()
 {
 }
 
-void Object::update(std::vector<Object*> collidableObjects)
+void Object::update(std::vector<Object*> gameObjects)
+{
+    ++lifetime_;
+    onUpdate(gameObjects);
+}
+
+void Object::findCollisions(std::vector<Object*> collidableObjects)
 {
     if (!moving) return;
     std::vector<CollisionPoint> collisionsPoints{

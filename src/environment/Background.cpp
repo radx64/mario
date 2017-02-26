@@ -19,7 +19,7 @@ void Background::draw()
     bitmap_->draw(Context::getCameraRenderer(), position.x, position.y);
 }
 
-void Background::update(std::vector<Object*> gameObjects)
+void Background::onUpdate(std::vector<Object*> gameObjects)
 {
     (void) gameObjects;
 }

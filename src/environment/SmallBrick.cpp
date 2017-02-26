@@ -35,7 +35,7 @@ void SmallBrick::draw()
     bitmap_->nextFrame();
 }
 
-void SmallBrick::update(std::vector<Object*> gameObjects)
+void SmallBrick::onUpdate(std::vector<Object*> gameObjects)
 {
     (void) gameObjects;
 
