@@ -19,10 +19,12 @@ public:
     math::Vector2f velocity;  
     math::Vector2f size;
 
-    bool moving{false};  // this will make collsions calculations faster (now info is staticaly initialized
-                         // in constructor but can be dynamically calculated)
+    bool collidable {false};  
+        // this will make collsions calculations faster (now info is staticaly initialized
+        // in constructor but can be dynamically calculated later)
+        // some objects shouldn't be collidable (little bricks, dead bodies, etc)
 
-    bool dead {false};
+    bool dead{false};
 
     int type_{};  // this will be removed later, temporary hack for object detection
 

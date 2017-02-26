@@ -18,7 +18,7 @@ physics_(*this)
     auto bitmap = Context::getBitmapsContainer()->get(BitmapType::MARIO_RUNNING_0);
     size.y = bitmap->getHeight();
     size.x = bitmap->getWidth();
-    moving = true;
+    collidable = true;
 }
 
 void Player::draw()

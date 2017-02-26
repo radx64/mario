@@ -26,6 +26,8 @@ CoinParticle::CoinParticle(math::Vector2f initialPosition)
     size.x = Context::getBitmapsContainer()->get(BitmapType::COIN_PARTICLE_0)->getWidth();
     position = initialPosition_ = initialPosition - size / 2.0f;
     position.y -= size.y;
+
+    collidable = false;
 }
 
 void CoinParticle::draw()

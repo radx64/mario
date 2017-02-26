@@ -17,8 +17,8 @@ class Object;
 
 Level LevelLoader::load(std::string filename)
 {
-    std::vector<Object*> gameObjects;
-    std::vector<Object*> backgroundObjects;
+    std::vector<Object*> collidableObjects;
+    std::vector<Object*> nonCollidableObjects;
     std::ifstream levelFile(filename);
     if (!levelFile.is_open())
     {
@@ -51,38 +51,25 @@ Level LevelLoader::load(std::string filename)
                 case 'p' : object = new character::goomba::Goomba(1); break;
 
                 /** background but collidable - nasty hack for now **/
-                case 'z' : object = new environment::Background(BitmapType::PIPE_TOP_LEFT); break;
-                case 'x' : object = new environment::Background(BitmapType::PIPE_TOP_RIGHT); break;
-                case 'c' : object = new environment::Background(BitmapType::PIPE_BOTTOM_LEFT); break;
-                case 'v' : object = new environment::Background(BitmapType::PIPE_BOTTOM_RIGHT); break;
+                case 'z' : object = new environment::Background(BitmapType::PIPE_TOP_LEFT); object->collidable = true; break;
+                case 'x' : object = new environment::Background(BitmapType::PIPE_TOP_RIGHT); object->collidable = true; break;
+                case 'c' : object = new environment::Background(BitmapType::PIPE_BOTTOM_LEFT); object->collidable = true; break;
+                case 'v' : object = new environment::Background(BitmapType::PIPE_BOTTOM_RIGHT); object->collidable = true; break;
             }
 
             object->position = position;
 
-            switch(c)
+            if (object->collidable)
             {
-                case '0':
-                case '1':
-                case '2': 
-                case 'z':
-                case 'x':
-                case 'c':
-                case 'p': 
-                case 'v': gameObjects.push_back(object); break;
-
-                case 'q': 
-                case 'w': 
-                case 'e': 
-                case 'a': 
-                case 's': 
-                case 'd': 
-                case 'f': 
-                case 'g': 
-                case 'h': backgroundObjects.push_back(object); break;
+                collidableObjects.push_back(object); 
+            }
+            else
+            {
+                nonCollidableObjects.push_back(object);
             }
             columnIndex++;
         }
         lineIndex++;
     }
-    return Level {backgroundObjects, gameObjects, {}};
+    return Level {collidableObjects, nonCollidableObjects, {}};
 }

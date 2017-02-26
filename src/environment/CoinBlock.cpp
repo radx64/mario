@@ -35,6 +35,8 @@ CoinBlock::CoinBlock(int type, math::Vector2f initialPosition) : Object(type)
 
     size.y = Context::getBitmapsContainer()->get(BitmapType::QUESTIONBLOCK_0)->getHeight();
     size.x = Context::getBitmapsContainer()->get(BitmapType::QUESTIONBLOCK_0)->getWidth();
+
+    collidable = true;
 }
 
 void CoinBlock::draw()

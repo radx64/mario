@@ -7,8 +7,8 @@ class Object;
 
 struct Level
 {
-    std::vector<Object*> backgroundObjects;
-    std::vector<Object*> gameObjects;
+    std::vector<Object*> collidableObjects;
+    std::vector<Object*> nonCollidableObjects;
     std::vector<Object*> toSpawnObjects;
 };
 

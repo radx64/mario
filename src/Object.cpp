@@ -12,13 +12,8 @@ Object::~Object()
 {
 }
 
-void Object::update(std::vector<Object*> gameObjects)
+void Object::update(std::vector<Object*> collidableObjects)
 {
-    if (!moving)
-    {
-        return;  // there is no sense for checking collison when object is not moving
-    }
-
     std::vector<CollisionPoint> collisionsPoints{
         {Collision::State::Bottom, {position.x + size.x*1.0f/4.0f,  position.y + size.y-1}},
         {Collision::State::Bottom, {position.x + size.x*3.0f/4.0f,  position.y + size.y-1}},
@@ -29,7 +24,7 @@ void Object::update(std::vector<Object*> gameObjects)
 
     for(auto collisionPoint : collisionsPoints)
     {
-        auto collider = getObjectAt(gameObjects, collisionPoint.point);
+        auto collider = getObjectAt(collidableObjects, collisionPoint.point);
         if (!collider) continue;
 
         Collision collision {collisionPoint.collision};

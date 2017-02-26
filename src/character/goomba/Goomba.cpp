@@ -32,7 +32,7 @@ Goomba::Goomba(int type) : Object(type)
 
     size.x = Context::getBitmapsContainer()->get(BitmapType::GOOMBA_WALK_0)->getHeight();
     size.y = Context::getBitmapsContainer()->get(BitmapType::GOOMBA_WALK_0)->getHeight();
-    moving = true;
+    collidable = true;
     velocity.x = -0.5;
 }
 
@@ -53,6 +53,7 @@ void Goomba::update(std::vector<Object*> gameObjects)
     else if (state_ == State::Dying)
     {
         currentAnimation_ = squashed_;
+        collidable = false;
         velocity = {0.0f, 0.0f};
         dyingCounter_ += 1;
 
@@ -61,6 +62,8 @@ void Goomba::update(std::vector<Object*> gameObjects)
             dead = true;
         }
     }
+
+
 }
 
 void Goomba::onCollisionWith(Collision collision, Object& object)
@@ -87,7 +90,8 @@ void Goomba::onCollisionWith(Collision collision, Object& object)
     {
         state_ = State::Dying;
         //todo: need to do something with dynamicaly changing size while animation frames have different dimensions
-        position.y += Context::getBitmapsContainer()->get(BitmapType::GOOMBA_SQUASHED)->getHeight();
+        position.y += Context::getBitmapsContainer()->get(BitmapType::GOOMBA_WALK_0)->getHeight()
+            -Context::getBitmapsContainer()->get(BitmapType::GOOMBA_SQUASHED)->getHeight();
         //dead = true;
     }
 
