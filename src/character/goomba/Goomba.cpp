@@ -8,6 +8,8 @@
 #include "World.hpp"
 #include "math/Vector2.hpp"
 
+#include <iostream>
+
 namespace character
 {
 namespace goomba
@@ -33,6 +35,7 @@ Goomba::Goomba(int type) : Object(type)
     size.x = Context::getBitmapsContainer()->get(BitmapType::GOOMBA_WALK_0)->getHeight();
     size.y = Context::getBitmapsContainer()->get(BitmapType::GOOMBA_WALK_0)->getHeight();
     collidable = true;
+    moving = true;
     velocity.x = -0.5;
 }
 
@@ -52,22 +55,26 @@ void Goomba::update(std::vector<Object*> gameObjects)
     }
     else if (state_ == State::Dying)
     {
-        currentAnimation_ = squashed_;
-        collidable = false;
-        velocity = {0.0f, 0.0f};
         dyingCounter_ += 1;
-
-        if(dyingCounter_ > 10)
+        if(dyingCounter_ > 150)
         {
             dead = true;
         }
     }
-
-
 }
 
 void Goomba::onCollisionWith(Collision collision, Object& object)
 {
+    if (collision.get() == Collision::State::Top && state_ != State::Dying)
+    {
+        state_ = State::Dying;
+        collidable = false;
+        currentAnimation_ = squashed_;
+        position.y += Context::getBitmapsContainer()->get(BitmapType::GOOMBA_SQUASHED)->getHeight();
+        std::cout <<"T:"<< position.y << std::endl;
+        return;
+    }
+
     if(collision.get() == Collision::State::Bottom)
     {
         velocity.y = 0;
@@ -84,15 +91,6 @@ void Goomba::onCollisionWith(Collision collision, Object& object)
     {
          velocity.x = -velocity.x;
          position.x = object.position.x - size.x;
-    }
-
-    if (collision.get() == Collision::State::Top && state_ != State::Dying)
-    {
-        state_ = State::Dying;
-        //todo: need to do something with dynamicaly changing size while animation frames have different dimensions
-        position.y += Context::getBitmapsContainer()->get(BitmapType::GOOMBA_WALK_0)->getHeight()
-            -Context::getBitmapsContainer()->get(BitmapType::GOOMBA_SQUASHED)->getHeight();
-        //dead = true;
     }
 
 }

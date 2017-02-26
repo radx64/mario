@@ -19,6 +19,7 @@ physics_(*this)
     size.y = bitmap->getHeight();
     size.x = bitmap->getWidth();
     collidable = true;
+    moving = true;
 }
 
 void Player::draw()

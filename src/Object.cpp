@@ -14,6 +14,7 @@ Object::~Object()
 
 void Object::update(std::vector<Object*> collidableObjects)
 {
+    if (!moving) return;
     std::vector<CollisionPoint> collisionsPoints{
         {Collision::State::Bottom, {position.x + size.x*1.0f/4.0f,  position.y + size.y-1}},
         {Collision::State::Bottom, {position.x + size.x*3.0f/4.0f,  position.y + size.y-1}},

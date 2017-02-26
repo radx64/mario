@@ -114,14 +114,14 @@ void Main::init()
         return;
     }
 
-    SDL_MaximizeWindow(window_);
+    //SDL_MaximizeWindow(window_);
     
     //SDL_SetWindowFullscreen(window_, 1);
 
     renderer_ = SDL_CreateRenderer(window_, -1, SDL_RENDERER_ACCELERATED);
     SDL_SetRenderTarget(renderer_, NULL);
     Context::setSdlRenderer(renderer_);
-    SDL_RenderSetScale(renderer_, 4.0, 4.0);
+    SDL_RenderSetScale(renderer_, 2.0, 2.0);
 
     graphics::StillRenderer* stillRenderer = new graphics::StillRenderer();
     Context::setStillRenderer(stillRenderer);

@@ -24,6 +24,9 @@ public:
         // in constructor but can be dynamically calculated later)
         // some objects shouldn't be collidable (little bricks, dead bodies, etc)
 
+    bool moving {false};
+        // if object is not moving there is no point to check by it is it colliding with anything
+
     bool dead{false};
 
     int type_{};  // this will be removed later, temporary hack for object detection
