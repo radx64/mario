@@ -10,12 +10,12 @@ BitmapsContainer* Context::getBitmapsContainer()
     return bitmapsContainer_;
 }
 
-void Context::setFpsCounter(FpsCounter* fc)
+void Context::setFpsCounter(core::FpsCounter* fc)
 {
     fpsCounter_ = fc;
 }
 
-FpsCounter* Context::getFpsCounter()
+core::FpsCounter* Context::getFpsCounter()
 {
     return fpsCounter_;
 }
@@ -86,7 +86,7 @@ Camera* Context::getCamera()
 
 
 BitmapsContainer* Context::bitmapsContainer_;
-FpsCounter* Context::fpsCounter_;
+core::FpsCounter* Context::fpsCounter_;
 TextRenderer* Context::textRenderer_;
 KeyboardState* Context::keyboardState_;
 SDL_Renderer* Context::sdlRenderer_;

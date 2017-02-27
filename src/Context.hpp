@@ -2,7 +2,12 @@
 #define CONTEXT_HPP_
 
 class BitmapsContainer;
-class FpsCounter;
+
+namespace core
+{
+    class FpsCounter;
+} // namespace core
+
 class TextRenderer;
 struct KeyboardState;
 class SDL_Renderer;
@@ -21,8 +26,8 @@ public:
     static void setBitmapsContainer(BitmapsContainer*);
     static BitmapsContainer* getBitmapsContainer();
 
-    static void setFpsCounter(FpsCounter*);
-    static FpsCounter* getFpsCounter();
+    static void setFpsCounter(core::FpsCounter*);
+    static core::FpsCounter* getFpsCounter();
 
     static void setTextRenderer(TextRenderer*);
     static TextRenderer* getTextRenderer();
@@ -48,7 +53,7 @@ public:
 
 private:
     static BitmapsContainer* bitmapsContainer_;
-    static FpsCounter* fpsCounter_;
+    static core::FpsCounter* fpsCounter_;
     static TextRenderer* textRenderer_;
     static KeyboardState* keyboardState_;
     static SDL_Renderer* sdlRenderer_;

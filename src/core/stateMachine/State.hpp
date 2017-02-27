@@ -1,12 +1,13 @@
-#ifndef CORE_STATE_HPP_
-#define CORE_STATE_HPP_
+#ifndef CORE_STATEMACHINE_STATE_HPP_
+#define CORE_STATEMACHINE_STATE_HPP_
 
 #include <string>
-#include <iostream>
 
 class Event;
 
 namespace core
+{
+namespace stateMachine
 {
 
 class State
@@ -30,8 +31,7 @@ public:
     virtual void onExit(const Event& event) override;
 };
 
-
-
+}  // namespace stateMachine
 }  // namespace core
 
-#endif  // CORE_STATE_HPP_
+#endif  // CORE_STATEMACHINE_STATE_HPP_

@@ -1,7 +1,10 @@
-#ifndef TIMER_HPP_
-#define TIMER_HPP_
+#ifndef CORE_TIMER_HPP_
+#define CORE_TIMER_HPP_
 
 #include <cstdint>
+
+namespace core
+{
 
 class Timer
 {
@@ -15,7 +18,8 @@ public:
 private:
     uint32_t ticksAtStart_;
     bool running_;
-
 };
 
-#endif  // TIMER_HPP_
+}  // namespace core
+
+#endif  // CORE_TIMER_HPP_

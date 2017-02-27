@@ -3,6 +3,8 @@
 
 namespace core
 {
+namespace stateMachine
+{
 
 class State;
 
@@ -13,6 +15,7 @@ struct Transition
     const std::string eventName;
 };
 
+}  // namespace stateMachine
 }  // namespace core
 
 #endif  // CORE_STATE_HPP_

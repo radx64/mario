@@ -27,8 +27,8 @@ protected:
     Player& player_;
 
     const float grav_ {0.20};
-    const float horizontalMaxSpeedWalk_ {2.0};
-    const float horizontalMaxSpeedRun_ {3.5};
+    const float horizontalMaxSpeedWalk_ {1.0};
+    const float horizontalMaxSpeedRun_ {3.0};
 };
 
 }  // namespace player

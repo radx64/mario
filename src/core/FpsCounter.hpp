@@ -1,9 +1,12 @@
-#ifndef FPS_COUNTER_HPP_
-#define FPS_COUNTER_HPP_
+#ifndef CORE_FPS_COUNTER_HPP_
+#define CORE_FPS_COUNTER_HPP_
 
 #include <cstdint>
 
-#include "Timer.hpp"
+#include "core/Timer.hpp"
+
+namespace core
+{
 
 class FpsCounter
 {
@@ -19,4 +22,6 @@ private:
     const float smoothing_{};
 };
 
-#endif // FPS_COUNTER_HPP_
+}  // namespace core
+
+#endif // CORE_FPS_COUNTER_HPP_

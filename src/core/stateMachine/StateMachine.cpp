@@ -1,6 +1,10 @@
-#include "core/StateMachine.hpp"
+#include "core/stateMachine/StateMachine.hpp"
+
+#include <iostream>
 
 namespace core
+{
+namespace stateMachine
 {
 
 StateMachine::StateMachine(const TransitionMap& tm)
@@ -66,4 +70,5 @@ void StateMachine::processEvent(Event event)
     run();
 }
 
+}  // namespace stateMachine
 }  // namespace  core

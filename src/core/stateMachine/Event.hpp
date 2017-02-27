@@ -1,9 +1,11 @@
-#ifndef CORE_EVENT_HPP_
-#define CORE_EVENT_HPP_
+#ifndef CORE_STATEMACHINE_EVENT_HPP_
+#define CORE_STATEMACHINE_EVENT_HPP_
 
 #include <string>
 
 namespace core
+{
+namespace stateMachine
 {
 
 class Event
@@ -17,6 +19,7 @@ private:
     std::string name_;
 };
 
+}  // namespace stateMachine
 }  // namespace core
 
-#endif  // CORE_EVENT_HPP_
+#endif  // CORE_STATEMACHINE_EVENT_HPP_

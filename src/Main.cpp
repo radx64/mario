@@ -9,10 +9,10 @@
 #include "AnimatedBitmap.hpp"
 #include "Bitmap.hpp"
 #include "Camera.hpp"
-#include "FpsCounter.hpp"
+#include "core/FpsCounter.hpp"
+#include "core/Timer.hpp"
 #include "LevelLoader.hpp"
 #include "TextRenderer.hpp"
-#include "Timer.hpp"
 #include "World.hpp"
 
 
@@ -135,7 +135,7 @@ void Main::init()
     graphics::CameraRenderer* cameraRenderer = new graphics::CameraRenderer(camera);
     Context::setCameraRenderer(cameraRenderer);
 
-    FpsCounter* fps = new FpsCounter();
+    core::FpsCounter* fps = new core::FpsCounter();
     Context::setFpsCounter(fps);
     TextRenderer* text = new TextRenderer();
     Context::setTextRenderer(text);
@@ -217,7 +217,7 @@ void Main::initGameObjects()
 
 void Main::scene()
 {
-    Timer profiler;
+    core::Timer profiler;
     profiler.start();
     std::vector<Object*>::iterator it;
     for (it = world_.level.objects.begin(); it != world_.level.objects.end();)
@@ -279,7 +279,7 @@ void Main::scene()
 void Main::loop()
 {
     initGameObjects();
-    Timer frameTimer;
+    core::Timer frameTimer;
 
     while (running_)
     {

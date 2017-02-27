@@ -3,18 +3,10 @@
 
 #include <vector>
 #include "math/Vector2.hpp"
-
+#include "ObjectType.hpp"
 #include "Collision.hpp"
 
-enum class ObjectType
-{
-    Background,
-    Enemy,
-    Environment,
-    Particle,
-    Player,
-    Undefined
-};
+
 
 class Object
 {
@@ -30,29 +22,38 @@ public:
     math::Vector2f velocity;  
     math::Vector2f size;
 
-    bool collidable {false};  
-        // this will make collsions calculations faster (now info is staticaly initialized
-        // in constructor but can be dynamically calculated later)
-        // some objects shouldn't be collidable (little bricks, dead bodies, etc)
+    /**   
+        this will make collsions calculations faster (now info is staticaly initialized
+        in constructor but can be dynamically calculated later)
+        some objects shouldn't be collidable (little bricks, dead bodies, etc)
+    **/
+    bool collidable {false};
 
+    /** 
+        if object is not moving there is no point to check by it is it colliding with anything
+        long story short - only moving objects are checking collisions with collidable objects.
+    **/
     bool moving {false};
-        // if object is not moving there is no point to check by it is it colliding with anything
-        // long story short - only moving objects are checking collisions with collidable objects.
 
 
+    /** 
+        used for dead bodies cleanup 
+        **/
     bool dead{false};
-        // used for dead bodies cleanup
 
-    ObjectType type_{ObjectType::Undefined};  // this will be removed later, temporary hack for object type detection
+    ObjectType type_{ObjectType::Undefined};
 
 protected:
-
     struct CollisionPoint
     {
         Collision collision;
         math::Vector2f point;
     };
 
+    /** 
+        this method may be overloaded by derived class to define own colision points still working with base findCollsions method
+    **/
+    std::vector<CollisionPoint> getCollisionPoints();
     void findCollisions(std::vector<Object*> gameObjects);
     Object* getObjectAt(std::vector<Object*> gameObjects, math::Vector2f point);
 

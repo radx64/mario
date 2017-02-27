@@ -1,7 +1,5 @@
 #include "character/player/GraphicsComponent.hpp"
 
-#include <SDL2/SDL.h>
-
 #include "AnimatedBitmap.hpp"
 #include "Camera.hpp"
 #include "Context.hpp"

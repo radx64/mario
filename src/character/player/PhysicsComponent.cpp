@@ -8,8 +8,6 @@
 #include "KeyboardState.hpp"
 #include "World.hpp"
 
-//#include <SDL2/SDL.h>
-
 namespace character
 {
 namespace player
@@ -30,6 +28,8 @@ void PhysicsComponent::bouceOfCeiling()
 void PhysicsComponent::simulate()
 {
     auto keys = Context::getKeyboardState();
+
+    player_.velocity.x *=0.91;
 
     player_.velocity.y += grav_;
 
@@ -55,15 +55,15 @@ void PhysicsComponent::simulate()
 
     float horizontalAcceleration{};
 
-    if (keys->left ) 
+    if (keys->left) 
     {
-        horizontalAcceleration = -0.2;
+        horizontalAcceleration = -0.5;
         if (player_.velocity.x > 0) player_.state = Player::State::Sliding;
     }
 
     if (keys->right) 
     {
-        horizontalAcceleration = 0.2;
+        horizontalAcceleration = 0.5;
         if (player_.velocity.x < 0) player_.state = Player::State::Sliding;
     }
 
@@ -71,7 +71,7 @@ void PhysicsComponent::simulate()
 
     if (abs(player_.velocity.x) >= maxHorizontalSpeed) 
     {
-            horizontalAcceleration = 0.0f;
+            horizontalAcceleration *= 0.2f;
     }
 
     player_.velocity.x += horizontalAcceleration;
@@ -80,7 +80,6 @@ void PhysicsComponent::simulate()
 
     if (player_.jumped_) player_.state = Player::State::Jumping;
 
-    player_.velocity.x *= 0.95;
 
     player_.position.x += player_.velocity.x;
     player_.position.y += player_.velocity.y;
@@ -91,11 +90,20 @@ void PhysicsComponent::simulate()
 
 void PhysicsComponent::onCollisionWith(Collision collision, Object& object)
 {
+
     if (collision.get() == Collision::State::Bottom)
     {
-        player_.position.y = object.position.y - player_.size.y;
-        if (player_.velocity.y > 0) player_.velocity.y = 0;
-        player_.jumped_ = false;
+        if (object.type_ == ObjectType::Enemy)
+        {
+            player_.velocity.y = -5.0;
+            player_.jumped_ = true;
+        }
+        else
+        {
+            player_.position.y = object.position.y - player_.size.y;
+            if (player_.velocity.y > 0) player_.velocity.y = 0;
+            player_.jumped_ = false;
+        }
     }
 
     if (collision.get() == Collision::State::Top)
@@ -114,7 +122,6 @@ void PhysicsComponent::onCollisionWith(Collision collision, Object& object)
         player_.velocity.x = 0;
         player_.position.x = object.position.x - player_.size.x ;
     }
-
 }
 
 }  // namespace player

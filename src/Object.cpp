@@ -18,16 +18,24 @@ void Object::update(std::vector<Object*> gameObjects)
     onUpdate(gameObjects);
 }
 
-void Object::findCollisions(std::vector<Object*> collidableObjects)
+
+std::vector<Object::CollisionPoint> Object::getCollisionPoints()
 {
-    if (!moving) return;
-    std::vector<CollisionPoint> collisionsPoints{
+        return std::vector<CollisionPoint> {
         {Collision::State::Bottom, {position.x + size.x*1.0f/4.0f,  position.y + size.y-1}},
         {Collision::State::Bottom, {position.x + size.x*3.0f/4.0f,  position.y + size.y-1}},
         {Collision::State::Top,    {position.x + size.x/2.0f,       position.y}},
         {Collision::State::Left,   {position.x ,                    position.y + size.y/2.0f}},
         {Collision::State::Right,  {position.x + size.x,            position.y + size.y/2.0f}},
     };
+}
+
+
+void Object::findCollisions(std::vector<Object*> collidableObjects)
+{
+    if (!moving) return;
+    
+    std::vector<CollisionPoint> collisionsPoints = getCollisionPoints();
 
     for(auto collisionPoint : collisionsPoints)
     {

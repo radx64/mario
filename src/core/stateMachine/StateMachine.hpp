@@ -1,15 +1,17 @@
-#ifndef CORE_STATEMACHINE_HPP_
-#define CORE_STATEMACHINE_HPP_
+#ifndef CORE_STATEMACHINE_STATEMACHINE_HPP_
+#define CORE_STATEMACHINE_STATEMACHINE_HPP_
 
 #include <list>
 #include <set>
 #include <queue>
 
-#include "core/Event.hpp"
-#include "core/State.hpp"
-#include "core/Transition.hpp"
+#include "core/stateMachine/Event.hpp"
+#include "core/stateMachine/State.hpp"
+#include "core/stateMachine/Transition.hpp"
 
 namespace core
+{
+namespace stateMachine
 {
 
 class StateMachine
@@ -33,6 +35,7 @@ void run();
     bool running_;
 };
 
+}  // namespace stateMachine
 }  // namespace  core
 
-#endif  // CORE_STATEMACHINE_HPP_
+#endif  // CORE_STATEMACHINE_STATEMACHINE_HPP_

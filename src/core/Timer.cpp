@@ -1,6 +1,9 @@
-#include "Timer.hpp"
+#include "core/Timer.hpp"
 
 #include <SDL2/SDL.h>
+
+namespace core
+{
 
 Timer::Timer() : ticksAtStart_(0), running_(false)
 {}
@@ -19,11 +22,9 @@ void Timer::stop()
 
 uint32_t Timer::getTicks()
 {
-    uint32_t currentTime{0};
-
     if (!running_)
     {
-        return currentTime;
+        return 0;
     }
 
     return SDL_GetTicks() - ticksAtStart_;
@@ -33,3 +34,5 @@ bool Timer::isRunning()
 {
     return running_;
 }
+
+}  // namespace core
