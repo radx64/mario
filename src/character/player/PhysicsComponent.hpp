@@ -22,7 +22,12 @@ public:
     void onCollisionWith(Collision collision, Object& object);
 
 protected:
-    void bouceOfCeiling();
+    inline void bouceOfCeiling();
+    inline void jump();
+    inline void fall();
+    inline void moveLeft(float& horizontalAcceleration);
+    inline void moveRight(float& horizontalAcceleration);
+    inline float getMaxHorizontalSpeed(bool running);
 
     Player& player_;
 

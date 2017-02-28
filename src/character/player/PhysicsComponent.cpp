@@ -17,12 +17,38 @@ PhysicsComponent::PhysicsComponent(Player& player)
 : player_(player)
 {}
 
-void PhysicsComponent::bouceOfCeiling()
+inline void PhysicsComponent::bouceOfCeiling()
 {
-    if (player_.velocity.y < 0.0)
-    {
-        player_.velocity.y *= -1.0;
-    }
+    if (player_.velocity.y < 0.0) player_.velocity.y *= -1.0;
+}
+
+inline void PhysicsComponent::jump()
+{
+    player_.velocity.y = -5.0;
+    player_.jumped_ = true;
+  
+}
+
+inline void PhysicsComponent::fall()
+{
+    player_.velocity.y += 0.05;   
+}
+
+inline void PhysicsComponent::moveLeft(float& horizontalAcceleration)
+{
+    horizontalAcceleration = -0.5;
+    if (player_.velocity.x > 0) player_.state = Player::State::Sliding;
+}
+
+inline void PhysicsComponent::moveRight(float& horizontalAcceleration)
+{
+    horizontalAcceleration = 0.5;
+    if (player_.velocity.x < 0) player_.state = Player::State::Sliding;
+}
+
+inline float PhysicsComponent::getMaxHorizontalSpeed(bool running)
+{
+    return running ? horizontalMaxSpeedRun_ : horizontalMaxSpeedWalk_;
 }
 
 void PhysicsComponent::simulate()
@@ -40,38 +66,26 @@ void PhysicsComponent::simulate()
     {
         if (!player_.jumped_)
         {
-            player_.velocity.y = -5.0;
-            player_.jumped_ = true;
+            jump();
         }
         else
         {
             player_.velocity.y -= 0.015;
-        }
+        } 
     }
     else
     {
-       player_.velocity.y += 0.05;
+        fall();
     }
 
     float horizontalAcceleration{};
 
-    if (keys->left) 
-    {
-        horizontalAcceleration = -0.5;
-        if (player_.velocity.x > 0) player_.state = Player::State::Sliding;
-    }
+    if (keys->left) moveLeft(horizontalAcceleration);
+    if (keys->right) moveRight(horizontalAcceleration);
 
-    if (keys->right) 
+    if (abs(player_.velocity.x) >= getMaxHorizontalSpeed(keys->run)) 
     {
-        horizontalAcceleration = 0.5;
-        if (player_.velocity.x < 0) player_.state = Player::State::Sliding;
-    }
-
-    float maxHorizontalSpeed = keys->run ? horizontalMaxSpeedRun_ : horizontalMaxSpeedWalk_;
-
-    if (abs(player_.velocity.x) >= maxHorizontalSpeed) 
-    {
-            horizontalAcceleration *= 0.2f;
+            horizontalAcceleration *= 0.3f;
     }
 
     player_.velocity.x += horizontalAcceleration;
@@ -81,8 +95,7 @@ void PhysicsComponent::simulate()
     if (player_.jumped_) player_.state = Player::State::Jumping;
 
 
-    player_.position.x += player_.velocity.x;
-    player_.position.y += player_.velocity.y;
+    player_.position += player_.velocity;
 
     Context::getCamera()->setX(player_.position.x);
     Context::getCamera()->setY(player_.position.y);
@@ -95,8 +108,7 @@ void PhysicsComponent::onCollisionWith(Collision collision, Object& object)
     {
         if (object.type_ == ObjectType::Enemy)
         {
-            player_.velocity.y = -5.0;
-            player_.jumped_ = true;
+            jump();
         }
         else
         {

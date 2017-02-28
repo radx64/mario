@@ -269,7 +269,7 @@ void Main::scene()
     text->draw(std::string("PLAYER VX: " + std::to_string((int)player_->velocity.x)), 10, 36, 0.5);
     text->draw(std::string("PLAYER VY: " + std::to_string((int)player_->velocity.y)), 10, 44, 0.5);
 
-    text->draw(std::string("OBJECTS: " + std::to_string(world_.level.objects.size())), 10, 60, 0.5);
+    text->draw(std::string("OBJECTS: " + std::to_string(world_.level.objects.size())), 10, 52, 0.5);
     auto world = Context::getWorld();
 
     text->draw(std::string("LIVES: " + std::to_string(world->lives_)), 25, 4, 1.0);
