@@ -62,7 +62,9 @@ void Goomba::onUpdate(std::vector<Object*> gameObjects)
 
 void Goomba::onCollisionWith(Collision collision, Object& object)
 {
-    if (collision.get() == Collision::State::Top && state_ != State::Dying)
+    if (collision.get() == Collision::State::Top 
+        && state_ != State::Dying 
+        && object.type_ == ObjectType::Player)
     {
         state_ = State::Dying;
         collidable = false;
