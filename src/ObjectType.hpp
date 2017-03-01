@@ -8,6 +8,7 @@ enum class ObjectType
     Environment,
     Particle,
     Player,
+    PowerUp,
     Undefined
 };
 

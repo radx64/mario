@@ -9,6 +9,7 @@
 #include "environment/CoinBlock.hpp"
 #include "environment/GroundBlock.hpp"
 #include "environment/Background.hpp"
+#include "environment/Mushroom.hpp"
 #include "math/Vector2.hpp"
 
 class Object;
@@ -48,6 +49,7 @@ Level LevelLoader::load(std::string filename)
                 case 'g' : object = new environment::Background(BitmapType::HILL_RIGHT); break;
                 case 'h' : object = new environment::Background(BitmapType::HILL_TOP); break;
                 case 'p' : object = new character::goomba::Goomba(); break;
+                case 'm' : object = new environment::Mushroom(); break;
 
                 /** background but collidable - nasty hack for now **/
                 case 'z' : object = new environment::Background(BitmapType::PIPE_TOP_LEFT); object->collidable = true; break;

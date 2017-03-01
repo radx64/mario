@@ -1,11 +1,10 @@
-#include "Goomba.hpp"
+#include "character/goomba/Goomba.hpp"
 
 #include "AnimatedBitmap.hpp"
 #include "BitmapsContainer.hpp"
 #include "Camera.hpp"
-#include "Context.hpp"
 #include "graphics/CameraRenderer.hpp"
-#include "World.hpp"
+#include "Context.hpp"
 #include "math/Vector2.hpp"
 
 namespace character
@@ -81,13 +80,13 @@ void Goomba::onCollisionWith(Collision collision, Object& object)
     if (collision.get() == Collision::State::Left)
     {
         velocity.x = -velocity.x;
-        position.x = object.position.x + size.x;
+        position.x = object.position.x + size.x + 1;
     }
 
     if (collision.get()== Collision::State::Right)
     {
          velocity.x = -velocity.x;
-         position.x = object.position.x - size.x;
+         position.x = object.position.x - size.x - 1;
     }
 
 }

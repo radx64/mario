@@ -25,7 +25,7 @@ CoinBlock::CoinBlock(math::Vector2f initialPosition) : Object(ObjectType::Enviro
         *Context::getBitmapsContainer()
     );
 
-    depletedAnimation_ = new AnimatedBitmap({BitmapType::QUESTIONBLOCK_1}, 1,
+    depletedAnimation_ = new AnimatedBitmap({BitmapType::QUESTIONBLOCK_USED}, 1,
         *Context::getBitmapsContainer()
     );
 
