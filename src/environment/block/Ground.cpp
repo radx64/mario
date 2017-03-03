@@ -1,39 +1,42 @@
-#include "GroundBlock.hpp"
+#include "environment/block/Ground.hpp"
 
 #include <SDL2/SDL.h>
 
+#include "Bitmap.hpp"
 #include "BitmapsContainer.hpp"
-#include "Camera.hpp"
 #include "Context.hpp"
 #include "graphics/CameraRenderer.hpp"
 
 
 namespace environment
 {
-
-GroundBlock::GroundBlock() : Object(ObjectType::Environment)
+namespace block
 {
-    bitmap_ = Context::getBitmapsContainer()->get(BitmapType::GROUND_RED);
+
+Ground::Ground() : Object(ObjectType::Environment)
+{
+    bitmap_ = Context::getBitmapsContainer()->get(BitmapType::GROUND_RED).get();
     size.y = bitmap_->getHeight();
     size.x = bitmap_->getWidth();
 
     collidable = true;
 }
 
-void GroundBlock::draw()
+void Ground::draw()
 {
     bitmap_->draw(Context::getCameraRenderer(), position.x, position.y);
 }
 
-void GroundBlock::onUpdate(std::vector<Object*> gameObjects)
+void Ground::onUpdate(std::vector<Object*> gameObjects)
 {
     (void) gameObjects;
 }
 
-void GroundBlock::onCollisionWith(Collision collision, Object& object)
+void Ground::onCollisionWith(Collision collision, Object& object)
 {
     (void) collision;
     (void) object;
 }
 
+}  // namespace block
 }  // namespace environment

@@ -81,14 +81,14 @@ void Goomba::onCollisionWith(Collision collision, Object& object)
 
     if (collision.get() == Collision::State::Left)
     {
-        velocity.x = -velocity.x;
+        if (velocity.x < 0.0) velocity.x = -velocity.x;
         position.x = object.position.x + size.x + 1;
     }
 
     if (collision.get()== Collision::State::Right)
     {
-         velocity.x = -velocity.x;
-         position.x = object.position.x - size.x - 1;
+        if (velocity.x > 0.0) velocity.x = -velocity.x;
+        position.x = object.position.x - size.x - 1;
     }
 
 }

@@ -1,26 +1,30 @@
-#ifndef ENVIRONMENT_BRICKBLOCK_HPP_
-#define ENVIRONMENT_BRICKBLOCK_HPP_
+#ifndef ENVIRONMENT_BLOCK_BRICK_HPP_
+#define ENVIRONMENT_BLOCK_BRICK_HPP_
 
 #include "Object.hpp"
-#include "Bitmap.hpp"
 #include <memory>
+
+class Bitmap;
 
 namespace environment
 {
+namespace block
+{
 
-class BrickBlock : public Object
+class Bricks : public Object
 {
 public:
-    BrickBlock();
+    Bricks();
 
     virtual void draw() override;
     virtual void onUpdate(std::vector<Object*> gameObjects) override;
     virtual void onCollisionWith(Collision collision, Object& object) override;
 
 protected:
-    std::shared_ptr<Bitmap> bitmap_;
+    Bitmap* bitmap_;
 };
 
+}  // namespace block
 }  // namespace environment
 
-#endif  // ENVIRONMENT_BRICKBLOCK_HPP_
+#endif  // ENVIRONMENT_BLOCK_BRICK_HPP_

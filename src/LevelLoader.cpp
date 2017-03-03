@@ -5,16 +5,15 @@
 #include <vector> 
 
 #include "character/goomba/Goomba.hpp"
-#include "environment/BrickBlock.hpp"
-#include "environment/CoinBlock.hpp"
-#include "environment/GroundBlock.hpp"
+#include "environment/block/Bricks.hpp"
+#include "environment/block/Question.hpp"
+#include "environment/block/Ground.hpp"
 #include "environment/Background.hpp"
-#include "environment/Mushroom.hpp"
 #include "math/Vector2.hpp"
 
 class Object;
 
-// This is a very simple and messy level loader
+// This is a very simple and messy level loader to speedup development
 
 Level LevelLoader::load(std::string filename)
 {
@@ -36,9 +35,9 @@ Level LevelLoader::load(std::string filename)
             switch(c)
             {   
                 case ' ' : columnIndex++; continue;
-                case '0' : object = new environment::GroundBlock(); break;
-                case '1' : object = new environment::BrickBlock(); break;
-                case '2' : object = new environment::CoinBlock(position); break;
+                case '0' : object = new environment::block::Ground(); break;
+                case '1' : object = new environment::block::Bricks(); break;
+                case '2' : object = new environment::block::Coins(position, 3); break;
                 case 'q' : object = new environment::Background(BitmapType::BUSH_LEFT); break;
                 case 'w' : object = new environment::Background(BitmapType::BUSH_MIDDLE); break;
                 case 'e' : object = new environment::Background(BitmapType::BUSH_RIGHT); break;
@@ -49,7 +48,7 @@ Level LevelLoader::load(std::string filename)
                 case 'g' : object = new environment::Background(BitmapType::HILL_RIGHT); break;
                 case 'h' : object = new environment::Background(BitmapType::HILL_TOP); break;
                 case 'p' : object = new character::goomba::Goomba(); break;
-                case 'm' : object = new environment::Mushroom(); break;
+                case 'm' : object = new environment::block::Mushroom(position); break;
 
                 /** background but collidable - nasty hack for now **/
                 case 'z' : object = new environment::Background(BitmapType::PIPE_TOP_LEFT); object->collidable = true; break;

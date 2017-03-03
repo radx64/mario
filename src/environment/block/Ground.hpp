@@ -1,28 +1,31 @@
-#ifndef ENVIRONMENT_GROUNDBLOCK_HPP_
-#define ENVIRONMENT_GROUNDBLOCK_HPP_
+#ifndef ENVIRONMENT_BLOCK_GROUND_HPP_
+#define ENVIRONMENT_BLOCK_GROUND_HPP_
 
 #include "Object.hpp"
 #include "Bitmap.hpp"
 #include <memory>
 
-class Context;
+class Bitmap;
 
 namespace environment
 {
+namespace block
+{
 
-class GroundBlock : public Object
+class Ground : public Object
 {
 public:
-    GroundBlock();
+    Ground();
 
     virtual void draw() override;
     virtual void onUpdate(std::vector<Object*> gameObjects) override;
     virtual void onCollisionWith(Collision collision, Object& object) override;
 
 protected:
-    std::shared_ptr<Bitmap> bitmap_;
+    Bitmap* bitmap_;
 };
 
+}  // namespace block
 }  // namespace environment
 
-#endif  // ENVIRONMENT_GROUNDBLOCK_HPP_
+#endif  // ENVIRONMENT_BLOCK_GROUND_HPP_

@@ -1,19 +1,21 @@
-#include "CoinBlock.hpp"
+#include "environment/block/Question.hpp"
 
 #include <cmath>
 
 #include "AnimatedBitmap.hpp"
 #include "BitmapsContainer.hpp"
-#include "Camera.hpp"
 #include "Context.hpp"
 #include "environment/CoinParticle.hpp"
+#include "environment/Mushroom.hpp"
 #include "graphics/CameraRenderer.hpp"
 #include "World.hpp"
 
 namespace environment
 {
+namespace block
+{
 
-CoinBlock::CoinBlock(math::Vector2f initialPosition) : Object(ObjectType::Environment)
+Question::Question(math::Vector2f initialPosition) : Object(ObjectType::Environment)
 {
     position = originalPosition = initialPosition;
     fullAnimation_ = new AnimatedBitmap({
@@ -31,17 +33,15 @@ CoinBlock::CoinBlock(math::Vector2f initialPosition) : Object(ObjectType::Enviro
 
     currentAnimation_= fullAnimation_;
 
-    coins_ = 10;
-
     size.y = Context::getBitmapsContainer()->get(BitmapType::QUESTIONBLOCK_0)->getHeight();
     size.x = Context::getBitmapsContainer()->get(BitmapType::QUESTIONBLOCK_0)->getWidth();
 
     collidable = true;
 }
 
-void CoinBlock::draw()
+void Question::draw()
 {
-    if (coins_ != 0)
+    if (!depleted_)
     {
         currentAnimation_ = fullAnimation_;
     }
@@ -54,7 +54,7 @@ void CoinBlock::draw()
     currentAnimation_->nextFrame();
 }
 
-void CoinBlock::onUpdate(std::vector<Object*> gameObjects)
+void Question::onUpdate(std::vector<Object*> gameObjects)
 {
     (void) gameObjects;
     if (bounce_)
@@ -72,22 +72,25 @@ void CoinBlock::onUpdate(std::vector<Object*> gameObjects)
 
 }
 
-void CoinBlock::onCollisionWith(Collision collision, Object& object)
+Coins::Coins(math::Vector2f position, uint8_t coins) 
+: Question(position), coins_(coins)
+{}
+
+void Coins::onCollisionWith(Collision collision, Object& object)
 {
-    (void) collision;
     (void) object;
 
-    if (collision.get() == Collision::State::Bottom && coins_!=0)
+    if (collision.get() == Collision::State::Bottom && !depleted_)
     {
         if (!bounce_)
         {
             bounce_ = true;
             bounceTick_ = 0;
             --coins_;
+            depleted_ = coins_ == 0;
             Context::getWorld()->coins_++;
             math::Vector2f spawnPoint = position;
             spawnPoint.x += size.x / 2.0f;
-            //spawnPoint.y -= size.y / 2.0f;
             Object* coin = new CoinParticle(spawnPoint);
             Context::getWorld()->level.toSpawnObjects.push_back(coin);
         }
@@ -95,4 +98,30 @@ void CoinBlock::onCollisionWith(Collision collision, Object& object)
 
 }
 
+
+Mushroom::Mushroom(math::Vector2f position) : Question(position)
+{}
+
+void Mushroom::onCollisionWith(Collision collision, Object& object)
+{
+    (void) object;
+
+    if (collision.get() == Collision::State::Bottom && !depleted_)
+    {
+        if (!bounce_)
+        {
+            bounce_ = true;
+            bounceTick_ = 0;
+            depleted_ = true;
+            math::Vector2f spawnPoint = position;
+            spawnPoint.x += size.x / 2.0f;
+            Object* mushroom = new environment::Mushroom();
+            mushroom->position = spawnPoint;
+            Context::getWorld()->level.toSpawnObjects.push_back(mushroom);
+        }
+    }
+
+}
+
+}  // namespace block
 }  // namespace environment

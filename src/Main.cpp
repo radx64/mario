@@ -41,6 +41,11 @@ Main::~Main()
 {
     delete bitmaps_;
 
+    for (Object* object : gameObjects_)
+    {
+        delete object;
+    }
+
     SDL_DestroyRenderer(renderer_);
     SDL_DestroyWindow(window_);
     SDL_Quit();
