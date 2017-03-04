@@ -6,6 +6,8 @@
 
 #include "character/goomba/Goomba.hpp"
 #include "environment/block/Bricks.hpp"
+#include "environment/block/Coins.hpp"
+#include "environment/block/Mushroom.hpp"
 #include "environment/block/Question.hpp"
 #include "environment/block/Ground.hpp"
 #include "environment/Background.hpp"

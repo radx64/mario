@@ -32,22 +32,7 @@ protected:
     math::Vector2f originalPosition{};
 };
 
-class Coins : public Question
-{
-public:
-    Coins(math::Vector2f position, uint8_t coins);
-    virtual void onCollisionWith(Collision collision, Object& object) override;
 
-private:
-    int8_t coins_;
-};
-
-class Mushroom : public Question
-{
-public:
-    Mushroom(math::Vector2f position);
-    virtual void onCollisionWith(Collision collision, Object& object) override;
-};
 
 }  // namespace block
 }  // namespace environment
