@@ -1,6 +1,5 @@
 #include "Player.hpp"
 
-#include "Bitmap.hpp"
 #include "BitmapsContainer.hpp"
 #include "Context.hpp"
 #include "TextRenderer.hpp"
@@ -15,9 +14,6 @@ Player::Player()
 graphics_(*this),
 physics_(*this)
 {
-    auto bitmap = Context::getBitmapsContainer()->get(BitmapType::MARIO_RUNNING_0);
-    size.y = bitmap->getHeight();
-    size.x = bitmap->getWidth();
     collidable = true;
     moving = true;
 }

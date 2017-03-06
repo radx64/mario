@@ -2,9 +2,8 @@
 #define ENVIRONMENT_BLOCK_BRICK_HPP_
 
 #include "Object.hpp"
-#include <memory>
 
-class Bitmap;
+class Sprite;
 
 namespace environment
 {
@@ -21,7 +20,7 @@ public:
     virtual void onCollisionWith(Collision collision, Object& object) override;
 
 protected:
-    Bitmap* bitmap_;
+    Sprite* bitmap_;
 };
 
 }  // namespace block

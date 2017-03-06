@@ -7,6 +7,7 @@
 #include "Camera.hpp"
 #include "Context.hpp"
 #include "graphics/CameraRenderer.hpp"
+#include "Sprite.hpp"
 
 namespace environment
 {
@@ -16,14 +17,14 @@ SmallBrick::SmallBrick(math::Vector2f initialPosition, math::Vector2f velocity)
     velocity_(velocity)
 {
     bitmap_ = new AnimatedBitmap({
-    BitmapType::SMALL_BRICK_1,
-    BitmapType::SMALL_BRICK_2},
+    SpriteType::SMALL_BRICK_1,
+    SpriteType::SMALL_BRICK_2},
     20,
     *Context::getBitmapsContainer());
 
 
-    size.y = Context::getBitmapsContainer()->get(BitmapType::SMALL_BRICK_1)->getHeight();
-    size.x = Context::getBitmapsContainer()->get(BitmapType::SMALL_BRICK_1)->getWidth();
+    size.y = Context::getBitmapsContainer()->get(SpriteType::SMALL_BRICK_1)->getHeight();
+    size.x = Context::getBitmapsContainer()->get(SpriteType::SMALL_BRICK_1)->getWidth();
     position = initialPosition - size / 2.0f;
 
     collidable = false;

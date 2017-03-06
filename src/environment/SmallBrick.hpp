@@ -2,7 +2,6 @@
 #define ENVIRONMENT_SMALLBRICK_HPP_
 
 #include "Object.hpp"
-#include "Bitmap.hpp"
 
 #include "math/Vector2.hpp"
 
@@ -22,7 +21,6 @@ public:
 
 protected:
     AnimatedBitmap* bitmap_;
-
     math::Vector2f velocity_;
 };
 

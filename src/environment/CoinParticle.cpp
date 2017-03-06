@@ -7,6 +7,7 @@
 #include "Camera.hpp"
 #include "Context.hpp"
 #include "graphics/CameraRenderer.hpp"
+#include "Sprite.hpp"
 
 namespace environment
 {
@@ -15,15 +16,15 @@ CoinParticle::CoinParticle(math::Vector2f initialPosition)
 : Object(ObjectType::Particle)
 {
     bitmap_ = new AnimatedBitmap({
-    BitmapType::COIN_PARTICLE_0,
-    BitmapType::COIN_PARTICLE_1,
-    BitmapType::COIN_PARTICLE_2,
-    BitmapType::COIN_PARTICLE_3},
+    SpriteType::COIN_PARTICLE_0,
+    SpriteType::COIN_PARTICLE_1,
+    SpriteType::COIN_PARTICLE_2,
+    SpriteType::COIN_PARTICLE_3},
     2,
     *Context::getBitmapsContainer());
 
-    size.y = Context::getBitmapsContainer()->get(BitmapType::COIN_PARTICLE_0)->getHeight();
-    size.x = Context::getBitmapsContainer()->get(BitmapType::COIN_PARTICLE_0)->getWidth();
+    size.y = Context::getBitmapsContainer()->get(SpriteType::COIN_PARTICLE_0)->getHeight();
+    size.x = Context::getBitmapsContainer()->get(SpriteType::COIN_PARTICLE_0)->getWidth();
     position = initialPosition_ = initialPosition - size / 2.0f;
     position.y -= size.y;
 

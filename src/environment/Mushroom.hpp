@@ -4,8 +4,9 @@
 #include <memory>
 #include <vector>
 
-#include "Bitmap.hpp"
 #include "Object.hpp"
+
+class Sprite;
 
 namespace environment
 {
@@ -20,7 +21,7 @@ public:
     virtual void onCollisionWith(Collision collision, Object& object) override;
 
 protected:
-    std::shared_ptr<Bitmap> bitmap_;
+    Sprite* sprite_;
     const float grav_ {0.20};
 };
 

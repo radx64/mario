@@ -7,11 +7,11 @@
 #include <SDL2/SDL.h>
 
 #include "AnimatedBitmap.hpp"
-#include "Bitmap.hpp"
 #include "Camera.hpp"
 #include "core/FpsCounter.hpp"
 #include "core/Timer.hpp"
 #include "LevelLoader.hpp"
+#include "Sprite.hpp"
 #include "TextRenderer.hpp"
 #include "World.hpp"
 
@@ -57,43 +57,43 @@ void Main::initBitmapsContainter()
 
     bitmaps_ = new BitmapsContainer(
     {
-        { BitmapType::BRICK_RED,            rootPath + "environment/brickred.bmp"},
-        { BitmapType::COIN_PARTICLE_0,      rootPath + "environment/coin_particle_0.bmp"},
-        { BitmapType::COIN_PARTICLE_1,      rootPath + "environment/coin_particle_1.bmp"},
-        { BitmapType::COIN_PARTICLE_2,      rootPath + "environment/coin_particle_2.bmp"},
-        { BitmapType::COIN_PARTICLE_3,      rootPath + "environment/coin_particle_3.bmp"},
-        { BitmapType::GROUND_RED,           rootPath + "environment/gnd_red_1.bmp"},
-        { BitmapType::MARIO_JUMPING,        rootPath + "characters/mario/jump.bmp"},
-        { BitmapType::MARIO_RUNNING_0,      rootPath + "characters/mario/move0.bmp"},
-        { BitmapType::MARIO_RUNNING_1,      rootPath + "characters/mario/move1.bmp"},
-        { BitmapType::MARIO_RUNNING_2,      rootPath + "characters/mario/move2.bmp"},
-        { BitmapType::MARIO_STANDING,       rootPath + "characters/mario/standing.bmp"},
-        { BitmapType::MARIO_SLIDING,        rootPath + "characters/mario/sliding.bmp"},
-        { BitmapType::MUSHROOM,             rootPath + "environment/mushroom.bmp"},
-        { BitmapType::SQUID_0,              rootPath + "characters/squid/move0.bmp"},
-        { BitmapType::SQUID_1,              rootPath + "characters/squid/move1.bmp"},
-        { BitmapType::QUESTIONBLOCK_0,      rootPath + "environment/blockq_0.bmp"},
-        { BitmapType::QUESTIONBLOCK_1,      rootPath + "environment/blockq_1.bmp"},
-        { BitmapType::QUESTIONBLOCK_2,      rootPath + "environment/blockq_2.bmp"},
-        { BitmapType::QUESTIONBLOCK_USED,   rootPath + "environment/blockq_used.bmp"},
-        { BitmapType::BUSH_LEFT,            rootPath + "environment/bush_left.bmp"},
-        { BitmapType::BUSH_MIDDLE,          rootPath + "environment/bush_middle.bmp"},
-        { BitmapType::BUSH_RIGHT,           rootPath + "environment/bush_right.bmp"},
-        { BitmapType::HILL_LEFT,            rootPath + "environment/hill_left.bmp"},
-        { BitmapType::HILL_MIDDLE,          rootPath + "environment/hill_middle.bmp"},
-        { BitmapType::HILL_MIDDLE_2,        rootPath + "environment/hill_middle_2.bmp"},
-        { BitmapType::HILL_MIDDLE_3,        rootPath + "environment/hill_middle_3.bmp"},
-        { BitmapType::HILL_RIGHT,           rootPath + "environment/hill_right.bmp"},
-        { BitmapType::HILL_TOP,             rootPath + "environment/hill_top.bmp"},
-        { BitmapType::GOOMBA_WALK_0,        rootPath + "characters/goomba/walk0.bmp"},
-        { BitmapType::GOOMBA_WALK_1,        rootPath + "characters/goomba/walk1.bmp"},
-        { BitmapType::GOOMBA_SQUASHED,      rootPath + "characters/goomba/squashed.bmp"},
-        { BitmapType::PIPE_TOP_LEFT,        rootPath + "environment/pipe_top_left.bmp"},
-        { BitmapType::PIPE_TOP_RIGHT,       rootPath + "environment/pipe_top_right.bmp"},
-        { BitmapType::PIPE_BOTTOM_LEFT,     rootPath + "environment/pipe_bottom_left.bmp"},
-        { BitmapType::PIPE_BOTTOM_RIGHT,    rootPath + "environment/pipe_bottom_right.bmp"},
-        { BitmapType::SMALL_BRICK_1,        rootPath + "environment/small_brick_1.bmp"},
-        { BitmapType::SMALL_BRICK_2,        rootPath + "environment/small_brick_2.bmp"}
+        { SpriteType::BRICK_RED,            rootPath + "environment/brickred.bmp"},
+        { SpriteType::COIN_PARTICLE_0,      rootPath + "environment/coin_particle_0.bmp"},
+        { SpriteType::COIN_PARTICLE_1,      rootPath + "environment/coin_particle_1.bmp"},
+        { SpriteType::COIN_PARTICLE_2,      rootPath + "environment/coin_particle_2.bmp"},
+        { SpriteType::COIN_PARTICLE_3,      rootPath + "environment/coin_particle_3.bmp"},
+        { SpriteType::GROUND_RED,           rootPath + "environment/gnd_red_1.bmp"},
+        { SpriteType::MARIO_JUMPING,        rootPath + "characters/mario/jump.bmp"},
+        { SpriteType::MARIO_RUNNING_0,      rootPath + "characters/mario/move0.bmp"},
+        { SpriteType::MARIO_RUNNING_1,      rootPath + "characters/mario/move1.bmp"},
+        { SpriteType::MARIO_RUNNING_2,      rootPath + "characters/mario/move2.bmp"},
+        { SpriteType::MARIO_STANDING,       rootPath + "characters/mario/standing.bmp"},
+        { SpriteType::MARIO_SLIDING,        rootPath + "characters/mario/sliding.bmp"},
+        { SpriteType::MUSHROOM,             rootPath + "environment/mushroom.bmp"},
+        { SpriteType::SQUID_0,              rootPath + "characters/squid/move0.bmp"},
+        { SpriteType::SQUID_1,              rootPath + "characters/squid/move1.bmp"},
+        { SpriteType::QUESTIONBLOCK_0,      rootPath + "environment/blockq_0.bmp"},
+        { SpriteType::QUESTIONBLOCK_1,      rootPath + "environment/blockq_1.bmp"},
+        { SpriteType::QUESTIONBLOCK_2,      rootPath + "environment/blockq_2.bmp"},
+        { SpriteType::QUESTIONBLOCK_USED,   rootPath + "environment/blockq_used.bmp"},
+        { SpriteType::BUSH_LEFT,            rootPath + "environment/bush_left.bmp"},
+        { SpriteType::BUSH_MIDDLE,          rootPath + "environment/bush_middle.bmp"},
+        { SpriteType::BUSH_RIGHT,           rootPath + "environment/bush_right.bmp"},
+        { SpriteType::HILL_LEFT,            rootPath + "environment/hill_left.bmp"},
+        { SpriteType::HILL_MIDDLE,          rootPath + "environment/hill_middle.bmp"},
+        { SpriteType::HILL_MIDDLE_2,        rootPath + "environment/hill_middle_2.bmp"},
+        { SpriteType::HILL_MIDDLE_3,        rootPath + "environment/hill_middle_3.bmp"},
+        { SpriteType::HILL_RIGHT,           rootPath + "environment/hill_right.bmp"},
+        { SpriteType::HILL_TOP,             rootPath + "environment/hill_top.bmp"},
+        { SpriteType::GOOMBA_WALK_0,        rootPath + "characters/goomba/walk0.bmp"},
+        { SpriteType::GOOMBA_WALK_1,        rootPath + "characters/goomba/walk1.bmp"},
+        { SpriteType::GOOMBA_SQUASHED,      rootPath + "characters/goomba/squashed.bmp"},
+        { SpriteType::PIPE_TOP_LEFT,        rootPath + "environment/pipe_top_left.bmp"},
+        { SpriteType::PIPE_TOP_RIGHT,       rootPath + "environment/pipe_top_right.bmp"},
+        { SpriteType::PIPE_BOTTOM_LEFT,     rootPath + "environment/pipe_bottom_left.bmp"},
+        { SpriteType::PIPE_BOTTOM_RIGHT,    rootPath + "environment/pipe_bottom_right.bmp"},
+        { SpriteType::SMALL_BRICK_1,        rootPath + "environment/small_brick_1.bmp"},
+        { SpriteType::SMALL_BRICK_2,        rootPath + "environment/small_brick_2.bmp"}
 
     }
     );

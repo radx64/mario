@@ -6,6 +6,7 @@
 #include "FlipFlags.hpp"
 #include "graphics/StillRenderer.hpp"
 #include "Player.hpp"
+#include "Sprite.hpp"
 
 namespace character
 {
@@ -15,23 +16,28 @@ namespace player
 GraphicsComponent::GraphicsComponent(Player& player)
 : player_(player)
 {
+    auto sprite = Context::getBitmapsContainer()->get(SpriteType::MARIO_RUNNING_0);
+    player_.size.x = sprite->getWidth();
+    player_.size.y = sprite->getHeight();
+
+
     runningAnimation_ = new AnimatedBitmap({
-        BitmapType::MARIO_RUNNING_2,
-        BitmapType::MARIO_RUNNING_0,
-        BitmapType::MARIO_RUNNING_1},
+        SpriteType::MARIO_RUNNING_2,
+        SpriteType::MARIO_RUNNING_0,
+        SpriteType::MARIO_RUNNING_1},
         3,
         *Context::getBitmapsContainer()
     );
 
-    standingAnimation_ = new AnimatedBitmap({BitmapType::MARIO_STANDING}, 1,
+    standingAnimation_ = new AnimatedBitmap({SpriteType::MARIO_STANDING}, 1,
         *Context::getBitmapsContainer()
     );
 
-    jumpAnimation_= new AnimatedBitmap({BitmapType::MARIO_JUMPING}, 1,
+    jumpAnimation_= new AnimatedBitmap({SpriteType::MARIO_JUMPING}, 1,
         *Context::getBitmapsContainer()
     );
 
-    slideAnimation_= new AnimatedBitmap({BitmapType::MARIO_SLIDING}, 1,
+    slideAnimation_= new AnimatedBitmap({SpriteType::MARIO_SLIDING}, 1,
         *Context::getBitmapsContainer()
     );
 

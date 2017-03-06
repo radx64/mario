@@ -1,8 +1,8 @@
-#ifndef BITMAP_TYPE_HPP_
-#define BITMAP_TYPE_HPP_
+#ifndef SPRITE_TYPE_HPP_
+#define SPRITE_TYPE_HPP_
 
 
-enum class BitmapType
+enum class SpriteType
 {
     BRICK_RED,
     BUSH_LEFT,
@@ -43,4 +43,4 @@ enum class BitmapType
     SMALL_BRICK_2
 };
 
-#endif  // BITMAP_TYPE_HPP_
+#endif  // SPRITE_TYPE_HPP_

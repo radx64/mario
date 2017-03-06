@@ -1,6 +1,8 @@
 #include "AnimatedBitmap.hpp"
 
-AnimatedBitmap::AnimatedBitmap(std::list<BitmapType> bitmaps,
+#include "Sprite.hpp"
+
+AnimatedBitmap::AnimatedBitmap(std::list<SpriteType> bitmaps,
     short speed,
     BitmapsContainer& bitmapContainer)
 : frames_(bitmaps), bitmapContainer_(bitmapContainer), speed_(speed)

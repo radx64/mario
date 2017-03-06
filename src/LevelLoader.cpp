@@ -2,7 +2,7 @@
 
 #include <string>
 #include <fstream>
-#include <vector> 
+#include <vector>
 
 #include "character/goomba/Goomba.hpp"
 #include "environment/block/Bricks.hpp"
@@ -40,23 +40,23 @@ Level LevelLoader::load(std::string filename)
                 case '0' : object = new environment::block::Ground(); break;
                 case '1' : object = new environment::block::Bricks(); break;
                 case '2' : object = new environment::block::Coins(position, 3); break;
-                case 'q' : object = new environment::Background(BitmapType::BUSH_LEFT); break;
-                case 'w' : object = new environment::Background(BitmapType::BUSH_MIDDLE); break;
-                case 'e' : object = new environment::Background(BitmapType::BUSH_RIGHT); break;
-                case 'a' : object = new environment::Background(BitmapType::HILL_LEFT); break;
-                case 's' : object = new environment::Background(BitmapType::HILL_MIDDLE); break;
-                case 'd' : object = new environment::Background(BitmapType::HILL_MIDDLE_2); break;
-                case 'f' : object = new environment::Background(BitmapType::HILL_MIDDLE); break;
-                case 'g' : object = new environment::Background(BitmapType::HILL_RIGHT); break;
-                case 'h' : object = new environment::Background(BitmapType::HILL_TOP); break;
+                case 'q' : object = new environment::Background(SpriteType::BUSH_LEFT); break;
+                case 'w' : object = new environment::Background(SpriteType::BUSH_MIDDLE); break;
+                case 'e' : object = new environment::Background(SpriteType::BUSH_RIGHT); break;
+                case 'a' : object = new environment::Background(SpriteType::HILL_LEFT); break;
+                case 's' : object = new environment::Background(SpriteType::HILL_MIDDLE); break;
+                case 'd' : object = new environment::Background(SpriteType::HILL_MIDDLE_2); break;
+                case 'f' : object = new environment::Background(SpriteType::HILL_MIDDLE); break;
+                case 'g' : object = new environment::Background(SpriteType::HILL_RIGHT); break;
+                case 'h' : object = new environment::Background(SpriteType::HILL_TOP); break;
                 case 'p' : object = new character::goomba::Goomba(); break;
                 case 'm' : object = new environment::block::Mushroom(position); break;
 
                 /** background but collidable - nasty hack for now **/
-                case 'z' : object = new environment::Background(BitmapType::PIPE_TOP_LEFT); object->collidable = true; break;
-                case 'x' : object = new environment::Background(BitmapType::PIPE_TOP_RIGHT); object->collidable = true; break;
-                case 'c' : object = new environment::Background(BitmapType::PIPE_BOTTOM_LEFT); object->collidable = true; break;
-                case 'v' : object = new environment::Background(BitmapType::PIPE_BOTTOM_RIGHT); object->collidable = true; break;
+                case 'z' : object = new environment::Background(SpriteType::PIPE_TOP_LEFT); object->collidable = true; break;
+                case 'x' : object = new environment::Background(SpriteType::PIPE_TOP_RIGHT); object->collidable = true; break;
+                case 'c' : object = new environment::Background(SpriteType::PIPE_BOTTOM_LEFT); object->collidable = true; break;
+                case 'v' : object = new environment::Background(SpriteType::PIPE_BOTTOM_RIGHT); object->collidable = true; break;
             }
 
             object->position = position;

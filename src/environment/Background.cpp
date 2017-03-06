@@ -7,16 +7,16 @@
 namespace environment
 {
 
-Background::Background(BitmapType bitmap) : Object(ObjectType::Background)
+Background::Background(SpriteType sprite) : Object(ObjectType::Background)
 {
-    bitmap_ = Context::getBitmapsContainer()->get(bitmap);
-    size.y = bitmap_->getHeight();
-    size.x = bitmap_->getWidth();
+    sprite_ = Context::getBitmapsContainer()->get(sprite);
+    size.y = sprite_->getHeight();
+    size.x = sprite_->getWidth();
 }
 
 void Background::draw()
 {
-    bitmap_->draw(Context::getCameraRenderer(), position.x, position.y);
+    sprite_->draw(Context::getCameraRenderer(), position.x, position.y);
 }
 
 void Background::onUpdate(std::vector<Object*> gameObjects)

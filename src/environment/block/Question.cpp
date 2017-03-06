@@ -7,6 +7,7 @@
 #include "Context.hpp"
 #include "environment/CoinParticle.hpp"
 #include "graphics/CameraRenderer.hpp"
+#include "Sprite.hpp"
 #include "World.hpp"
 
 namespace environment
@@ -18,22 +19,22 @@ Question::Question(math::Vector2f initialPosition) : Object(ObjectType::Environm
 {
     position = originalPosition = initialPosition;
     fullAnimation_ = new AnimatedBitmap({
-        BitmapType::QUESTIONBLOCK_0,
-        BitmapType::QUESTIONBLOCK_1,
-        BitmapType::QUESTIONBLOCK_2,
-        BitmapType::QUESTIONBLOCK_1},
+        SpriteType::QUESTIONBLOCK_0,
+        SpriteType::QUESTIONBLOCK_1,
+        SpriteType::QUESTIONBLOCK_2,
+        SpriteType::QUESTIONBLOCK_1},
         10,
         *Context::getBitmapsContainer()
     );
 
-    depletedAnimation_ = new AnimatedBitmap({BitmapType::QUESTIONBLOCK_USED}, 1,
+    depletedAnimation_ = new AnimatedBitmap({SpriteType::QUESTIONBLOCK_USED}, 1,
         *Context::getBitmapsContainer()
     );
 
     currentAnimation_= fullAnimation_;
 
-    size.y = Context::getBitmapsContainer()->get(BitmapType::QUESTIONBLOCK_0)->getHeight();
-    size.x = Context::getBitmapsContainer()->get(BitmapType::QUESTIONBLOCK_0)->getWidth();
+    size.y = Context::getBitmapsContainer()->get(SpriteType::QUESTIONBLOCK_0)->getHeight();
+    size.x = Context::getBitmapsContainer()->get(SpriteType::QUESTIONBLOCK_0)->getWidth();
 
     collidable = true;
 }

@@ -2,4 +2,5 @@
 mkdir build
 cd build
 cmake -G "Unix Makefiles" ..
-make -j $(nproc)
+#make -j $(nproc)
+make

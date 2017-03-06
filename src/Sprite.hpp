@@ -1,5 +1,5 @@
-#ifndef BITMAP_HPP_
-#define BITMAP_HPP_
+#ifndef SPRITE_HPP_
+#define SPRITE_HPP_
 
 #include <string>
 
@@ -12,11 +12,11 @@ namespace graphics
     class IRenderer;
 }
 
-class Bitmap
+class Sprite
 {
 public:
-    Bitmap(const std::string& filename);
-    ~Bitmap();
+    Sprite(const std::string& filename);
+    ~Sprite();
     void draw(graphics::IRenderer* renderer, int x, int y);
     void draw(graphics::IRenderer* renderer, int x, int y, const FlipFlags& flip);
     void copy(graphics::IRenderer* renderer, SDL_Rect* source, SDL_Rect* destination);
@@ -31,4 +31,4 @@ private:
     int height_;
 };
 
-#endif  // BITMAP_HPP_
+#endif  // SPRITE_HPP_

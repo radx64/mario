@@ -1,22 +1,22 @@
 #include "environment/Mushroom.hpp"
 
 #include "AnimatedBitmap.hpp"
-#include "Bitmap.hpp"
 #include "BitmapsContainer.hpp"
 #include "graphics/CameraRenderer.hpp"
 #include "Camera.hpp"
 #include "Context.hpp"
 #include "math/Vector2.hpp"
+#include "Sprite.hpp"
 
 namespace environment
 {
 
 Mushroom::Mushroom() : Object(ObjectType::PowerUp)
 {
-    bitmap_ = Context::getBitmapsContainer()->get(BitmapType::MUSHROOM);
+    sprite_ = Context::getBitmapsContainer()->get(SpriteType::MUSHROOM);
 
-    size.x = bitmap_->getHeight();
-    size.y = bitmap_->getHeight();
+    size.x = sprite_->getHeight();
+    size.y = sprite_->getHeight();
     collidable = true;
     moving = true;
     velocity.x = 0.8;
@@ -24,7 +24,7 @@ Mushroom::Mushroom() : Object(ObjectType::PowerUp)
 
 void Mushroom::draw()
 {
-    bitmap_->draw(Context::getCameraRenderer(), position.x, position.y);
+    sprite_->draw(Context::getCameraRenderer(), position.x, position.y);
 }
 
 void Mushroom::onUpdate(std::vector<Object*> gameObjects)

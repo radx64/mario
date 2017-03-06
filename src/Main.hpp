@@ -11,7 +11,7 @@
 #include "World.hpp"
 
 class AnimatedBitmap;
-class Bitmap;
+class Sprite;
 class FpsCounter;
 class TextRenderer;
 
@@ -40,7 +40,6 @@ private:
     const unsigned int width_;
     const unsigned int height_;
     BitmapsContainer* bitmaps_{};
-    AnimatedBitmap* questionBlock_{};
     Context context_{};
     std::vector<Object*> gameObjects_;
     World world_;

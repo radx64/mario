@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "Bitmap.hpp"
+#include "Sprite.hpp"
 
 class SDL_Renderer;
 
@@ -21,7 +21,7 @@ private:
     int g_;
     int b_;
 
-    Bitmap font_;
+    Sprite font_;
     char fontCharacterBitmapWidth_;
 };
 

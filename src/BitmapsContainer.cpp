@@ -1,22 +1,31 @@
 #include "BitmapsContainer.hpp"
 
-#include "Bitmap.hpp"
-
 #include <iostream>
 #include <stdexcept>
 
-BitmapsContainer::BitmapsContainer(std::map<BitmapType, std::string> bitmapFiles)
+#include "Sprite.hpp"
+
+BitmapsContainer::BitmapsContainer(std::map<SpriteType, std::string> bitmapFiles)
 {
     for (const auto& entity : bitmapFiles)
     {
-        std::shared_ptr<Bitmap> bitmap = std::make_shared<Bitmap>(entity.second);
-        items_[entity.first] = bitmap;
+        Sprite* sprite = new Sprite(entity.second);
+        items_[entity.first] = sprite;
 
-        std::cout << "Loading bitmap " << entity.second << std::endl;
+        std::cout << "Loading sprite " << entity.second << std::endl;
     }
 }
 
-std::shared_ptr<Bitmap> BitmapsContainer::get(BitmapType type)
+BitmapsContainer::~BitmapsContainer()
+{
+    for (auto spritePair: items_)
+    {   
+        delete spritePair.second;
+    }
+}
+
+
+Sprite* BitmapsContainer::get(SpriteType type)
 {
     try
     {
@@ -26,5 +35,5 @@ std::shared_ptr<Bitmap> BitmapsContainer::get(BitmapType type)
     {
         std::cout << "Requested element is not in container" << std::endl;
     }
-    return std::shared_ptr<Bitmap>();
+    return nullptr;
 }

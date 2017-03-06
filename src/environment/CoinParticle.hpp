@@ -2,7 +2,6 @@
 #define ENVIRONMENT_COINPARTICLE_HPP_
 
 #include "Object.hpp"
-#include "Bitmap.hpp"
 
 #include "math/Vector2.hpp"
 

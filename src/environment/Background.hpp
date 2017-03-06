@@ -1,10 +1,11 @@
 #ifndef ENVIRONMENT_BACKGROUND_HPP_
 #define ENVIRONMENT_BACKGROUND_HPP_
 
-#include "Object.hpp"
-#include "Bitmap.hpp"
-#include "BitmapsContainer.hpp"
 #include <memory>
+
+#include "Object.hpp"
+#include "BitmapsContainer.hpp"
+#include "Sprite.hpp"
 
 namespace environment
 {
@@ -12,14 +13,14 @@ namespace environment
 class Background : public Object
 {
 public:
-    Background(BitmapType bitmap);
+    Background(SpriteType bitmap);
     
     virtual void draw() override;
     virtual void onUpdate(std::vector<Object*> gameObjects) override;
     virtual void onCollisionWith(Collision collision, Object& object) override;
 
 protected:
-    std::shared_ptr<Bitmap> bitmap_;
+    Sprite* sprite_;
 };
 
 }  // namespace environment

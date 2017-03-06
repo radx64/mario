@@ -3,7 +3,6 @@
 
 #include <memory>
 
-#include "Bitmap.hpp"
 #include "Object.hpp"
 
 class AnimatedBitmap;

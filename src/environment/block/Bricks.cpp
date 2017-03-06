@@ -4,10 +4,11 @@
 
 #include "BitmapsContainer.hpp"
 #include "Context.hpp"
-#include "graphics/CameraRenderer.hpp"
 #include "environment/SmallBrick.hpp"
-#include "World.hpp"
+#include "graphics/CameraRenderer.hpp"
 #include "math/Vector2.hpp"
+#include "Sprite.hpp"
+#include "World.hpp"
 
 namespace environment
 {
@@ -16,7 +17,7 @@ namespace block
 
 Bricks::Bricks() : Object(ObjectType::Environment)
 {
-    bitmap_ = Context::getBitmapsContainer()->get(BitmapType::BRICK_RED).get();
+    bitmap_ = Context::getBitmapsContainer()->get(SpriteType::BRICK_RED);
     size.x = bitmap_->getWidth();
     size.y = bitmap_->getHeight();
     collidable = true;

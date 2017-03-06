@@ -5,7 +5,6 @@
 #include <string>
 #include <memory>
 
-#include "Bitmap.hpp"
 #include "BitmapsContainer.hpp"
 
 class SDL_Renderer;
@@ -19,7 +18,7 @@ namespace graphics
 class AnimatedBitmap
 {
 public:
-    AnimatedBitmap(std::list<BitmapType> bitmaps,
+    AnimatedBitmap(std::list<SpriteType> bitmaps,
         short speed,
         BitmapsContainer& bitmapContainer);
     void draw(graphics::IRenderer* renderer, int x, int y);
@@ -28,8 +27,8 @@ public:
     void nextFrame();
 
 private:
-    std::list<BitmapType> frames_;
-    std::list<BitmapType>::iterator currentFrame_;
+    std::list<SpriteType> frames_;
+    std::list<SpriteType>::iterator currentFrame_;
     BitmapsContainer& bitmapContainer_;
     short speed_;
     short currentFrameLifeTime_;
