@@ -1,8 +1,8 @@
-#include "AnimatedBitmap.hpp"
+#include "AnimatedSprite.hpp"
 
 #include "Sprite.hpp"
 
-AnimatedBitmap::AnimatedBitmap(std::list<SpriteType> bitmaps,
+AnimatedSprite::AnimatedSprite(std::list<SpriteType> bitmaps,
     short speed,
     SpritesContainer& spritesContainer)
 : frames_(bitmaps), spritesContainer_(spritesContainer), speed_(speed)
@@ -11,22 +11,22 @@ AnimatedBitmap::AnimatedBitmap(std::list<SpriteType> bitmaps,
     currentFrameLifeTime_ = 0;
 }
 
-void AnimatedBitmap::draw(graphics::IRenderer* renderer, int x, int y)
+void AnimatedSprite::draw(graphics::IRenderer* renderer, int x, int y)
 {
     spritesContainer_.get(*currentFrame_)->draw(renderer, x, y);
 }
 
-void AnimatedBitmap::draw(graphics::IRenderer* renderer, int x, int y, const FlipFlags& f)
+void AnimatedSprite::draw(graphics::IRenderer* renderer, int x, int y, const FlipFlags& f)
 {
     spritesContainer_.get(*currentFrame_)->draw(renderer, x, y, f);
 }
 
-void AnimatedBitmap::setSpeed(short speed)
+void AnimatedSprite::setSpeed(short speed)
 {
     speed_ = speed;
 }
 
-void AnimatedBitmap::nextFrame()
+void AnimatedSprite::nextFrame()
 {
     currentFrameLifeTime_++;
     if (currentFrameLifeTime_ > speed_)

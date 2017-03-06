@@ -1,5 +1,5 @@
-#ifndef ANIMATED_BITMAP_HPP_
-#define ANIMATED_BITMAP_HPP_
+#ifndef ANIMATED_SPRITE_HPP_
+#define ANIMATED_SPRITE_HPP_
 
 #include <list>
 #include <string>
@@ -15,10 +15,10 @@ namespace graphics
     class IRenderer;
 }
 
-class AnimatedBitmap
+class AnimatedSprite
 {
 public:
-    AnimatedBitmap(std::list<SpriteType> bitmaps,
+    AnimatedSprite(std::list<SpriteType> bitmaps,
         short speed,
         SpritesContainer& spritesContainer);
     void draw(graphics::IRenderer* renderer, int x, int y);
@@ -35,4 +35,4 @@ private:
 };
 
 
-#endif  // ANIMATED_BITMAP_HPP_
+#endif  // ANIMATED_SPRITE_HPP_

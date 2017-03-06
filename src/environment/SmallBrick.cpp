@@ -2,7 +2,7 @@
 
 #include <SDL2/SDL.h>
 
-#include "AnimatedBitmap.hpp"
+#include "AnimatedSprite.hpp"
 #include "Camera.hpp"
 #include "Context.hpp"
 #include "graphics/CameraRenderer.hpp"
@@ -16,7 +16,7 @@ SmallBrick::SmallBrick(math::Vector2f initialPosition, math::Vector2f velocity)
 : Object(ObjectType::Particle),
     velocity_(velocity)
 {
-    bitmap_ = new AnimatedBitmap({
+    bitmap_ = new AnimatedSprite({
     SpriteType::SMALL_BRICK_1,
     SpriteType::SMALL_BRICK_2},
     20,

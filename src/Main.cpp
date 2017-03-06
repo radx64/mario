@@ -6,7 +6,7 @@
 
 #include <SDL2/SDL.h>
 
-#include "AnimatedBitmap.hpp"
+#include "AnimatedSprite.hpp"
 #include "Camera.hpp"
 #include "core/FpsCounter.hpp"
 #include "core/Timer.hpp"

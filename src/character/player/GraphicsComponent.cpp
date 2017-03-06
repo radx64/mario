@@ -1,6 +1,6 @@
 #include "character/player/GraphicsComponent.hpp"
 
-#include "AnimatedBitmap.hpp"
+#include "AnimatedSprite.hpp"
 #include "Camera.hpp"
 #include "Context.hpp"
 #include "FlipFlags.hpp"
@@ -21,7 +21,7 @@ GraphicsComponent::GraphicsComponent(Player& player)
     player_.size.y = sprite->getHeight();
 
 
-    runningAnimation_ = new AnimatedBitmap({
+    runningAnimation_ = new AnimatedSprite({
         SpriteType::MARIO_RUNNING_2,
         SpriteType::MARIO_RUNNING_0,
         SpriteType::MARIO_RUNNING_1},
@@ -29,15 +29,15 @@ GraphicsComponent::GraphicsComponent(Player& player)
         *Context::getSpritesContainer()
     );
 
-    standingAnimation_ = new AnimatedBitmap({SpriteType::MARIO_STANDING}, 1,
+    standingAnimation_ = new AnimatedSprite({SpriteType::MARIO_STANDING}, 1,
         *Context::getSpritesContainer()
     );
 
-    jumpAnimation_= new AnimatedBitmap({SpriteType::MARIO_JUMPING}, 1,
+    jumpAnimation_= new AnimatedSprite({SpriteType::MARIO_JUMPING}, 1,
         *Context::getSpritesContainer()
     );
 
-    slideAnimation_= new AnimatedBitmap({SpriteType::MARIO_SLIDING}, 1,
+    slideAnimation_= new AnimatedSprite({SpriteType::MARIO_SLIDING}, 1,
         *Context::getSpritesContainer()
     );
 

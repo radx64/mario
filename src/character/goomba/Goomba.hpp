@@ -5,7 +5,7 @@
 
 #include "Object.hpp"
 
-class AnimatedBitmap;
+class AnimatedSprite;
 
 namespace character
 {
@@ -29,9 +29,9 @@ protected:
         Dying
     };
 
-    AnimatedBitmap* walking_;
-    AnimatedBitmap* squashed_;
-    AnimatedBitmap* currentAnimation_;
+    AnimatedSprite* walking_;
+    AnimatedSprite* squashed_;
+    AnimatedSprite* currentAnimation_;
     State state_{State::Walking};
     const float grav_ {0.20};
     uint8_t dyingCounter_{0};

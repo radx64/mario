@@ -5,7 +5,7 @@
 
 #include "math/Vector2.hpp"
 
-class AnimatedBitmap;
+class AnimatedSprite;
 
 namespace environment
 {
@@ -20,7 +20,7 @@ public:
     virtual void onCollisionWith(Collision collision, Object& object) override;
 
 protected:
-    AnimatedBitmap* bitmap_;
+    AnimatedSprite* bitmap_;
     math::Vector2f velocity_;
 };
 

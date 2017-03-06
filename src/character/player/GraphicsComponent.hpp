@@ -1,7 +1,7 @@
 #ifndef CHARACTER_PLAYER_GRAPHICSCOMPONENT_HPP_
 #define CHARACTER_PLAYER_GRAPHICSCOMPONENT_HPP_
 
-class AnimatedBitmap;
+class AnimatedSprite;
 
 namespace character
 {
@@ -20,11 +20,11 @@ public:
 protected:
     Player& player_;
 
-    AnimatedBitmap* runningAnimation_;
-    AnimatedBitmap* standingAnimation_;
-    AnimatedBitmap* slideAnimation_;
-    AnimatedBitmap* jumpAnimation_;
-    AnimatedBitmap* currentAnimation_;
+    AnimatedSprite* runningAnimation_;
+    AnimatedSprite* standingAnimation_;
+    AnimatedSprite* slideAnimation_;
+    AnimatedSprite* jumpAnimation_;
+    AnimatedSprite* currentAnimation_;
 };
 
 }  // namespace player

@@ -6,7 +6,7 @@
 #include "math/Vector2.hpp"
 #include "Object.hpp"
 
-class AnimatedBitmap;
+class AnimatedSprite;
 
 namespace environment
 {
@@ -23,9 +23,9 @@ public:
     virtual void onCollisionWith(Collision collision, Object& object) = 0;
 
 protected:
-    AnimatedBitmap* fullAnimation_;
-    AnimatedBitmap* depletedAnimation_;
-    AnimatedBitmap* currentAnimation_;
+    AnimatedSprite* fullAnimation_;
+    AnimatedSprite* depletedAnimation_;
+    AnimatedSprite* currentAnimation_;
     bool depleted_{false};
     bool bounce_{false};
     int8_t bounceTick_{0};

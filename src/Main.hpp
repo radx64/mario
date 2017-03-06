@@ -3,14 +3,13 @@
 
 #include <vector>
 
-#include "AnimatedBitmap.hpp"
 #include "SpritesContainer.hpp"
 #include "Context.hpp"
 #include "KeyboardState.hpp"
 #include "Object.hpp"
 #include "World.hpp"
 
-class AnimatedBitmap;
+class AnimatedSprite;
 class Sprite;
 class FpsCounter;
 class TextRenderer;

@@ -1,6 +1,6 @@
 #include "character/goomba/Goomba.hpp"
 
-#include "AnimatedBitmap.hpp"
+#include "AnimatedSprite.hpp"
 #include "SpritesContainer.hpp"
 #include "Camera.hpp"
 #include "Context.hpp"
@@ -15,14 +15,14 @@ namespace goomba
 
 Goomba::Goomba() : Object(ObjectType::Enemy)
 {
-    walking_ = new AnimatedBitmap({
+    walking_ = new AnimatedSprite({
         SpriteType::GOOMBA_WALK_0,
         SpriteType::GOOMBA_WALK_1},
         10,
         *Context::getSpritesContainer()
     );
 
-    squashed_ = new AnimatedBitmap({
+    squashed_ = new AnimatedSprite({
         SpriteType::GOOMBA_SQUASHED},
         1,
         *Context::getSpritesContainer()

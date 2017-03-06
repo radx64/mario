@@ -2,7 +2,7 @@
 
 #include <cmath>
 
-#include "AnimatedBitmap.hpp"
+#include "AnimatedSprite.hpp"
 #include "SpritesContainer.hpp"
 #include "Context.hpp"
 #include "environment/CoinParticle.hpp"
@@ -18,7 +18,7 @@ namespace block
 Question::Question(math::Vector2f initialPosition) : Object(ObjectType::Environment)
 {
     position = originalPosition = initialPosition;
-    fullAnimation_ = new AnimatedBitmap({
+    fullAnimation_ = new AnimatedSprite({
         SpriteType::QUESTIONBLOCK_0,
         SpriteType::QUESTIONBLOCK_1,
         SpriteType::QUESTIONBLOCK_2,
@@ -27,7 +27,7 @@ Question::Question(math::Vector2f initialPosition) : Object(ObjectType::Environm
         *Context::getSpritesContainer()
     );
 
-    depletedAnimation_ = new AnimatedBitmap({SpriteType::QUESTIONBLOCK_USED}, 1,
+    depletedAnimation_ = new AnimatedSprite({SpriteType::QUESTIONBLOCK_USED}, 1,
         *Context::getSpritesContainer()
     );
 

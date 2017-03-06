@@ -4,7 +4,6 @@
 #include <vector>
 #include <utility>
 
-#include "AnimatedBitmap.hpp"
 #include "character/player/GraphicsComponent.hpp"
 #include "character/player/PhysicsComponent.hpp"
 #include "Object.hpp"

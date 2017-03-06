@@ -1,6 +1,5 @@
 #include "environment/Mushroom.hpp"
 
-#include "AnimatedBitmap.hpp"
 #include "Camera.hpp"
 #include "Context.hpp"
 #include "graphics/CameraRenderer.hpp"
