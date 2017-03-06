@@ -2,7 +2,7 @@
 
 #include <SDL2/SDL.h>
 
-#include "BitmapsContainer.hpp"
+#include "SpritesContainer.hpp"
 #include "Context.hpp"
 #include "environment/SmallBrick.hpp"
 #include "graphics/CameraRenderer.hpp"
@@ -17,7 +17,7 @@ namespace block
 
 Bricks::Bricks() : Object(ObjectType::Environment)
 {
-    bitmap_ = Context::getBitmapsContainer()->get(SpriteType::BRICK_RED);
+    bitmap_ = Context::getSpritesContainer()->get(SpriteType::BRICK_RED);
     size.x = bitmap_->getWidth();
     size.y = bitmap_->getHeight();
     collidable = true;

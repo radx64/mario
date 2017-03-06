@@ -1,7 +1,7 @@
 #include "character/goomba/Goomba.hpp"
 
 #include "AnimatedBitmap.hpp"
-#include "BitmapsContainer.hpp"
+#include "SpritesContainer.hpp"
 #include "Camera.hpp"
 #include "Context.hpp"
 #include "graphics/CameraRenderer.hpp"
@@ -19,19 +19,19 @@ Goomba::Goomba() : Object(ObjectType::Enemy)
         SpriteType::GOOMBA_WALK_0,
         SpriteType::GOOMBA_WALK_1},
         10,
-        *Context::getBitmapsContainer()
+        *Context::getSpritesContainer()
     );
 
     squashed_ = new AnimatedBitmap({
         SpriteType::GOOMBA_SQUASHED},
         1,
-        *Context::getBitmapsContainer()
+        *Context::getSpritesContainer()
     );
 
     currentAnimation_ = walking_;
 
-    size.x = Context::getBitmapsContainer()->get(SpriteType::GOOMBA_WALK_0)->getHeight();
-    size.y = Context::getBitmapsContainer()->get(SpriteType::GOOMBA_WALK_0)->getHeight();
+    size.x = Context::getSpritesContainer()->get(SpriteType::GOOMBA_WALK_0)->getHeight();
+    size.y = Context::getSpritesContainer()->get(SpriteType::GOOMBA_WALK_0)->getHeight();
     collidable = true;
     moving = true;
     velocity.x = -0.5;
@@ -70,7 +70,7 @@ void Goomba::onCollisionWith(Collision collision, Object& object)
         state_ = State::Dying;
         collidable = false;
         currentAnimation_ = squashed_;
-        position.y += Context::getBitmapsContainer()->get(SpriteType::GOOMBA_SQUASHED)->getHeight(); // TODO: remove this nasty hack
+        position.y += Context::getSpritesContainer()->get(SpriteType::GOOMBA_SQUASHED)->getHeight(); // TODO: remove this nasty hack
         return;
     }
 

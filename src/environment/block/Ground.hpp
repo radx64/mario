@@ -2,7 +2,6 @@
 #define ENVIRONMENT_BLOCK_GROUND_HPP_
 
 #include "Object.hpp"
-#include <memory>
 
 class Sprite;
 

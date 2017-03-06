@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "AnimatedBitmap.hpp"
-#include "BitmapsContainer.hpp"
+#include "SpritesContainer.hpp"
 #include "Context.hpp"
 #include "KeyboardState.hpp"
 #include "Object.hpp"
@@ -32,6 +32,7 @@ private:
     void scene();
     void initGameObjects();
     void initBitmapsContainter();
+
     KeyboardState keys_;
     bool running_{true};
     int frame_{};
@@ -39,7 +40,7 @@ private:
     SDL_Renderer* renderer_{};
     const unsigned int width_;
     const unsigned int height_;
-    BitmapsContainer* bitmaps_{};
+    SpritesContainer* sprites_{};
     Context context_{};
     std::vector<Object*> gameObjects_;
     World world_;

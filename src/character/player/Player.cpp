@@ -1,6 +1,5 @@
 #include "Player.hpp"
 
-#include "BitmapsContainer.hpp"
 #include "Context.hpp"
 #include "TextRenderer.hpp"
 

@@ -5,7 +5,7 @@
 #include <string>
 #include <memory>
 
-#include "BitmapsContainer.hpp"
+#include "SpritesContainer.hpp"
 
 class SDL_Renderer;
 class FlipFlags;
@@ -20,7 +20,7 @@ class AnimatedBitmap
 public:
     AnimatedBitmap(std::list<SpriteType> bitmaps,
         short speed,
-        BitmapsContainer& bitmapContainer);
+        SpritesContainer& spritesContainer);
     void draw(graphics::IRenderer* renderer, int x, int y);
     void draw(graphics::IRenderer* renderer, int x, int y, const FlipFlags& f);
     void setSpeed(short speed);
@@ -29,7 +29,7 @@ public:
 private:
     std::list<SpriteType> frames_;
     std::list<SpriteType>::iterator currentFrame_;
-    BitmapsContainer& bitmapContainer_;
+    SpritesContainer& spritesContainer_;
     short speed_;
     short currentFrameLifeTime_;
 };

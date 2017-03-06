@@ -3,11 +3,11 @@
 #include <SDL2/SDL.h>
 
 #include "AnimatedBitmap.hpp"
-#include "BitmapsContainer.hpp"
 #include "Camera.hpp"
 #include "Context.hpp"
 #include "graphics/CameraRenderer.hpp"
 #include "Sprite.hpp"
+#include "SpritesContainer.hpp"
 
 namespace environment
 {
@@ -21,10 +21,10 @@ CoinParticle::CoinParticle(math::Vector2f initialPosition)
     SpriteType::COIN_PARTICLE_2,
     SpriteType::COIN_PARTICLE_3},
     2,
-    *Context::getBitmapsContainer());
+    *Context::getSpritesContainer());
 
-    size.y = Context::getBitmapsContainer()->get(SpriteType::COIN_PARTICLE_0)->getHeight();
-    size.x = Context::getBitmapsContainer()->get(SpriteType::COIN_PARTICLE_0)->getWidth();
+    size.y = Context::getSpritesContainer()->get(SpriteType::COIN_PARTICLE_0)->getHeight();
+    size.x = Context::getSpritesContainer()->get(SpriteType::COIN_PARTICLE_0)->getWidth();
     position = initialPosition_ = initialPosition - size / 2.0f;
     position.y -= size.y;
 

@@ -1,19 +1,19 @@
 #include "environment/Mushroom.hpp"
 
 #include "AnimatedBitmap.hpp"
-#include "BitmapsContainer.hpp"
-#include "graphics/CameraRenderer.hpp"
 #include "Camera.hpp"
 #include "Context.hpp"
+#include "graphics/CameraRenderer.hpp"
 #include "math/Vector2.hpp"
 #include "Sprite.hpp"
+#include "SpritesContainer.hpp"
 
 namespace environment
 {
 
 Mushroom::Mushroom() : Object(ObjectType::PowerUp)
 {
-    sprite_ = Context::getBitmapsContainer()->get(SpriteType::MUSHROOM);
+    sprite_ = Context::getSpritesContainer()->get(SpriteType::MUSHROOM);
 
     size.x = sprite_->getHeight();
     size.y = sprite_->getHeight();

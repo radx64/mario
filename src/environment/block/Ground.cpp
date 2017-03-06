@@ -2,7 +2,7 @@
 
 #include <SDL2/SDL.h>
 
-#include "BitmapsContainer.hpp"
+#include "SpritesContainer.hpp"
 #include "Context.hpp"
 #include "graphics/CameraRenderer.hpp"
 #include "Sprite.hpp"
@@ -15,7 +15,7 @@ namespace block
 
 Ground::Ground() : Object(ObjectType::Environment)
 {
-    sprite_ = Context::getBitmapsContainer()->get(SpriteType::GROUND_RED);
+    sprite_ = Context::getSpritesContainer()->get(SpriteType::GROUND_RED);
     size.y = sprite_->getHeight();
     size.x = sprite_->getWidth();
 

@@ -1,7 +1,7 @@
 #ifndef CONTEXT_HPP_
 #define CONTEXT_HPP_
 
-class BitmapsContainer;
+class SpritesContainer;
 
 namespace core
 {
@@ -23,8 +23,8 @@ namespace graphics
 class Context
 {
 public:
-    static void setBitmapsContainer(BitmapsContainer*);
-    static BitmapsContainer* getBitmapsContainer();
+    static void setSpritesContainer(SpritesContainer*);
+    static SpritesContainer* getSpritesContainer();
 
     static void setFpsCounter(core::FpsCounter*);
     static core::FpsCounter* getFpsCounter();
@@ -52,7 +52,7 @@ public:
 
 
 private:
-    static BitmapsContainer* bitmapsContainer_;
+    static SpritesContainer* spritesContainer_;
     static core::FpsCounter* fpsCounter_;
     static TextRenderer* textRenderer_;
     static KeyboardState* keyboardState_;

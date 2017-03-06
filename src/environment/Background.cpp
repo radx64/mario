@@ -1,6 +1,6 @@
 #include "Background.hpp"
 
-#include "BitmapsContainer.hpp"
+#include "SpritesContainer.hpp"
 #include "Context.hpp"
 #include "graphics/CameraRenderer.hpp"
 
@@ -9,7 +9,7 @@ namespace environment
 
 Background::Background(SpriteType sprite) : Object(ObjectType::Background)
 {
-    sprite_ = Context::getBitmapsContainer()->get(sprite);
+    sprite_ = Context::getSpritesContainer()->get(sprite);
     size.y = sprite_->getHeight();
     size.x = sprite_->getWidth();
 }

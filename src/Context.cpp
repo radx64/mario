@@ -1,13 +1,13 @@
 #include "Context.hpp"
 
-void Context::setBitmapsContainer(BitmapsContainer* bc)
+void Context::setSpritesContainer(SpritesContainer* sc)
 {
-    bitmapsContainer_ = bc;
+    spritesContainer_ = sc;
 }
 
-BitmapsContainer* Context::getBitmapsContainer()
+SpritesContainer* Context::getSpritesContainer()
 {
-    return bitmapsContainer_;
+    return spritesContainer_;
 }
 
 void Context::setFpsCounter(core::FpsCounter* fc)
@@ -85,12 +85,12 @@ Camera* Context::getCamera()
 }
 
 
-BitmapsContainer* Context::bitmapsContainer_;
+Camera* Context::camera_;
 core::FpsCounter* Context::fpsCounter_;
-TextRenderer* Context::textRenderer_;
+graphics::CameraRenderer* Context::cameraRenderer_;
+graphics::StillRenderer* Context::stillRenderer_;
 KeyboardState* Context::keyboardState_;
 SDL_Renderer* Context::sdlRenderer_;
+SpritesContainer* Context::spritesContainer_;
+TextRenderer* Context::textRenderer_;
 World* Context::world_;
-Camera* Context::camera_;
-graphics::StillRenderer* Context::stillRenderer_;
-graphics::CameraRenderer* Context::cameraRenderer_;

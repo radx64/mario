@@ -16,7 +16,7 @@ namespace player
 GraphicsComponent::GraphicsComponent(Player& player)
 : player_(player)
 {
-    auto sprite = Context::getBitmapsContainer()->get(SpriteType::MARIO_RUNNING_0);
+    auto sprite = Context::getSpritesContainer()->get(SpriteType::MARIO_RUNNING_0);
     player_.size.x = sprite->getWidth();
     player_.size.y = sprite->getHeight();
 
@@ -26,19 +26,19 @@ GraphicsComponent::GraphicsComponent(Player& player)
         SpriteType::MARIO_RUNNING_0,
         SpriteType::MARIO_RUNNING_1},
         3,
-        *Context::getBitmapsContainer()
+        *Context::getSpritesContainer()
     );
 
     standingAnimation_ = new AnimatedBitmap({SpriteType::MARIO_STANDING}, 1,
-        *Context::getBitmapsContainer()
+        *Context::getSpritesContainer()
     );
 
     jumpAnimation_= new AnimatedBitmap({SpriteType::MARIO_JUMPING}, 1,
-        *Context::getBitmapsContainer()
+        *Context::getSpritesContainer()
     );
 
     slideAnimation_= new AnimatedBitmap({SpriteType::MARIO_SLIDING}, 1,
-        *Context::getBitmapsContainer()
+        *Context::getSpritesContainer()
     );
 
     currentAnimation_ = standingAnimation_;

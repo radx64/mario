@@ -3,11 +3,11 @@
 #include <SDL2/SDL.h>
 
 #include "AnimatedBitmap.hpp"
-#include "BitmapsContainer.hpp"
 #include "Camera.hpp"
 #include "Context.hpp"
 #include "graphics/CameraRenderer.hpp"
 #include "Sprite.hpp"
+#include "SpritesContainer.hpp"
 
 namespace environment
 {
@@ -20,11 +20,11 @@ SmallBrick::SmallBrick(math::Vector2f initialPosition, math::Vector2f velocity)
     SpriteType::SMALL_BRICK_1,
     SpriteType::SMALL_BRICK_2},
     20,
-    *Context::getBitmapsContainer());
+    *Context::getSpritesContainer());
 
 
-    size.y = Context::getBitmapsContainer()->get(SpriteType::SMALL_BRICK_1)->getHeight();
-    size.x = Context::getBitmapsContainer()->get(SpriteType::SMALL_BRICK_1)->getWidth();
+    size.y = Context::getSpritesContainer()->get(SpriteType::SMALL_BRICK_1)->getHeight();
+    size.x = Context::getSpritesContainer()->get(SpriteType::SMALL_BRICK_1)->getWidth();
     position = initialPosition - size / 2.0f;
 
     collidable = false;

@@ -1,11 +1,11 @@
-#include "BitmapsContainer.hpp"
+#include "SpritesContainer.hpp"
 
 #include <iostream>
 #include <stdexcept>
 
 #include "Sprite.hpp"
 
-BitmapsContainer::BitmapsContainer(std::map<SpriteType, std::string> bitmapFiles)
+SpritesContainer::SpritesContainer(std::map<SpriteType, std::string> bitmapFiles)
 {
     for (const auto& entity : bitmapFiles)
     {
@@ -16,7 +16,7 @@ BitmapsContainer::BitmapsContainer(std::map<SpriteType, std::string> bitmapFiles
     }
 }
 
-BitmapsContainer::~BitmapsContainer()
+SpritesContainer::~SpritesContainer()
 {
     for (auto spritePair: items_)
     {   
@@ -25,7 +25,7 @@ BitmapsContainer::~BitmapsContainer()
 }
 
 
-Sprite* BitmapsContainer::get(SpriteType type)
+Sprite* SpritesContainer::get(SpriteType type)
 {
     try
     {
@@ -33,7 +33,7 @@ Sprite* BitmapsContainer::get(SpriteType type)
     }
     catch (std::out_of_range e)
     {
-        std::cout << "Requested element is not in container" << std::endl;
+        std::cout << "Requested sprite is not in container" << std::endl;
     }
     return nullptr;
 }

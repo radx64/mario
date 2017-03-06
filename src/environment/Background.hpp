@@ -4,8 +4,8 @@
 #include <memory>
 
 #include "Object.hpp"
-#include "BitmapsContainer.hpp"
 #include "Sprite.hpp"
+#include "SpriteType.hpp"
 
 namespace environment
 {
@@ -13,7 +13,7 @@ namespace environment
 class Background : public Object
 {
 public:
-    Background(SpriteType bitmap);
+    Background(SpriteType sprite);
     
     virtual void draw() override;
     virtual void onUpdate(std::vector<Object*> gameObjects) override;

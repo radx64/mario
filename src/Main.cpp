@@ -39,7 +39,7 @@ Main::Main(): width_(640), height_(480)
 
 Main::~Main()
 {
-    delete bitmaps_;
+    delete sprites_;
 
     for (Object* object : gameObjects_)
     {
@@ -55,7 +55,7 @@ void Main::initBitmapsContainter()
 {
     std::string rootPath = "../img/";
 
-    bitmaps_ = new BitmapsContainer(
+    sprites_ = new SpritesContainer(
     {
         { SpriteType::BRICK_RED,            rootPath + "environment/brickred.bmp"},
         { SpriteType::COIN_PARTICLE_0,      rootPath + "environment/coin_particle_0.bmp"},
@@ -97,7 +97,7 @@ void Main::initBitmapsContainter()
 
     }
     );
-    Context::setBitmapsContainer(bitmaps_);
+    Context::setSpritesContainer(sprites_);
 }
 
 void Main::init()

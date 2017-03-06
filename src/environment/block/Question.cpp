@@ -3,7 +3,7 @@
 #include <cmath>
 
 #include "AnimatedBitmap.hpp"
-#include "BitmapsContainer.hpp"
+#include "SpritesContainer.hpp"
 #include "Context.hpp"
 #include "environment/CoinParticle.hpp"
 #include "graphics/CameraRenderer.hpp"
@@ -24,17 +24,17 @@ Question::Question(math::Vector2f initialPosition) : Object(ObjectType::Environm
         SpriteType::QUESTIONBLOCK_2,
         SpriteType::QUESTIONBLOCK_1},
         10,
-        *Context::getBitmapsContainer()
+        *Context::getSpritesContainer()
     );
 
     depletedAnimation_ = new AnimatedBitmap({SpriteType::QUESTIONBLOCK_USED}, 1,
-        *Context::getBitmapsContainer()
+        *Context::getSpritesContainer()
     );
 
     currentAnimation_= fullAnimation_;
 
-    size.y = Context::getBitmapsContainer()->get(SpriteType::QUESTIONBLOCK_0)->getHeight();
-    size.x = Context::getBitmapsContainer()->get(SpriteType::QUESTIONBLOCK_0)->getWidth();
+    size.y = Context::getSpritesContainer()->get(SpriteType::QUESTIONBLOCK_0)->getHeight();
+    size.x = Context::getSpritesContainer()->get(SpriteType::QUESTIONBLOCK_0)->getWidth();
 
     collidable = true;
 }
