@@ -1,8 +1,8 @@
 #include "Main.hpp"
 
 #include <algorithm>
-#include <stdexcept>
 #include <cmath>
+#include <stdexcept>
 
 #include <SDL2/SDL.h>
 
@@ -129,7 +129,7 @@ void Main::init()
     renderer_ = SDL_CreateRenderer(window_, -1, SDL_RENDERER_ACCELERATED);
     SDL_SetRenderTarget(renderer_, NULL);
     Context::setSdlRenderer(renderer_);
-    SDL_RenderSetScale(renderer_, 4.0, 4.0);
+    SDL_RenderSetScale(renderer_, 3.0, 3.0);
 
     graphics::StillRenderer* stillRenderer = new graphics::StillRenderer();
     Context::setStillRenderer(stillRenderer);
@@ -218,9 +218,7 @@ void Main::initGameObjects()
 
     world_.level.objects.push_back(object);
     player_ = object;
-    // remember to destroy objects above when done, duh...
 }
-
 
 void Main::scene()
 {
@@ -287,7 +285,6 @@ void Main::loop()
 {
     initGameObjects();
     core::Timer frameTimer;
-
     while (running_)
     {
         frameTimer.start();

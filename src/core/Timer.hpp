@@ -1,7 +1,7 @@
 #ifndef CORE_TIMER_HPP_
 #define CORE_TIMER_HPP_
 
-#include <cstdint>
+#include <chrono>
 
 namespace core
 {
@@ -12,11 +12,15 @@ public:
     Timer();
     void start();
     void stop();
-    uint32_t getTicks();
+    double getTicks();
     bool isRunning();
 
 private:
-    uint32_t ticksAtStart_;
+
+    using Clock = std::chrono::high_resolution_clock;
+    using TimePoint = std::chrono::time_point<Clock>;
+
+    TimePoint start_;
     bool running_;
 };
 

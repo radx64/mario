@@ -1,33 +1,32 @@
 #include "core/Timer.hpp"
 
-#include <SDL2/SDL.h>
-
 namespace core
 {
 
-Timer::Timer() : ticksAtStart_(0), running_(false)
+Timer::Timer() : running_(false)
 {}
 
 void Timer::start()
 {
     running_ = true;
-    ticksAtStart_ = SDL_GetTicks();
+    start_ = std::chrono::system_clock::now();
 }
 
 void Timer::stop()
 {
     running_ = false;
-    ticksAtStart_ = 0;
+    start_ = TimePoint();
 }
 
-uint32_t Timer::getTicks()
+double Timer::getTicks()
 {
     if (!running_)
     {
-        return 0;
+        return 0.0;
     }
 
-    return SDL_GetTicks() - ticksAtStart_;
+    return std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now() - start_).count();
 }
 
 bool Timer::isRunning()
