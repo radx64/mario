@@ -249,7 +249,7 @@ void Main::scene()
         world_.level.toSpawnObjects.clear();
     }
 
-    uint32_t physicsTime = profiler.getTicks();
+    double physicsTime = profiler.getTicks();
     profiler.start();
 
     std::for_each(world_.level.objects.begin(), world_.level.objects.end(), 
@@ -258,7 +258,9 @@ void Main::scene()
     std::for_each(world_.level.objects.begin(), world_.level.objects.end(), 
         [](Object* o){ if(o->type_ != ObjectType::Background) o->draw(); });
 
-    uint32_t drawingTime = profiler.getTicks();
+    std::cout << "dupa " << std::endl;
+
+    double drawingTime = profiler.getTicks();
 
     int fps =  Context::getFpsCounter()->getLastMeasurement();
     auto text = Context::getTextRenderer();

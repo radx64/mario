@@ -25,8 +25,7 @@ double Timer::getTicks()
         return 0.0;
     }
 
-    return std::chrono::duration_cast<std::chrono::milliseconds>(
-        std::chrono::system_clock::now() - start_).count();
+    return (std::chrono::system_clock::now() - start_).count() / 1000000.0f;
 }
 
 bool Timer::isRunning()
