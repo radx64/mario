@@ -4,6 +4,7 @@
 
 #include "Camera.hpp"
 #include "Context.hpp"
+#include "core/Audio.hpp"
 #include "Player.hpp"
 #include "KeyboardState.hpp"
 #include "World.hpp"
@@ -26,7 +27,6 @@ inline void PhysicsComponent::jump()
 {
     player_.velocity.y = -250.0;
     player_.jumped_ = true;
-  
 }
 
 inline void PhysicsComponent::fall()
@@ -66,6 +66,7 @@ void PhysicsComponent::simulate(double dt)
     {
         if (!player_.jumped_)
         {
+            Context::getAudio()->playSample(core::AudioSample::PlayerJump);
             jump();
         }
         else

@@ -1,5 +1,15 @@
 #include "Context.hpp"
 
+void Context::setAudio(core::Audio* a)
+{
+    audio_ = a;
+}
+
+core::Audio* Context::getAudio()
+{
+    return audio_;
+}
+
 void Context::setSpritesContainer(SpritesContainer* sc)
 {
     spritesContainer_ = sc;
@@ -86,6 +96,7 @@ Camera* Context::getCamera()
 
 
 Camera* Context::camera_;
+core::Audio* Context::audio_;
 core::FpsCounter* Context::fpsCounter_;
 graphics::CameraRenderer* Context::cameraRenderer_;
 graphics::StillRenderer* Context::stillRenderer_;

@@ -4,6 +4,7 @@
 #include "SpritesContainer.hpp"
 #include "Camera.hpp"
 #include "Context.hpp"
+#include "core/Audio.hpp"
 #include "graphics/CameraRenderer.hpp"
 #include "math/Vector2.hpp"
 #include "Sprite.hpp"
@@ -69,6 +70,7 @@ void Goomba::onCollisionWith(Collision collision, Object& object)
         && object.type_ == ObjectType::Player)
     {
         state_ = State::Dying;
+        Context::getAudio()->playSample(core::AudioSample::Stomp);
         collidable = false;
         currentAnimation_ = squashed_;
         position.y += Context::getSpritesContainer()->get(SpriteType::GOOMBA_SQUASHED)->getHeight(); // TODO: remove this nasty hack

@@ -4,6 +4,7 @@
 
 #include "SpritesContainer.hpp"
 #include "Context.hpp"
+#include "core/Audio.hpp"
 #include "environment/SmallBrick.hpp"
 #include "graphics/CameraRenderer.hpp"
 #include "math/Vector2.hpp"
@@ -41,6 +42,7 @@ void Bricks::onCollisionWith(Collision collision, Object& object)
     {
         dead = true;
         math::Vector2f spawnPoint = position + size / 2.0f;
+        Context::getAudio()->playSample(core::AudioSample::BlockBreak);
 
         Object* brick = new SmallBrick(spawnPoint, {0.8, -7.0});
         Context::getWorld()->level.toSpawnObjects.push_back(brick);

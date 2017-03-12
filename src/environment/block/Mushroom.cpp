@@ -1,6 +1,7 @@
 #include "environment/block/Mushroom.hpp"
 
 #include "Context.hpp"
+#include "core/Audio.hpp"
 #include "environment/Mushroom.hpp"
 #include "World.hpp"
 
@@ -28,6 +29,7 @@ void Mushroom::onCollisionWith(Collision collision, Object& object)
             Object* mushroom = new environment::Mushroom();
             mushroom->position = spawnPoint;
             Context::getWorld()->level.toSpawnObjects.push_back(mushroom);
+            Context::getAudio()->playSample(core::AudioSample::MushroomAppear);
         }
     }
 

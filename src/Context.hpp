@@ -5,11 +5,12 @@ class SpritesContainer;
 
 namespace core
 {
+    class Audio;
     class FpsCounter;
 } // namespace core
 
 class TextRenderer;
-struct KeyboardState;
+class KeyboardState;
 class SDL_Renderer;
 class World;
 class Camera;
@@ -23,6 +24,9 @@ namespace graphics
 class Context
 {
 public:
+    static void setAudio(core::Audio*);
+    static core::Audio* getAudio();  
+    
     static void setSpritesContainer(SpritesContainer*);
     static SpritesContainer* getSpritesContainer();
 
@@ -61,6 +65,7 @@ private:
     static Camera* camera_;
     static graphics::StillRenderer* stillRenderer_;
     static graphics::CameraRenderer* cameraRenderer_;
+    static core::Audio* audio_;
 };
 
 #endif  // CONTEXT_HPP_

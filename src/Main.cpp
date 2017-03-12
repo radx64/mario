@@ -8,6 +8,7 @@
 
 #include "AnimatedSprite.hpp"
 #include "Camera.hpp"
+#include "core/Audio.hpp"
 #include "core/FpsCounter.hpp"
 #include "core/Timer.hpp"
 #include "LevelLoader.hpp"
@@ -138,6 +139,9 @@ void Main::init()
     camera->setW(width_);
     camera->setH(height_);
     Context::setCamera(camera);
+
+    core::Audio* audio = new core::Audio();
+    Context::setAudio(audio);
 
     graphics::CameraRenderer* cameraRenderer = new graphics::CameraRenderer(camera);
     Context::setCameraRenderer(cameraRenderer);

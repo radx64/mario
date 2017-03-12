@@ -1,6 +1,7 @@
 #include "environment/block/Coins.hpp"
 
 #include "Context.hpp"
+#include "core/Audio.hpp"
 #include "environment/CoinParticle.hpp"
 #include "World.hpp"
 
@@ -26,6 +27,7 @@ void Coins::onCollisionWith(Collision collision, Object& object)
             --coins_;
             depleted_ = coins_ == 0;
             Context::getWorld()->coins_++;
+            Context::getAudio()->playSample(core::AudioSample::Coin);
             math::Vector2f spawnPoint = position;
             spawnPoint.x += size.x / 2.0f;
             Object* coin = new CoinParticle(spawnPoint);
