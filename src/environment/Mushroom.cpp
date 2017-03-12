@@ -18,7 +18,7 @@ Mushroom::Mushroom() : Object(ObjectType::PowerUp)
     size.y = sprite_->getHeight();
     collidable = true;
     moving = true;
-    velocity.x = 0.8;
+    velocity.x = 64.0;
 }
 
 void Mushroom::draw()
@@ -28,10 +28,9 @@ void Mushroom::draw()
 
 void Mushroom::onUpdate(std::vector<Object*> gameObjects, double timeStep)
 {
-    (void) timeStep;
     velocity.y += grav_;
     findCollisions(gameObjects);
-    position += velocity;
+    position += velocity * timeStep;
 }
 
 void Mushroom::onCollisionWith(Collision collision, Object& object)

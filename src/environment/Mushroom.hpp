@@ -22,7 +22,7 @@ public:
 
 protected:
     Sprite* sprite_;
-    const float grav_ {0.20};
+    const float grav_ {5.0};
 };
 
 }  // namespace environment
