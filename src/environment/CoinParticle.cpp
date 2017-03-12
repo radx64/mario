@@ -37,9 +37,10 @@ void CoinParticle::draw()
     bitmap_->nextFrame();
 }
 
-void CoinParticle::onUpdate(std::vector<Object*> gameObjects)
+void CoinParticle::onUpdate(std::vector<Object*> gameObjects, double timeStep)
 {
     (void) gameObjects;
+    (void) timeStep;
     lifetime_++;
 
     position.y = initialPosition_.y - sin(lifetime_/10.0)*64.0f;

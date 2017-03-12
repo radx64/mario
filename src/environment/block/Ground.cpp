@@ -27,9 +27,10 @@ void Ground::draw()
     sprite_->draw(Context::getCameraRenderer(), position.x, position.y);
 }
 
-void Ground::onUpdate(std::vector<Object*> gameObjects)
+void Ground::onUpdate(std::vector<Object*> gameObjects, double timeStep)
 {
     (void) gameObjects;
+    (void) timeStep;
 }
 
 void Ground::onCollisionWith(Collision collision, Object& object)

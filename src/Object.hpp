@@ -13,8 +13,8 @@ class Object
 public:
     Object(ObjectType type);
     virtual ~Object();
-    void update(std::vector<Object*> gameObjects);
-    virtual void onUpdate(std::vector<Object*> gameObjects) = 0;
+    void update(std::vector<Object*> gameObjects, double timeStep);
+    virtual void onUpdate(std::vector<Object*> gameObjects, double timeStep) = 0;
     virtual void draw() = 0;
     virtual void onCollisionWith(Collision collision, Object& object) = 0;
 

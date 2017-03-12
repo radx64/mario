@@ -12,10 +12,10 @@ Object::~Object()
 {
 }
 
-void Object::update(std::vector<Object*> gameObjects)
+void Object::update(std::vector<Object*> gameObjects, double timeStep)
 {
     ++lifetime_;
-    onUpdate(gameObjects);
+    onUpdate(gameObjects, timeStep);
 }
 
 

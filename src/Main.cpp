@@ -32,7 +32,7 @@ If it ugly, hacky and and makes You cry, it should be done that way :).
 
 **/
 
-Main::Main(): width_(640), height_(480)
+Main::Main(): width_(1200), height_(768)
 {
 
 }
@@ -122,7 +122,7 @@ void Main::init()
         return;
     }
 
-    SDL_MaximizeWindow(window_);
+    //SDL_MaximizeWindow(window_);
     
     //SDL_SetWindowFullscreen(window_, 1);
 
@@ -220,7 +220,7 @@ void Main::initGameObjects()
     player_ = object;
 }
 
-void Main::scene()
+void Main::step(double simulationTimeStep)
 {
     core::Timer profiler;
     profiler.start();
@@ -228,7 +228,7 @@ void Main::scene()
     for (it = world_.level.objects.begin(); it != world_.level.objects.end();)
     {
         auto object = *it;
-        object->update(world_.level.objects);
+        object->update(world_.level.objects, simulationTimeStep);
         if (object->dead)
         {
            it = world_.level.objects.erase(it); 
@@ -262,17 +262,17 @@ void Main::scene()
 
     int fps =  Context::getFpsCounter()->getLastMeasurement();
     auto text = Context::getTextRenderer();
-    text->draw(std::string("FPS: " + std::to_string(fps)), width_/2 - 75, 4, 1.0);
-    text->draw(std::string("LMT: " + std::to_string((int)desiredFPS_)), width_/2 - 75, 20, 0.5);
+    text->draw(std::string("FPS: " + std::to_string(fps)), width_/2 - 275, 4, 1.0);
+    text->draw(std::string("LMT: " + std::to_string((int)desiredFPS_)), width_/2 - 275, 20, 0.5);
 
-    text->draw(std::string("PHY: " + std::to_string(physicsTime) + " ms"), width_/2 - 75, 28, 0.5);
-    text->draw(std::string("DRW: " + std::to_string(drawingTime) + " ms"), width_/2 - 75, 36, 0.5);
-    text->draw(std::string("SLP: " + std::to_string((int)frameFreezeTime_) + " ms"), width_/2 - 75, 44, 0.5);
+    text->draw(std::string("PHY: " + std::to_string(physicsTime) + " ms"), width_/2 - 275, 28, 0.5);
+    text->draw(std::string("DRW: " + std::to_string(drawingTime) + " ms"), width_/2 - 275, 36, 0.5);
+    text->draw(std::string("SLP: " + std::to_string((int)frameFreezeTime_) + " ms"), width_/2 - 275, 44, 0.5);
 
-    text->draw(std::string("PLAYER X: " + std::to_string((int)player_->position.x)), 10, 20, 0.5);
-    text->draw(std::string("PLAYER Y: " + std::to_string((int)player_->position.y)), 10, 28, 0.5);
-    text->draw(std::string("PLAYER VX: " + std::to_string((int)player_->velocity.x)), 10, 36, 0.5);
-    text->draw(std::string("PLAYER VY: " + std::to_string((int)player_->velocity.y)), 10, 44, 0.5);
+    text->draw(std::string("PLAYER X: " + std::to_string(player_->position.x)), 10, 20, 0.5);
+    text->draw(std::string("PLAYER Y: " + std::to_string(player_->position.y)), 10, 28, 0.5);
+    text->draw(std::string("PLAYER VX: " + std::to_string(player_->velocity.x)), 10, 36, 0.5);
+    text->draw(std::string("PLAYER VY: " + std::to_string(player_->velocity.y)), 10, 44, 0.5);
 
     text->draw(std::string("OBJECTS: " + std::to_string(world_.level.objects.size())), 10, 52, 0.5);
     auto world = Context::getWorld();
@@ -290,11 +290,24 @@ void Main::loop()
         frameTimer.start();
         clear();
         input();
-        scene();
+        step(simulationTimeStep_/1000.0f); // step in seconds
+
 
         SDL_RenderPresent(renderer_);
         frameFreezeTime_ = 1000.0 / desiredFPS_ - frameTimer.getTicks();
+        frameFreezeTime_ = frameFreezeTime_ > 0 ? frameFreezeTime_ : 0.0;
         SDL_Delay(frameFreezeTime_ < 0 ? 0 : frameFreezeTime_);
+        simulationTimeStep_ = frameTimer.getTicks();
+        if (simulationTimeStep_ > 50.0)
+        {
+          simulationTimeStep_ = 50;
+          // to much time step makes collision not work (flying through objects between frames)  
+          // to fixed that some raycasting, movement interpolation need to be done but I don't
+          // feel if it is needed. Less than 8 FPS is not payable and it causing problems only 
+          // in thatkind of circumstances. So I'm ok with that in low FPS simulation will slow
+          // down
+        }
+
         Context::getFpsCounter()->measure();
         ++frame_;
     }

@@ -54,9 +54,10 @@ void Question::draw()
     currentAnimation_->nextFrame();
 }
 
-void Question::onUpdate(std::vector<Object*> gameObjects)
+void Question::onUpdate(std::vector<Object*> gameObjects, double timeStep)
 {
     (void) gameObjects;
+    (void) timeStep;
     if (bounce_)
     {
         bounceTick_++;

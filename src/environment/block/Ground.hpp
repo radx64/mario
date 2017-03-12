@@ -16,7 +16,7 @@ public:
     Ground();
 
     virtual void draw() override;
-    virtual void onUpdate(std::vector<Object*> gameObjects) override;
+    virtual void onUpdate(std::vector<Object*> gameObjects, double timeStep) override;
     virtual void onCollisionWith(Collision collision, Object& object) override;
 
 protected:

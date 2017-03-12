@@ -19,7 +19,7 @@ public:
     Question(math::Vector2f position);
 
     virtual void draw() override;
-    virtual void onUpdate(std::vector<Object*> gameObjects) override;
+    virtual void onUpdate(std::vector<Object*> gameObjects, double timeStep) override;
     virtual void onCollisionWith(Collision collision, Object& object) = 0;
 
 protected:

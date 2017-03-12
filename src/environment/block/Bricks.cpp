@@ -28,9 +28,10 @@ void Bricks::draw()
     bitmap_->draw(Context::getCameraRenderer(), position.x, position.y);
 }
 
-void Bricks::onUpdate(std::vector<Object*> gameObjects)
+void Bricks::onUpdate(std::vector<Object*> gameObjects, double timeStep)
 {
     (void) gameObjects;
+    (void) timeStep;
 }
 
 void Bricks::onCollisionWith(Collision collision, Object& object)

@@ -28,7 +28,7 @@ public:
 
 private:
     void clear();
-    void scene();
+    void step(double simulationTimeStep);
     void initGameObjects();
     void initBitmapsContainter();
 
@@ -46,6 +46,7 @@ private:
     Object* player_{};
     float desiredFPS_{60.0};
     double frameFreezeTime_{};
+    double simulationTimeStep_{};
 };
 
 #endif  // MAIN_HPP_

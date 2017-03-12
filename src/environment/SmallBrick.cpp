@@ -36,9 +36,10 @@ void SmallBrick::draw()
     bitmap_->nextFrame();
 }
 
-void SmallBrick::onUpdate(std::vector<Object*> gameObjects)
+void SmallBrick::onUpdate(std::vector<Object*> gameObjects, double timeStep)
 {
     (void) gameObjects;
+    (void) timeStep;
 
     velocity_.y += 0.4f;
 

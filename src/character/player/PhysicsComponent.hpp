@@ -18,7 +18,7 @@ class PhysicsComponent
 {
 public:
     PhysicsComponent(Player& player);
-    void simulate();
+    void simulate(double dt);
     void onCollisionWith(Collision collision, Object& object);
 
 protected:
@@ -31,9 +31,9 @@ protected:
 
     Player& player_;
 
-    const float grav_ {0.20};
-    const float horizontalMaxSpeedWalk_ {1.0};
-    const float horizontalMaxSpeedRun_ {3.0};
+    const float grav_ {5.0};
+    const float horizontalMaxSpeedWalk_ {40.0};
+    const float horizontalMaxSpeedRun_ {200.0};
 };
 
 }  // namespace player

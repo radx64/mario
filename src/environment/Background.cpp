@@ -19,9 +19,10 @@ void Background::draw()
     sprite_->draw(Context::getCameraRenderer(), position.x, position.y);
 }
 
-void Background::onUpdate(std::vector<Object*> gameObjects)
+void Background::onUpdate(std::vector<Object*> gameObjects, double timeStep)
 {
     (void) gameObjects;
+    (void) timeStep;
 }
 
 void Background::onCollisionWith(Collision collision, Object& object)

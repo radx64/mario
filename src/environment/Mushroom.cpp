@@ -26,8 +26,9 @@ void Mushroom::draw()
     sprite_->draw(Context::getCameraRenderer(), position.x, position.y);
 }
 
-void Mushroom::onUpdate(std::vector<Object*> gameObjects)
+void Mushroom::onUpdate(std::vector<Object*> gameObjects, double timeStep)
 {
+    (void) timeStep;
     velocity.y += grav_;
     findCollisions(gameObjects);
     position += velocity;

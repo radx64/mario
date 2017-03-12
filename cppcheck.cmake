@@ -14,7 +14,6 @@ add_custom_target(
         cppcheck
         COMMAND /usr/bin/cppcheck
         --enable=warning,performance,portability,information
-        --suppress=useInitializationList
         --suppress=missingInclude
         --std=c++11
         --template="[{severity}][{id}] {message} {callstack} \(On {file}:{line}\)"
