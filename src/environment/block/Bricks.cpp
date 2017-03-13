@@ -45,13 +45,13 @@ void Bricks::onCollisionWith(Collision collision, Object& object)
         Context::getAudio()->playSample(core::AudioSample::BlockBreak);
 
         Object* brick = new SmallBrick(spawnPoint, {0.8, -7.0});
-        Context::getWorld()->level.toSpawnObjects.push_back(brick);
+        Context::getWorld()->level.toSpawnObjectsInFore.push_back(brick);
         brick = new SmallBrick(spawnPoint, {0.8, -5.0});
-        Context::getWorld()->level.toSpawnObjects.push_back(brick);
+        Context::getWorld()->level.toSpawnObjectsInFore.push_back(brick);
         brick = new SmallBrick(spawnPoint, {-0.8, -7.0});
-        Context::getWorld()->level.toSpawnObjects.push_back(brick);
+        Context::getWorld()->level.toSpawnObjectsInFore.push_back(brick);
         brick = new SmallBrick(spawnPoint, {-0.8, -5.0});
-        Context::getWorld()->level.toSpawnObjects.push_back(brick);
+        Context::getWorld()->level.toSpawnObjectsInFore.push_back(brick);
     }
 }
 

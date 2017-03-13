@@ -7,8 +7,11 @@ class Object;
 
 struct Level
 {
-    std::vector<Object*> objects;
-    std::vector<Object*> toSpawnObjects;
+    std::vector<Object*> backObjects;
+    std::vector<Object*> foreObjects;
+
+    std::vector<Object*> toSpawnObjectsInBack;
+    std::vector<Object*> toSpawnObjectsInFore;
 };
 
 class World

@@ -16,10 +16,13 @@
 class Object;
 
 // This is a very simple and messy level loader to speedup development
+// Yes it is baaaad, really really baaaad. But works like a charm.
 
 Level LevelLoader::load(std::string filename)
 {
-    std::vector<Object*> objects;
+    std::vector<Object*> backObjects;
+    std::vector<Object*> foreObjects;
+
     std::ifstream levelFile(filename);
     if (!levelFile.is_open())
     {
@@ -60,11 +63,35 @@ Level LevelLoader::load(std::string filename)
             }
 
             object->position = position;
-            objects.push_back(object);
+            switch(c)
+            {
+
+                case '0' : 
+                case '1' : 
+                case '2' : 
+                case 'm' : 
+                case 'p' : 
+                case 'z' : 
+                case 'x' : 
+                case 'c' : 
+                case 'v' :  foreObjects.push_back(object);
+                            break;
+
+                case 'q' : 
+                case 'w' : 
+                case 'e' : 
+                case 'a' : 
+                case 's' : 
+                case 'd' : 
+                case 'f' : 
+                case 'g' : 
+                case 'h' :  backObjects.push_back(object);
+                            break;             
+            }
             
             columnIndex++;
         }
         lineIndex++;
     }
-    return Level {objects, {}};
+    return Level {backObjects, foreObjects, {}, {} };
 }

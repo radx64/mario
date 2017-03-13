@@ -31,7 +31,7 @@ void Coins::onCollisionWith(Collision collision, Object& object)
             math::Vector2f spawnPoint = position;
             spawnPoint.x += size.x / 2.0f;
             Object* coin = new CoinParticle(spawnPoint);
-            Context::getWorld()->level.toSpawnObjects.push_back(coin);
+            Context::getWorld()->level.toSpawnObjectsInBack.push_back(coin);
         }
     }
 

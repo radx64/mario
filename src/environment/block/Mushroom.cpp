@@ -27,7 +27,7 @@ void Mushroom::onCollisionWith(Collision collision, Object& object)
             math::Vector2f spawnPoint = position;
             Object* mushroom = new environment::Mushroom();
             mushroom->position = spawnPoint;
-            Context::getWorld()->level.toSpawnObjects.push_back(mushroom);
+            Context::getWorld()->level.toSpawnObjectsInBack.push_back(mushroom);
             Context::getAudio()->playSample(core::AudioSample::MushroomAppear);
         }
     }

@@ -220,47 +220,73 @@ void Main::initGameObjects()
     Object* object = new character::player::Player();
     object->position = {64, 200};
 
-    world_.level.objects.push_back(object);
+    world_.level.backObjects.push_back(object);
     player_ = object;
 }
+
+
+/* passing allObjects is now a temporary solution for collision between layers */
+void update(std::vector<Object*>& objects, std::vector<Object*>& allObjects, double dt)
+{
+    std::vector<Object*>::iterator it;
+
+    for (it = objects.begin(); it != objects.end();)
+    {
+        auto object = *it;
+        object->update(allObjects, dt);
+        if (object->dead)
+        {
+           it = objects.erase(it); 
+        }
+        else
+        {
+            ++it;
+        }        
+    }
+
+}
+
+void spawn(std::vector<Object*>& objects, std::vector<Object*>& toSpawn)
+{
+    if (toSpawn.size() > 0)
+    {
+
+        for (auto objectToSpawn : toSpawn)
+        {
+            objects.push_back(objectToSpawn);
+        }
+        toSpawn.clear();
+    }    
+}
+
+void draw(std::vector<Object*>& objects)
+{
+    for(Object* o : objects) o->draw();  
+}
+
 
 void Main::step(double simulationTimeStep)
 {
     core::Timer profiler;
     profiler.start();
-    std::vector<Object*>::iterator it;
-    for (it = world_.level.objects.begin(); it != world_.level.objects.end();)
-    {
-        auto object = *it;
-        object->update(world_.level.objects, simulationTimeStep);
-        if (object->dead)
-        {
-           it = world_.level.objects.erase(it); 
-        }
-        else
-        {
-            ++it;
-        }
-    }
 
-    if (world_.level.toSpawnObjects.size() > 0)
-    {
+    /* not an optimal solution */
+    std::vector<Object*> allObjects;
+    allObjects.insert(allObjects.end(), world_.level.backObjects.begin(), world_.level.backObjects.end());
+    allObjects.insert(allObjects.end(), world_.level.foreObjects.begin(), world_.level.foreObjects.end());
 
-        for (auto objectToSpawn : world_.level.toSpawnObjects)
-        {
-            world_.level.objects.push_back(objectToSpawn);
-        }
-        world_.level.toSpawnObjects.clear();
-    }
+    update(world_.level.backObjects, allObjects, simulationTimeStep);
+    update(world_.level.foreObjects, allObjects, simulationTimeStep);
+
+    spawn(world_.level.backObjects, world_.level.toSpawnObjectsInBack);
+    spawn(world_.level.foreObjects, world_.level.toSpawnObjectsInFore);
 
     double physicsTime = profiler.getTicks();
     profiler.start();
 
-    std::for_each(world_.level.objects.begin(), world_.level.objects.end(), 
-        [](Object* o){ if(o->type_ == ObjectType::Background) o->draw(); });
 
-    std::for_each(world_.level.objects.begin(), world_.level.objects.end(), 
-        [](Object* o){ if(o->type_ != ObjectType::Background) o->draw(); });
+    draw(world_.level.backObjects);
+    draw(world_.level.foreObjects);
 
     double drawingTime = profiler.getTicks();
 
@@ -278,7 +304,8 @@ void Main::step(double simulationTimeStep)
     text->draw(std::string("PLAYER VX: " + std::to_string(player_->velocity.x)), 10, 36, 0.5);
     text->draw(std::string("PLAYER VY: " + std::to_string(player_->velocity.y)), 10, 44, 0.5);
 
-    text->draw(std::string("OBJECTS: " + std::to_string(world_.level.objects.size())), 10, 52, 0.5);
+    text->draw(std::string("BACKOBJECTS: " + std::to_string(world_.level.backObjects.size())), 10, 52, 0.5);
+    text->draw(std::string("FOREOBJECTS: " + std::to_string(world_.level.foreObjects.size())), 10, 60, 0.5);
     auto world = Context::getWorld();
 
     text->draw(std::string("LIVES: " + std::to_string(world->lives_)), 25, 4, 1.0);
@@ -297,7 +324,6 @@ void Main::loop()
         input();
         step(simulationTimeStep_/1000.0f); // step in seconds
 
-
         SDL_RenderPresent(renderer_);
         frameFreezeTime_ = 1000.0 / desiredFPS_ - frameTimer.getTicks();
         frameFreezeTime_ = frameFreezeTime_ > 0 ? frameFreezeTime_ : 0.0;
@@ -305,12 +331,13 @@ void Main::loop()
         simulationTimeStep_ = frameTimer.getTicks();
         if (simulationTimeStep_ > 50.0)
         {
-          simulationTimeStep_ = 50;
-          // to much time step makes collision not work (flying through objects between frames)  
-          // to fixed that some raycasting, movement interpolation need to be done but I don't
-          // feel if it is needed. Less than 8 FPS is not payable and it causing problems only 
-          // in thatkind of circumstances. So I'm ok with that in low FPS simulation will slow
-          // down
+            simulationTimeStep_ = 50;
+        /*         
+          to much time step makes collision not work (flying through objects between frames)  
+          to fixed that some raycasting or movement interpolation need to be done but I don't
+          feel if it is needed. Less than 8 FPS is not payable and it causing problems only 
+          in those circumstances. So I'm ok with that in low FPS simulation will slow down
+        */
         }
 
         Context::getFpsCounter()->measure();
