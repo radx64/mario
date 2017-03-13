@@ -24,14 +24,13 @@ public:
 protected:
     inline void bouceOfCeiling();
     inline void jump();
-    inline void fall();
     inline void moveLeft(float& horizontalAcceleration);
     inline void moveRight(float& horizontalAcceleration);
     inline float getMaxHorizontalSpeed(bool running);
 
     Player& player_;
 
-    const float grav_ {5.0};
+    const float grav_ {500.0};
     const float horizontalMaxSpeedWalk_ {40.0};
     const float horizontalMaxSpeedRun_ {200.0};
 };

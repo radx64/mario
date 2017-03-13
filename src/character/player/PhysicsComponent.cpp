@@ -25,13 +25,8 @@ inline void PhysicsComponent::bouceOfCeiling()
 
 inline void PhysicsComponent::jump()
 {
-    player_.velocity.y = -250.0;
+    player_.velocity.y = -200.0;
     player_.jumped_ = true;
-}
-
-inline void PhysicsComponent::fall()
-{
-    player_.velocity.y += 20.0;   
 }
 
 inline void PhysicsComponent::moveLeft(float& horizontalAcceleration)
@@ -59,9 +54,6 @@ void PhysicsComponent::simulate(double dt)
 
     player_.velocity.y += (grav_ * dt);
 
-    if (fabs(player_.velocity.x) > 5.0) player_.state = Player::State::Running;
-    else player_.state = Player::State::Standing;
-
     if (keys->up)
     {
         if (!player_.jumped_)
@@ -71,12 +63,8 @@ void PhysicsComponent::simulate(double dt)
         }
         else
         {
-            player_.velocity.y += 6.0;
+            player_.velocity.y -= 255.0 * dt;
         } 
-    }
-    else
-    {
-        fall();
     }
 
     float horizontalAcceleration{};
@@ -92,8 +80,6 @@ void PhysicsComponent::simulate(double dt)
     player_.velocity.x += horizontalAcceleration;
 
     player_.setAnimationSpeed((horizontalMaxSpeedRun_ * 2.0 - abs(player_.velocity.x)) * 0.015);
-
-    if (player_.jumped_) player_.state = Player::State::Jumping;
 
 
     player_.position += player_.velocity * dt;

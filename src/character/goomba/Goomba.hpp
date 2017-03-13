@@ -33,7 +33,7 @@ protected:
     AnimatedSprite* squashed_;
     AnimatedSprite* currentAnimation_;
     State state_{State::Walking};
-    const float grav_ {5.0};
+    const float grav_ {300.0};
     uint8_t dyingCounter_{0};
 };
 

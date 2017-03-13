@@ -3,7 +3,7 @@
 
 #include <map>
 
-class Mix_Chunk;
+#include <SDL2/SDL_mixer.h>
 
 namespace core
 {
@@ -23,10 +23,13 @@ public:
     Audio();
     ~Audio();
     void playSample(AudioSample sample);
+    void playMusic();
+    void stopMusic();
 
 
 private:
     std::map<AudioSample, Mix_Chunk*> samples_;
+    Mix_Music* music_;
 };
 
 }  // namespace core

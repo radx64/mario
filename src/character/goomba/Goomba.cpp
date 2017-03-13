@@ -35,7 +35,7 @@ Goomba::Goomba() : Object(ObjectType::Enemy)
     size.y = Context::getSpritesContainer()->get(SpriteType::GOOMBA_WALK_0)->getHeight();
     collidable = true;
     moving = true;
-    velocity.x = -50.0;
+    velocity.x = -30.0;
 }
 
 void Goomba::draw()
@@ -49,7 +49,7 @@ void Goomba::onUpdate(std::vector<Object*> gameObjects, double timeStep)
     (void) timeStep;
     if(state_ == State::Walking)
     {
-        velocity.y += grav_;
+        velocity.y += grav_ * timeStep;
         findCollisions(gameObjects);
         position += velocity * timeStep;
     }
@@ -80,7 +80,7 @@ void Goomba::onCollisionWith(Collision collision, Object& object)
     if(collision.get() == Collision::State::Bottom)
     {
         velocity.y = 0;
-        position.y = object.position.y - size.y + 2;
+        position.y = object.position.y - size.y + 1;
     }
 
     if (collision.get() == Collision::State::Left)

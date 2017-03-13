@@ -59,6 +59,11 @@ void GraphicsComponent::draw()
 
     auto camera = Context::getCamera();
 
+    if (fabs(player_.velocity.x) > 5.0) player_.state = Player::State::Running;
+    else player_.state = Player::State::Standing;
+
+    if (player_.jumped_) player_.state = Player::State::Jumping;
+
     if (player_.velocity.x < 0.0)
     {
         flip.FLIP_HORIZONTAL();

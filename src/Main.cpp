@@ -289,6 +289,7 @@ void Main::loop()
 {
     initGameObjects();
     core::Timer frameTimer;
+    Context::getAudio()->playMusic();
     while (running_)
     {
         frameTimer.start();
