@@ -25,7 +25,6 @@ void Mushroom::onCollisionWith(Collision collision, Object& object)
             bounceTick_ = 0;
             depleted_ = true;
             math::Vector2f spawnPoint = position;
-            spawnPoint.x += size.x / 2.0f;
             Object* mushroom = new environment::Mushroom();
             mushroom->position = spawnPoint;
             Context::getWorld()->level.toSpawnObjects.push_back(mushroom);

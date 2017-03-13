@@ -21,6 +21,13 @@ public:
     virtual void onCollisionWith(Collision collision, Object& object) override;
 
 protected:
+    enum class State
+    {
+        Spawning,
+        Spawned
+    };
+
+    State state_;
     Sprite* sprite_;
     const float grav_ {300.0};
 };

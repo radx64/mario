@@ -19,6 +19,7 @@ Mushroom::Mushroom() : Object(ObjectType::PowerUp)
     collidable = true;
     moving = true;
     velocity.x = 32.0;
+    state_ = State::Spawning;
 }
 
 void Mushroom::draw()
@@ -28,6 +29,15 @@ void Mushroom::draw()
 
 void Mushroom::onUpdate(std::vector<Object*> gameObjects, double timeStep)
 {
+
+    if (lifetime_ > 50) state_ = State::Spawned;
+
+    if (state_ == State::Spawning)
+    {
+        position.y -= 20.0 * timeStep;
+        return;
+    }
+
     velocity.y += grav_ * timeStep;
     findCollisions(gameObjects);
     position += velocity * timeStep;
