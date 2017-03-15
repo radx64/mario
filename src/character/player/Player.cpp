@@ -29,7 +29,6 @@ void Player::onCollisionWith(Collision collision, Object& object)
 
 void Player::onUpdate(std::vector<Object*> gameObjects, double timeStep)
 {
-    (void) timeStep;
     physics_.simulate(timeStep);
     findCollisions(gameObjects);
 }

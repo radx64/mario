@@ -99,8 +99,8 @@ void PhysicsComponent::onCollisionWith(Collision collision, Object& object)
         }
         else
         {
-            player_.position.y = object.position.y - player_.size.y;
-            if (player_.velocity.y > 0) player_.velocity.y = 0;
+            player_.position.y = object.position.y - player_.size.y + 1;
+            player_.velocity.y = 0;
             player_.jumped_ = false;
         }
     }
