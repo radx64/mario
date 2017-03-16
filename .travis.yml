@@ -1,8 +1,6 @@
 language: cpp
 sudo: true
-compiler:
-  - clang
-  - gcc
+compiler: gcc
 
 addons:
   apt:
@@ -17,6 +15,7 @@ addons:
 before_install:
   - echo $LANG
   - echo $LC_ALL
+  - export CXX="g++-5" CC="gcc-5";
   - sudo add-apt-repository -y ppa:team-xbmc/ppa
   - sudo add-apt-repository -y ppa:zoogie/sdl2-snapshots;
   - sudo apt-get update -qq
