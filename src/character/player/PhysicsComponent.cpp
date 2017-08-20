@@ -32,13 +32,13 @@ inline void PhysicsComponent::jump()
 inline void PhysicsComponent::moveLeft(float& horizontalAcceleration)
 {
     horizontalAcceleration = -20.0;
-    if (player_.velocity.x > 0) player_.state = Player::State::Sliding;
+    if (!player_.jumped_ && player_.velocity.x > 0) player_.state = Player::State::Sliding;
 }
 
 inline void PhysicsComponent::moveRight(float& horizontalAcceleration)
 {
     horizontalAcceleration = 20;
-    if (player_.velocity.x < 0) player_.state = Player::State::Sliding;
+    if (!player_.jumped_ && player_.velocity.x < 0) player_.state = Player::State::Sliding;
 }
 
 inline float PhysicsComponent::getMaxHorizontalSpeed(bool running)
@@ -79,7 +79,7 @@ void PhysicsComponent::simulate(double dt)
 
     player_.velocity.x += horizontalAcceleration;
 
-    player_.setAnimationSpeed((horizontalMaxSpeedRun_ * 2.0 - abs(player_.velocity.x)) * 0.015);
+    player_.setAnimationSpeed((horizontalMaxSpeedRun_ * 0.8 - abs(player_.velocity.x)) * 0.2 );
 
 
     player_.position += player_.velocity * dt;
