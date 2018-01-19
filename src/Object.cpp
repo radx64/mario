@@ -8,16 +8,11 @@ Object::Object(ObjectType type) : type_(type)
 {
 }
 
-Object::~Object()
-{
-}
-
 void Object::update(std::vector<Object*> gameObjects, double timeStep)
 {
     ++lifetime_;
     onUpdate(gameObjects, timeStep);
 }
-
 
 std::vector<Object::CollisionPoint> Object::getCollisionPoints()
 {
@@ -29,7 +24,6 @@ std::vector<Object::CollisionPoint> Object::getCollisionPoints()
         {Collision::State::Right,  {position.x + size.x,            position.y + size.y/2.0f}},
     };
 }
-
 
 void Object::findCollisions(std::vector<Object*> collidableObjects)
 {

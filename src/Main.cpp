@@ -33,7 +33,7 @@ If it ugly, hacky and and makes You cry, it should be done that way :).
 
 **/
 
-Main::Main(): width_(1200), height_(768)
+Main::Main(): width_(640), height_(480)
 {
 
 }
@@ -123,14 +123,16 @@ void Main::init()
         return;
     }
 
-    //SDL_MaximizeWindow(window_);
+    SDL_MaximizeWindow(window_);
     
     //SDL_SetWindowFullscreen(window_, 1);
 
     renderer_ = SDL_CreateRenderer(window_, -1, SDL_RENDERER_ACCELERATED);
     SDL_SetRenderTarget(renderer_, NULL);
     Context::setSdlRenderer(renderer_);
-    SDL_RenderSetScale(renderer_, 3.0, 3.0);
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, 0);
+    SDL_RenderSetLogicalSize(renderer_, width_/2, height_/2);
+    //SDL_RenderSetScale(renderer_, 2.5f, 2.5f);
 
     graphics::StillRenderer* stillRenderer = new graphics::StillRenderer();
     Context::setStillRenderer(stillRenderer);
@@ -284,7 +286,6 @@ void Main::step(double simulationTimeStep)
     double physicsTime = profiler.getTicks();
     profiler.start();
 
-
     draw(world_.level.backObjects);
     draw(world_.level.foreObjects);
 
@@ -292,12 +293,12 @@ void Main::step(double simulationTimeStep)
 
     int fps =  Context::getFpsCounter()->getLastMeasurement();
     auto text = Context::getTextRenderer();
-    text->draw(std::string("FPS: " + std::to_string(fps)), width_/2 - 275, 4, 1.0);
-    text->draw(std::string("LMT: " + std::to_string((int)desiredFPS_)), width_/2 - 275, 20, 0.5);
+    text->draw(std::string("FPS: " + std::to_string(fps)), width_/2 - 75, 4, 1.0);
+    text->draw(std::string("LMT: " + std::to_string((int)desiredFPS_)), width_/2 - 75, 20, 0.5);
 
-    text->draw(std::string("PHY: " + std::to_string(physicsTime) + " ms"), width_/2 - 275, 28, 0.5);
-    text->draw(std::string("DRW: " + std::to_string(drawingTime) + " ms"), width_/2 - 275, 36, 0.5);
-    text->draw(std::string("SLP: " + std::to_string((int)frameFreezeTime_) + " ms"), width_/2 - 275, 44, 0.5);
+    text->draw(std::string("PHY: " + std::to_string(physicsTime) + " ms"), width_/2 - 75, 28, 0.5);
+    text->draw(std::string("DRW: " + std::to_string(drawingTime) + " ms"), width_/2 - 75, 36, 0.5);
+    text->draw(std::string("SLP: " + std::to_string((int)frameFreezeTime_) + " ms"), width_/2 - 75, 44, 0.5);
 
     text->draw(std::string("PLAYER X: " + std::to_string(player_->position.x)), 10, 20, 0.5);
     text->draw(std::string("PLAYER Y: " + std::to_string(player_->position.y)), 10, 28, 0.5);
@@ -316,7 +317,7 @@ void Main::loop()
 {
     initGameObjects();
     core::Timer frameTimer;
-    Context::getAudio()->playMusic();
+    //Context::getAudio()->playMusic();
     while (running_)
     {
         frameTimer.start();

@@ -1,5 +1,6 @@
 #include "character/player/PhysicsComponent.hpp"
 
+#include <algorithm>
 #include <cmath>
 
 #include "Camera.hpp"
@@ -25,19 +26,19 @@ inline void PhysicsComponent::bouceOfCeiling()
 
 inline void PhysicsComponent::jump()
 {
-    player_.velocity.y = -200.0;
+    player_.velocity.y = -220.0;
     player_.jumped_ = true;
 }
 
 inline void PhysicsComponent::moveLeft(float& horizontalAcceleration)
 {
-    horizontalAcceleration = -20.0;
+    horizontalAcceleration = -25.0;
     if (!player_.jumped_ && player_.velocity.x > 0) player_.state = Player::State::Sliding;
 }
 
 inline void PhysicsComponent::moveRight(float& horizontalAcceleration)
 {
-    horizontalAcceleration = 20;
+    horizontalAcceleration = 25;
     if (!player_.jumped_ && player_.velocity.x < 0) player_.state = Player::State::Sliding;
 }
 
@@ -50,7 +51,7 @@ void PhysicsComponent::simulate(double dt)
 {
     auto keys = Context::getKeyboardState();
 
-    player_.velocity.x *=0.91;
+    player_.velocity.x *=0.85f;
 
     player_.velocity.y += (grav_ * dt);
 
@@ -62,7 +63,7 @@ void PhysicsComponent::simulate(double dt)
             jump();
         }
         else
-        {
+        { 
             player_.velocity.y -= 255.0 * dt;
         } 
     }
@@ -79,13 +80,14 @@ void PhysicsComponent::simulate(double dt)
 
     player_.velocity.x += horizontalAcceleration;
 
-    player_.setAnimationSpeed((horizontalMaxSpeedRun_ * 0.8 - abs(player_.velocity.x)) * 0.2 );
+    player_.setAnimationDelay( std::max((horizontalMaxSpeedRun_ - abs(player_.velocity.x))/10, 2.0f));
 
 
     player_.position += player_.velocity * dt;
 
     Context::getCamera()->setX(player_.position.x);
     Context::getCamera()->setY(player_.position.y);
+
 }
 
 void PhysicsComponent::onCollisionWith(Collision collision, Object& object)
@@ -112,13 +114,13 @@ void PhysicsComponent::onCollisionWith(Collision collision, Object& object)
 
     if (collision.get() == Collision::State::Left)
     {
-        player_.velocity.x = 0;
+        player_.velocity.x = 0.0f;
         player_.position.x = object.position.x + object.size.x;
     }
 
     if (collision.get() == Collision::State::Right)
     {
-        player_.velocity.x = 0;
+        player_.velocity.x = 0.0f;
         player_.position.x = object.position.x - player_.size.x ;
     }
 }

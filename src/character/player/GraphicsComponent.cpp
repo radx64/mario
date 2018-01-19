@@ -78,9 +78,9 @@ void GraphicsComponent::draw()
          player_.position.y - camera->getY(), flip);
 }
 
-void GraphicsComponent::setSpeed(short speed)
+void GraphicsComponent::setDelay(short delay)
 {
-    currentAnimation_->setSpeed(speed);
+    currentAnimation_->setDelay(delay);
 }
 
 }  // namespace player

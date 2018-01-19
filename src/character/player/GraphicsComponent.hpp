@@ -15,7 +15,7 @@ class GraphicsComponent
 public:
     GraphicsComponent(Player& player);
     void draw();
-    void setSpeed(short speed);
+    void setDelay(short speed);
 
 protected:
     Player& player_;

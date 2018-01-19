@@ -30,9 +30,9 @@ protected:
 
     Player& player_;
 
-    const float grav_ {500.0};
+    const float grav_ {600.0};
     const float horizontalMaxSpeedWalk_ {40.0};
-    const float horizontalMaxSpeedRun_ {200.0};
+    const float horizontalMaxSpeedRun_ {120.0};
 };
 
 }  // namespace player

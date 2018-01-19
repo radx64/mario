@@ -23,14 +23,14 @@ public:
         SpritesContainer& spritesContainer);
     void draw(graphics::IRenderer* renderer, int x, int y);
     void draw(graphics::IRenderer* renderer, int x, int y, const FlipFlags& f);
-    void setSpeed(short speed);
+    void setDelay(short delay);
     void nextFrame();
 
 private:
     std::list<SpriteType> frames_;
     std::list<SpriteType>::iterator currentFrame_;
     SpritesContainer& spritesContainer_;
-    short speed_;
+    short delay_;
     short currentFrameLifeTime_;
 };
 

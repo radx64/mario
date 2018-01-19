@@ -33,9 +33,9 @@ void Player::onUpdate(std::vector<Object*> gameObjects, double timeStep)
     findCollisions(gameObjects);
 }
 
-void Player::setAnimationSpeed(short speed)
+void Player::setAnimationDelay(short delay)
 {
-    graphics_.setSpeed(speed);
+    graphics_.setDelay(delay);
 }
 
 }  // namespace player

@@ -6,13 +6,11 @@
 #include "ObjectType.hpp"
 #include "Collision.hpp"
 
-
-
 class Object
 {
 public:
     Object(ObjectType type);
-    virtual ~Object();
+    virtual ~Object() = default;
     void update(std::vector<Object*> gameObjects, double timeStep);
     virtual void onUpdate(std::vector<Object*> gameObjects, double timeStep) = 0;
     virtual void draw() = 0;

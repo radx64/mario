@@ -3,9 +3,9 @@
 #include "Sprite.hpp"
 
 AnimatedSprite::AnimatedSprite(std::list<SpriteType> bitmaps,
-    short speed,
+    short delay,
     SpritesContainer& spritesContainer)
-: frames_(bitmaps), spritesContainer_(spritesContainer), speed_(speed)
+: frames_(bitmaps), spritesContainer_(spritesContainer), delay_(delay)
 {
     currentFrame_ = frames_.begin();
     currentFrameLifeTime_ = 0;
@@ -21,15 +21,15 @@ void AnimatedSprite::draw(graphics::IRenderer* renderer, int x, int y, const Fli
     spritesContainer_.get(*currentFrame_)->draw(renderer, x, y, f);
 }
 
-void AnimatedSprite::setSpeed(short speed)
+void AnimatedSprite::setDelay(short delay)
 {
-    speed_ = speed;
+    delay_ = delay;
 }
 
 void AnimatedSprite::nextFrame()
 {
     currentFrameLifeTime_++;
-    if (currentFrameLifeTime_ > speed_)
+    if (currentFrameLifeTime_ > delay_)
     {
         ++currentFrame_;
         currentFrameLifeTime_ = 0;
