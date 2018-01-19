@@ -205,6 +205,9 @@ void Main::input()
                 case SDLK_2:
                     desiredFPS_ += 1.0;
                     break;
+                case SDLK_BACKQUOTE:
+                    debug_ = true;
+                    break;
             }
         }
     }
@@ -294,22 +297,27 @@ void Main::step(double simulationTimeStep)
 
     int fps =  Context::getFpsCounter()->getLastMeasurement();
     auto text = Context::getTextRenderer();
-    text->draw(std::string("FPS: " + std::to_string(fps)), width_/2 - 75, 4, 1.0);
-    text->draw(std::string("LMT: " + std::to_string((int)desiredFPS_)), width_/2 - 75, 20, 0.5);
 
-    text->draw(std::string("PHY: " + std::to_string(physicsTime) + " ms"), width_/2 - 75, 28, 0.5);
-    text->draw(std::string("DRW: " + std::to_string(drawingTime) + " ms"), width_/2 - 75, 36, 0.5);
-    text->draw(std::string("SLP: " + std::to_string((int)frameFreezeTime_) + " ms"), width_/2 - 75, 44, 0.5);
+    if (debug_)
+    {
+        text->draw(std::string("LMT: " + std::to_string((int)desiredFPS_)), width_/2 - 75, 20, 0.5);
 
-    text->draw(std::string("PLAYER X: " + std::to_string(player_->position.x)), 10, 20, 0.5);
-    text->draw(std::string("PLAYER Y: " + std::to_string(player_->position.y)), 10, 28, 0.5);
-    text->draw(std::string("PLAYER VX: " + std::to_string(player_->velocity.x)), 10, 36, 0.5);
-    text->draw(std::string("PLAYER VY: " + std::to_string(player_->velocity.y)), 10, 44, 0.5);
+        text->draw(std::string("PHY: " + std::to_string(physicsTime) + " ms"), width_/2 - 75, 28, 0.5);
+        text->draw(std::string("DRW: " + std::to_string(drawingTime) + " ms"), width_/2 - 75, 36, 0.5);
+        text->draw(std::string("SLP: " + std::to_string((int)frameFreezeTime_) + " ms"), width_/2 - 75, 44, 0.5);
 
-    text->draw(std::string("BACKOBJECTS: " + std::to_string(world_.level.backObjects.size())), 10, 52, 0.5);
-    text->draw(std::string("FOREOBJECTS: " + std::to_string(world_.level.foreObjects.size())), 10, 60, 0.5);
+        text->draw(std::string("PLAYER X: " + std::to_string(player_->position.x)), 10, 20, 0.5);
+        text->draw(std::string("PLAYER Y: " + std::to_string(player_->position.y)), 10, 28, 0.5);
+        text->draw(std::string("PLAYER VX: " + std::to_string(player_->velocity.x)), 10, 36, 0.5);
+        text->draw(std::string("PLAYER VY: " + std::to_string(player_->velocity.y)), 10, 44, 0.5);
+
+        text->draw(std::string("BACKOBJECTS: " + std::to_string(world_.level.backObjects.size())), 10, 52, 0.5);
+        text->draw(std::string("FOREOBJECTS: " + std::to_string(world_.level.foreObjects.size())), 10, 60, 0.5);
+    }
+    
     auto world = Context::getWorld();
 
+    text->draw(std::string("FPS: " + std::to_string(fps)), width_/2 - 75, 4, 1.0);
     text->draw(std::string("LIVES: " + std::to_string(world->lives_)), 25, 4, 1.0);
     text->draw(std::string("COINS: " + std::to_string(world->coins_)), 125, 4, 1.0);
 }
