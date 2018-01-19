@@ -26,7 +26,7 @@ inline void PhysicsComponent::bouceOfCeiling()
 
 inline void PhysicsComponent::jump()
 {
-    player_.velocity.y = -220.0;
+    player_.velocity.y = -210.0;
     player_.jumped_ = true;
 }
 
