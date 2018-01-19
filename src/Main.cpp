@@ -64,6 +64,7 @@ void Main::initBitmapsContainter()
         { SpriteType::COIN_PARTICLE_2,      rootPath + "environment/coin_particle_2.bmp"},
         { SpriteType::COIN_PARTICLE_3,      rootPath + "environment/coin_particle_3.bmp"},
         { SpriteType::GROUND_RED,           rootPath + "environment/gnd_red_1.bmp"},
+        { SpriteType::MARIO_CROUCHING,      rootPath + "characters/mario/crouch.bmp"},
         { SpriteType::MARIO_JUMPING,        rootPath + "characters/mario/jump.bmp"},
         { SpriteType::MARIO_RUNNING_0,      rootPath + "characters/mario/move0.bmp"},
         { SpriteType::MARIO_RUNNING_1,      rootPath + "characters/mario/move1.bmp"},

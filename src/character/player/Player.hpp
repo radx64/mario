@@ -24,7 +24,8 @@ public:
         Standing,
         Sliding,
         Running,
-        Jumping
+        Jumping,
+        Crouching
     };
 
     Player();
@@ -35,7 +36,9 @@ public:
     void setAnimationDelay(short delay);
 
     bool jumped_{false};
+    bool crouched_{false};
     State state{State::Standing};
+    State previousState{State::Standing};
 
 protected:
     GraphicsComponent graphics_;

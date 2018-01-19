@@ -61,3 +61,8 @@ void Sprite::setColor(int r, int g, int b)
 {
     SDL_SetTextureColorMod(texture_, r, g, b);
 }
+
+math::Vector2i Sprite::getSize()
+{
+    return math::Vector2i{width_, height_};
+}

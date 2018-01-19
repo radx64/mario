@@ -39,3 +39,8 @@ void AnimatedSprite::nextFrame()
         }
     }
 }
+
+math::Vector2i AnimatedSprite::getSize()
+{
+    return spritesContainer_.get(*currentFrame_)->getSize();
+}

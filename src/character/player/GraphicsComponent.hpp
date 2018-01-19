@@ -25,6 +25,7 @@ protected:
     AnimatedSprite* slideAnimation_;
     AnimatedSprite* jumpAnimation_;
     AnimatedSprite* currentAnimation_;
+    AnimatedSprite* crouchAnimation_;
 };
 
 }  // namespace player

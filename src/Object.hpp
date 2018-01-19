@@ -37,7 +37,7 @@ public:
     /** 
         used for dead bodies cleanup 
         **/
-    bool dead{false};
+    bool dead {false};
 
     ObjectType type_{ObjectType::Undefined};
 

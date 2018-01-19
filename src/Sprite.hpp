@@ -2,6 +2,7 @@
 #define SPRITE_HPP_
 
 #include <string>
+#include "math/Vector2.hpp"
 
 class SDL_Texture;
 class SDL_Rect;
@@ -23,6 +24,7 @@ public:
     void setColor(int r, int g, int b);
     int getWidth();
     int getHeight();
+    math::Vector2i getSize();
 
 private:
     SDL_Texture* texture_;

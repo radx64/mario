@@ -5,6 +5,7 @@
 #include <string>
 #include <memory>
 
+#include "math/Vector2.hpp"
 #include "SpritesContainer.hpp"
 
 class SDL_Renderer;
@@ -25,6 +26,7 @@ public:
     void draw(graphics::IRenderer* renderer, int x, int y, const FlipFlags& f);
     void setDelay(short delay);
     void nextFrame();
+    math::Vector2i getSize(); 
 
 private:
     std::list<SpriteType> frames_;

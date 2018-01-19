@@ -10,6 +10,8 @@
 #include "KeyboardState.hpp"
 #include "World.hpp"
 
+#include <iostream>
+
 namespace character
 {
 namespace player
@@ -32,12 +34,14 @@ inline void PhysicsComponent::jump()
 
 inline void PhysicsComponent::moveLeft(float& horizontalAcceleration)
 {
+    if (player_.crouched_) return;
     horizontalAcceleration = -25.0;
     if (!player_.jumped_ && player_.velocity.x > 0) player_.state = Player::State::Sliding;
 }
 
 inline void PhysicsComponent::moveRight(float& horizontalAcceleration)
 {
+    if (player_.crouched_) return;
     horizontalAcceleration = 25;
     if (!player_.jumped_ && player_.velocity.x < 0) player_.state = Player::State::Sliding;
 }
@@ -72,6 +76,7 @@ void PhysicsComponent::simulate(double dt)
 
     if (keys->left) moveLeft(horizontalAcceleration);
     if (keys->right) moveRight(horizontalAcceleration);
+    if (keys->down) player_.crouched_ = true; else player_.crouched_ = false;
 
     if (abs(player_.velocity.x) >= getMaxHorizontalSpeed(keys->run)) 
     {
