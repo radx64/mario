@@ -17,10 +17,12 @@ Audio::Audio()
 
         { AudioSample::BlockBreak,          Mix_LoadWAV( "../audio/blockbreak.wav") },
         { AudioSample::Coin,                Mix_LoadWAV( "../audio/coin.wav") },
+        { AudioSample::Explosion,           Mix_LoadWAV( "../audio/boom.wav") },
+        { AudioSample::Fireball,            Mix_LoadWAV( "../audio/fireball.wav") },
         { AudioSample::MushroomAppear,      Mix_LoadWAV( "../audio/mushroomappear.wav") },
         { AudioSample::PlayerJump,          Mix_LoadWAV( "../audio/jumpbig.wav") },
+        { AudioSample::Shot,                Mix_LoadWAV( "../audio/shot.wav") },
         { AudioSample::Stomp,               Mix_LoadWAV( "../audio/stomp.wav") },
-        { AudioSample::Fireball,               Mix_LoadWAV( "../audio/fireball.wav") },
     };
 
     music_ = Mix_LoadMUS( "../audio/overworld.wav" );

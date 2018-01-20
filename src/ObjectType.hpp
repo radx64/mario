@@ -6,6 +6,7 @@ enum class ObjectType
     Background,
     Enemy,
     Environment,
+    Fireball,
     Particle,
     Player,
     PowerUp,

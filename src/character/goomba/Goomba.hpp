@@ -22,12 +22,13 @@ public:
     virtual void onCollisionWith(Collision collision, Object& object) override;
 
 protected:
-
     enum class State
     {
         Walking,
         Dying
     };
+
+    void die();
 
     AnimatedSprite* walking_;
     AnimatedSprite* squashed_;

@@ -111,13 +111,12 @@ void PhysicsComponent::simulate(double dt)
     }
 
     if (fireCooldown > 0) fireCooldown--;
-
 }
 
 void PhysicsComponent::onCollisionWith(Collision collision, Object& object)
 {
 
-    if(object.type_ == ObjectType::Particle) return;
+    if(object.type_ == ObjectType::Fireball) return;
 
     if (collision.get() == Collision::State::Bottom)
     {
@@ -128,7 +127,7 @@ void PhysicsComponent::onCollisionWith(Collision collision, Object& object)
         else
         {
             player_.position.y = object.position.y - player_.size.y + 1;
-            player_.velocity.y = 0;
+            if (player_.velocity.y > 0) player_.velocity.y = 0;
             player_.jumped_ = false;
         }
     }

@@ -5,15 +5,18 @@
 #include "AnimatedSprite.hpp"
 #include "Camera.hpp"
 #include "Context.hpp"
+#include "core/Audio.hpp"
+#include "environment/Explosion.hpp"
 #include "graphics/CameraRenderer.hpp"
 #include "Sprite.hpp"
 #include "SpritesContainer.hpp"
+#include "World.hpp"
 
 namespace environment
 {
 
 Fireball::Fireball(math::Vector2f initialPosition, math::Vector2f velocity)
-: Object(ObjectType::Particle)
+: Object(ObjectType::Fireball)
 {
     this->velocity = velocity;
     bitmap_ = new AnimatedSprite({
@@ -48,17 +51,38 @@ void Fireball::onUpdate(std::vector<Object*> gameObjects, double timeStep)
 
     position += velocity * timeStep;
 
-    if (lifetime_ > 300)
-    {
-        dead = true;
-    }
+    if (lifetime_ > 100) die(false);
+}
 
+void Fireball::die(bool hasHitEnemy)
+{
+    dead = true;
+
+
+    math::Vector2f explosionPosition = position - size/4.0f;
+    Object* explosion = new environment::Explosion(explosionPosition);
+    Context::getWorld()->level.toSpawnObjectsInFore.push_back(explosion);
+
+    if (hasHitEnemy)  
+    {
+        Context::getAudio()->playSample(core::AudioSample::Shot);
+    }
+    else
+    {
+        Context::getAudio()->playSample(core::AudioSample::Explosion);
+    }
 }
 
 void Fireball::onCollisionWith(Collision collision, Object& object)
 {
     if(object.type_ == ObjectType::Player) return;
     if(object.type_ == ObjectType::Particle) return;
+
+    if(object.type_ == ObjectType::Enemy)
+    {
+        die(true);
+        return;
+    }
 
     auto collisionSide = collision.get();
 

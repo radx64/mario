@@ -63,17 +63,29 @@ void Goomba::onUpdate(std::vector<Object*> gameObjects, double timeStep)
     }
 }
 
+void Goomba::die()
+{
+    state_ = State::Dying;
+    Context::getAudio()->playSample(core::AudioSample::Stomp);
+    collidable = false;
+    currentAnimation_ = squashed_;
+    position.y += Context::getSpritesContainer()->get(SpriteType::GOOMBA_SQUASHED)->getHeight(); // TODO: remove this nasty hack
+}
+
 void Goomba::onCollisionWith(Collision collision, Object& object)
 {
+    if (object.type_ == ObjectType::Fireball)
+    {
+        die();
+        return;
+    }
+
+
     if (collision.get() == Collision::State::Top 
         && state_ != State::Dying 
         && object.type_ == ObjectType::Player)
     {
-        state_ = State::Dying;
-        Context::getAudio()->playSample(core::AudioSample::Stomp);
-        collidable = false;
-        currentAnimation_ = squashed_;
-        position.y += Context::getSpritesContainer()->get(SpriteType::GOOMBA_SQUASHED)->getHeight(); // TODO: remove this nasty hack
+        die();
         return;
     }
 

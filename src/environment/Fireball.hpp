@@ -20,6 +20,7 @@ public:
     virtual void onCollisionWith(Collision collision, Object& object) override;
 
 protected:
+    void die(bool hasHitEnemy);
     AnimatedSprite* bitmap_;
 };
 

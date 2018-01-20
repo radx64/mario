@@ -12,10 +12,12 @@ enum class AudioSample
 {
     BlockBreak,
     Coin,
+    Explosion,
+    Fireball,
     MushroomAppear,
     PlayerJump,
+    Shot,
     Stomp,
-    Fireball
 };
 
 class Audio
