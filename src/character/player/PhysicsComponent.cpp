@@ -86,7 +86,7 @@ void PhysicsComponent::simulate(double dt)
 
     player_.velocity.x += horizontalAcceleration;
 
-    player_.setAnimationDelay( std::max((horizontalMaxSpeedRun_ - abs(player_.velocity.x))/10, 2.0f));
+    player_.setAnimationDelay( std::max((horizontalMaxSpeedRun_ - abs(player_.velocity.x))/16.0f, 2.0f));
 
 
     player_.position += player_.velocity * dt;
