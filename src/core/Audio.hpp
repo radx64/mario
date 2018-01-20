@@ -15,6 +15,7 @@ enum class AudioSample
     MushroomAppear,
     PlayerJump,
     Stomp,
+    Fireball
 };
 
 class Audio

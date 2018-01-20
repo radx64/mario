@@ -6,6 +6,7 @@
 #include "Camera.hpp"
 #include "Context.hpp"
 #include "core/Audio.hpp"
+#include "environment/Fireball.hpp"
 #include "Player.hpp"
 #include "KeyboardState.hpp"
 #include "World.hpp"
@@ -35,14 +36,14 @@ inline void PhysicsComponent::jump()
 inline void PhysicsComponent::moveLeft(float& horizontalAcceleration)
 {
     if (player_.crouched_) return;
-    horizontalAcceleration = -25.0;
+    horizontalAcceleration = -10.0;
     if (!player_.jumped_ && player_.velocity.x > 0) player_.state = Player::State::Sliding;
 }
 
 inline void PhysicsComponent::moveRight(float& horizontalAcceleration)
 {
     if (player_.crouched_) return;
-    horizontalAcceleration = 25;
+    horizontalAcceleration = 10;
     if (!player_.jumped_ && player_.velocity.x < 0) player_.state = Player::State::Sliding;
 }
 
@@ -55,7 +56,7 @@ void PhysicsComponent::simulate(double dt)
 {
     auto keys = Context::getKeyboardState();
 
-    player_.velocity.x *=0.85f;
+    player_.velocity.x *=0.95f;
 
     player_.velocity.y += (grav_ * dt);
 
@@ -80,7 +81,7 @@ void PhysicsComponent::simulate(double dt)
 
     if (abs(player_.velocity.x) >= getMaxHorizontalSpeed(keys->run)) 
     {
-        horizontalAcceleration *= 0.5f;
+        horizontalAcceleration *= 0.01f;
     }
 
     player_.velocity.x += horizontalAcceleration;
@@ -93,10 +94,30 @@ void PhysicsComponent::simulate(double dt)
     Context::getCamera()->setX(player_.position.x);
     Context::getCamera()->setY(player_.position.y);
 
+    if (keys->fire && fireCooldown == 0)
+    {
+        math::Vector2f spawnPoint = player_.position;
+        spawnPoint.x += player_.size.x / 2.0f;
+        spawnPoint.y += player_.size.y / 2.0f;
+
+        math::Vector2f spawnVelocity = player_.velocity;
+        spawnVelocity.x *= 2.5f;
+        spawnVelocity.y = 70.0f;
+
+        Object* fireball = new environment::Fireball(spawnPoint, spawnVelocity);
+        Context::getWorld()->level.toSpawnObjectsInFore.push_back(fireball);
+        Context::getAudio()->playSample(core::AudioSample::Fireball);
+        fireCooldown = 30;
+    }
+
+    if (fireCooldown > 0) fireCooldown--;
+
 }
 
 void PhysicsComponent::onCollisionWith(Collision collision, Object& object)
 {
+
+    if(object.type_ == ObjectType::Particle) return;
 
     if (collision.get() == Collision::State::Bottom)
     {

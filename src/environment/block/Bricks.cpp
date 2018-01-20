@@ -44,13 +44,13 @@ void Bricks::onCollisionWith(Collision collision, Object& object)
         math::Vector2f spawnPoint = position + size / 2.0f;
         Context::getAudio()->playSample(core::AudioSample::BlockBreak);
 
-        Object* brick = new SmallBrick(spawnPoint, {0.8, -7.0});
+        Object* brick = new SmallBrick(spawnPoint, {15.8, -200.0});
         Context::getWorld()->level.toSpawnObjectsInFore.push_back(brick);
-        brick = new SmallBrick(spawnPoint, {0.8, -5.0});
+        brick = new SmallBrick(spawnPoint, {15.8, -100.0});
         Context::getWorld()->level.toSpawnObjectsInFore.push_back(brick);
-        brick = new SmallBrick(spawnPoint, {-0.8, -7.0});
+        brick = new SmallBrick(spawnPoint, {-15.8, -200.0});
         Context::getWorld()->level.toSpawnObjectsInFore.push_back(brick);
-        brick = new SmallBrick(spawnPoint, {-0.8, -5.0});
+        brick = new SmallBrick(spawnPoint, {-15.8, -100.0});
         Context::getWorld()->level.toSpawnObjectsInFore.push_back(brick);
     }
 }

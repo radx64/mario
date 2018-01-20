@@ -63,6 +63,13 @@ void Main::initBitmapsContainter()
         { SpriteType::COIN_PARTICLE_1,      rootPath + "environment/coin_particle_1.bmp"},
         { SpriteType::COIN_PARTICLE_2,      rootPath + "environment/coin_particle_2.bmp"},
         { SpriteType::COIN_PARTICLE_3,      rootPath + "environment/coin_particle_3.bmp"},
+        { SpriteType::EXPLOSION_1,          rootPath + "particles/explosion1.bmp"},
+        { SpriteType::EXPLOSION_2,          rootPath + "particles/explosion2.bmp"},
+        { SpriteType::EXPLOSION_3,          rootPath + "particles/explosion3.bmp"},
+        { SpriteType::FIREBALL_1,           rootPath + "particles/fireball1.bmp"},
+        { SpriteType::FIREBALL_2,           rootPath + "particles/fireball2.bmp"},
+        { SpriteType::FIREBALL_3,           rootPath + "particles/fireball3.bmp"},
+        { SpriteType::FIREBALL_4,           rootPath + "particles/fireball4.bmp"},
         { SpriteType::GROUND_RED,           rootPath + "environment/gnd_red_1.bmp"},
         { SpriteType::MARIO_CROUCHING,      rootPath + "characters/mario/crouch.bmp"},
         { SpriteType::MARIO_JUMPING,        rootPath + "characters/mario/jump.bmp"},
@@ -187,8 +194,8 @@ void Main::input()
                 case SDLK_RIGHT:
                     keys_.right = isKeyDown;
                     break;
-                case SDLK_SPACE:
-                    keys_.jump = isKeyDown;
+                case SDLK_z:
+                    keys_.fire = isKeyDown;
                     break;
                 case SDLK_LSHIFT:
                     keys_.run = isKeyDown;
@@ -269,7 +276,6 @@ void draw(std::vector<Object*>& objects)
 {
     for(Object* o : objects) o->draw();  
 }
-
 
 void Main::step(double simulationTimeStep)
 {

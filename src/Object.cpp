@@ -33,17 +33,22 @@ void Object::findCollisions(std::vector<Object*> collidableObjects)
 
     for(auto collisionPoint : collisionsPoints)
     {
-        auto collider = getObjectAt(collidableObjects, collisionPoint.point);
-        if (!collider) continue;
+        auto colliders = getObjectsAt(collidableObjects, collisionPoint.point);
+        if (colliders.empty()) continue;
 
-        Collision collision {collisionPoint.collision};
-        onCollisionWith(collision, *collider);
-        collider->onCollisionWith(collision.opposite(), *this);
+        for (Object* collider : colliders)
+        {
+            Collision collision {collisionPoint.collision};
+            onCollisionWith(collision, *collider);
+            collider->onCollisionWith(collision.opposite(), *this);
+        }
     }
 }
 
-Object* Object::getObjectAt(std::vector<Object*> gameObjects, math::Vector2f point)
+std::vector<Object*> Object::getObjectsAt(std::vector<Object*> gameObjects, math::Vector2f point)
 {
+    std::vector<Object*> result;
+
     for(auto object : gameObjects)  // this is not an optimal way to check collsions
     {                               // spatial cheking maybe divided to smaller sectors or something
         if (object != this && // no collsion with self
@@ -52,8 +57,8 @@ Object* Object::getObjectAt(std::vector<Object*> gameObjects, math::Vector2f poi
             (point.y > object->position.y && point.y < object->position.y + object->size.y)) 
 
         {
-            return object;
+            result.push_back(object);
         }
     }
-    return nullptr;
+    return result;
 }

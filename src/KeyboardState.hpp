@@ -4,7 +4,7 @@ struct KeyboardState
     bool down = false;
     bool left = false;
     bool right = false;
-    bool jump = false;
     bool run = false;
+    bool fire = false;
     bool enter = false;
 };

@@ -39,7 +39,7 @@ public:
         **/
     bool dead {false};
 
-    ObjectType type_{ObjectType::Undefined};
+    ObjectType type_{};
 
 protected:
     struct CollisionPoint
@@ -53,7 +53,7 @@ protected:
     **/
     std::vector<CollisionPoint> getCollisionPoints();
     void findCollisions(std::vector<Object*> gameObjects);
-    Object* getObjectAt(std::vector<Object*> gameObjects, math::Vector2f point);
+    std::vector<Object*> getObjectsAt(std::vector<Object*> gameObjects, math::Vector2f point);
 
     uint32_t lifetime_{0};
 };

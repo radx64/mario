@@ -20,7 +20,7 @@ Audio::Audio()
         { AudioSample::MushroomAppear,      Mix_LoadWAV( "../audio/mushroomappear.wav") },
         { AudioSample::PlayerJump,          Mix_LoadWAV( "../audio/jumpbig.wav") },
         { AudioSample::Stomp,               Mix_LoadWAV( "../audio/stomp.wav") },
-
+        { AudioSample::Fireball,               Mix_LoadWAV( "../audio/fireball.wav") },
     };
 
     music_ = Mix_LoadMUS( "../audio/overworld.wav" );

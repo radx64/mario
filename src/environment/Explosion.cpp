@@ -1,4 +1,4 @@
-#include "SmallBrick.hpp"
+#include "Explosion.hpp"
 
 #include <SDL2/SDL.h>
 
@@ -12,14 +12,14 @@
 namespace environment
 {
 
-SmallBrick::SmallBrick(math::Vector2f initialPosition, math::Vector2f velocity)
-: Object(ObjectType::Particle),
-    velocity_(velocity)
+Explosion::Explosion(math::Vector2f initialPosition)
+: Object(ObjectType::Particle)
 {
     bitmap_ = new AnimatedSprite({
-    SpriteType::SMALL_BRICK_1,
-    SpriteType::SMALL_BRICK_2},
-    20,
+    SpriteType::EXPLOSION_1,
+    SpriteType::EXPLOSION_2,
+    SpriteType::EXPLOSION_3},
+    5,
     *Context::getSpritesContainer());
 
 
@@ -30,28 +30,25 @@ SmallBrick::SmallBrick(math::Vector2f initialPosition, math::Vector2f velocity)
     collidable = false;
 }
 
-void SmallBrick::draw()
+void Explosion::draw()
 {
     bitmap_->draw(Context::getCameraRenderer(), position.x, position.y);
     bitmap_->nextFrame();
 }
 
-void SmallBrick::onUpdate(std::vector<Object*> gameObjects, double timeStep)
+void Explosion::onUpdate(std::vector<Object*> gameObjects, double timeStep)
 {
     (void) gameObjects;
     (void) timeStep;
 
-    velocity_.y += 8.0f;
-
-    position += velocity_ * timeStep;
-
-    if ( position.y > 800)       // TODO: use real screen size for killing particles
+    if (lifetime_ > 15)
     {
         dead = true;
     }
+
 }
 
-void SmallBrick::onCollisionWith(Collision collision, Object& object)
+void Explosion::onCollisionWith(Collision collision, Object& object)
 {
     (void) collision;
     (void) object;
