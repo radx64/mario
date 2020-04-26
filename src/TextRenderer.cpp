@@ -8,7 +8,7 @@
 #include "graphics/StillRenderer.hpp"
 
 TextRenderer::TextRenderer()
-: font_("../img/font.bmp"), fontCharacterBitmapWidth_(8)
+: font_("img/font.bmp"), fontCharacterBitmapWidth_(8)
 {
     r_ = 0xFF;
     g_ = 0xFF;

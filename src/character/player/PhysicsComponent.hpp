@@ -33,7 +33,7 @@ protected:
     const float grav_ {600.0};
     const float horizontalMaxSpeedWalk_ {100.0};
     const float horizontalMaxSpeedRun_ {220.0};
-    uint fireCooldown {0};
+    uint32_t fireCooldown {0};
 };
 
 }  // namespace player

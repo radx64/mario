@@ -1,5 +1,7 @@
 #include "character/player/GraphicsComponent.hpp"
 
+#include <cmath>
+
 #include "AnimatedSprite.hpp"
 #include "Camera.hpp"
 #include "Context.hpp"
@@ -79,7 +81,7 @@ void GraphicsComponent::draw()
 
     auto camera = Context::getCamera();
 
-    if (fabs(player_.velocity.x) > 5.0 ) 
+    if (std::fabs(player_.velocity.x) > 5.0 )
         player_.state = Player::State::Running;
     else
         player_.state = Player::State::Standing;

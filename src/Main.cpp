@@ -54,7 +54,7 @@ Main::~Main()
 
 void Main::initBitmapsContainter()
 {
-    std::string rootPath = "../img/";
+    std::string rootPath = "img/";
 
     sprites_ = new SpritesContainer(
     {
@@ -228,7 +228,7 @@ void Main::clear()
 
 void Main::initGameObjects()
 {
-    world_.level = LevelLoader::load("../levels/0-0.lvl");
+    world_.level = LevelLoader::load("levels/0-0.lvl");
 
     Object* object = new character::player::Player();
     object->position = {64, 200};

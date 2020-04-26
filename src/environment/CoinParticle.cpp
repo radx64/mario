@@ -1,6 +1,7 @@
 #include "CoinParticle.hpp"
 
 #include <SDL2/SDL.h>
+#include <cmath>
 
 #include "AnimatedSprite.hpp"
 #include "Camera.hpp"
