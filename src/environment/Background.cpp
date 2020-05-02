@@ -9,13 +9,14 @@ namespace environment
 
 Background::Background(SpriteType sprite) : Object(ObjectType::Background)
 {
-    sprite_ = Context::getSpritesContainer()->get(sprite);
+    sprite_ = Context::getSprites()->get(sprite);
     size.y = sprite_->getHeight();
     size.x = sprite_->getWidth();
 }
 
-void Background::draw()
+void Background::draw(double delta_time)
 {
+    (void) delta_time;
     sprite_->draw(Context::getCameraRenderer(), position.x, position.y);
 }
 

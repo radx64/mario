@@ -25,10 +25,10 @@ class Context
 {
 public:
     static void setAudio(core::Audio*);
-    static core::Audio* getAudio();  
+    static core::Audio* getAudio();
     
-    static void setSpritesContainer(SpritesContainer*);
-    static SpritesContainer* getSpritesContainer();
+    static void setSprites(SpritesContainer*);
+    static SpritesContainer* getSprites();
 
     static void setFpsCounter(core::FpsCounter*);
     static core::FpsCounter* getFpsCounter();

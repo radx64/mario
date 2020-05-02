@@ -21,32 +21,31 @@ CoinParticle::CoinParticle(math::Vector2f initialPosition)
     SpriteType::COIN_PARTICLE_1,
     SpriteType::COIN_PARTICLE_2,
     SpriteType::COIN_PARTICLE_3},
-    2,
-    *Context::getSpritesContainer());
+    0.1,
+    *Context::getSprites());
 
-    size.y = Context::getSpritesContainer()->get(SpriteType::COIN_PARTICLE_0)->getHeight();
-    size.x = Context::getSpritesContainer()->get(SpriteType::COIN_PARTICLE_0)->getWidth();
+    size.y = Context::getSprites()->get(SpriteType::COIN_PARTICLE_0)->getHeight();
+    size.x = Context::getSprites()->get(SpriteType::COIN_PARTICLE_0)->getWidth();
     position = initialPosition_ = initialPosition - size / 2.0f;
     position.y -= size.y;
 
     collidable = false;
 }
 
-void CoinParticle::draw()
+void CoinParticle::draw(double delta_time)
 {
     bitmap_->draw(Context::getCameraRenderer(), position.x, position.y);
-    bitmap_->nextFrame();
+    bitmap_->nextFrame(delta_time);
 }
 
-void CoinParticle::onUpdate(std::vector<Object*> gameObjects, double timeStep)
+void CoinParticle::onUpdate(std::vector<Object*> gameObjects, double delta_time)
 {
     (void) gameObjects;
-    (void) timeStep;
-    lifetime_++;
+    lifetime_+=delta_time;
 
-    position.y = initialPosition_.y - sin(lifetime_/10.0)*64.0f;
+    position.y = (initialPosition_.y - sin(lifetime_*4.0)*64.0f) ;
 
-    if ( lifetime_ > 30)
+    if (position.y > initialPosition_.y)
     {
         dead = true;
     }

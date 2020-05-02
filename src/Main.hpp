@@ -47,7 +47,7 @@ private:
     float desiredFPS_{60.0};
     double frameFreezeTime_{};
     double simulationTimeStep_{};
-    bool debug_{false};
+    bool debug_{true};
 };
 
 #endif  // MAIN_HPP_

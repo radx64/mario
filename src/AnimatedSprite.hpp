@@ -20,20 +20,20 @@ class AnimatedSprite
 {
 public:
     AnimatedSprite(std::list<SpriteType> bitmaps,
-        short speed,
+        double speed,
         SpritesContainer& spritesContainer);
     void draw(graphics::IRenderer* renderer, int x, int y);
     void draw(graphics::IRenderer* renderer, int x, int y, const FlipFlags& f);
-    void setDelay(short delay);
-    void nextFrame();
+    void setDelay(double delay);
+    void nextFrame(double delta_time);
     math::Vector2i getSize(); 
 
 private:
     std::list<SpriteType> frames_;
     std::list<SpriteType>::iterator currentFrame_;
     SpritesContainer& spritesContainer_;
-    short delay_;
-    short currentFrameLifeTime_;
+    double delay_;
+    double currentFrameLifeTime_;
 };
 
 

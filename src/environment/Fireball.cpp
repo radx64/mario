@@ -25,20 +25,20 @@ Fireball::Fireball(math::Vector2f initialPosition, math::Vector2f velocity)
     SpriteType::FIREBALL_3,
     SpriteType::FIREBALL_4},
     5,
-    *Context::getSpritesContainer());
+    *Context::getSprites());
 
-    size.x = Context::getSpritesContainer()->get(SpriteType::FIREBALL_1)->getWidth();
-    size.y = Context::getSpritesContainer()->get(SpriteType::FIREBALL_1)->getHeight();
+    size.x = Context::getSprites()->get(SpriteType::FIREBALL_1)->getWidth();
+    size.y = Context::getSprites()->get(SpriteType::FIREBALL_1)->getHeight();
     position = initialPosition - size / 2.0f;
 
     collidable = true;
     moving = true;
 }
 
-void Fireball::draw()
+void Fireball::draw(double delta_time)
 {
     bitmap_->draw(Context::getCameraRenderer(), position.x, position.y);
-    bitmap_->nextFrame();
+    bitmap_->nextFrame(delta_time);
 }
 
 void Fireball::onUpdate(std::vector<Object*> gameObjects, double timeStep)

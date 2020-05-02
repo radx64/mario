@@ -18,7 +18,7 @@ namespace player
 GraphicsComponent::GraphicsComponent(Player& player)
 : player_(player)
 {
-    auto sprite = Context::getSpritesContainer()->get(SpriteType::MARIO_RUNNING_0);
+    auto sprite = Context::getSprites()->get(SpriteType::MARIO_RUNNING_0);
     player_.size.x = sprite->getWidth();
     player_.size.y = sprite->getHeight();
 
@@ -26,29 +26,29 @@ GraphicsComponent::GraphicsComponent(Player& player)
         SpriteType::MARIO_RUNNING_2,
         SpriteType::MARIO_RUNNING_0,
         SpriteType::MARIO_RUNNING_1},
-        3,
-        *Context::getSpritesContainer());
+        0.0,
+        *Context::getSprites());
 
     standingAnimation_ = new AnimatedSprite({SpriteType::MARIO_STANDING}, 1,
-        *Context::getSpritesContainer());
+        *Context::getSprites());
 
     jumpAnimation_= new AnimatedSprite({SpriteType::MARIO_JUMPING}, 1,
-        *Context::getSpritesContainer());
+        *Context::getSprites());
 
     slideAnimation_= new AnimatedSprite({SpriteType::MARIO_SLIDING}, 1,
-        *Context::getSpritesContainer());
+        *Context::getSprites());
 
     crouchAnimation_ = new AnimatedSprite({SpriteType::MARIO_CROUCHING}, 1,
-        *Context::getSpritesContainer());
+        *Context::getSprites());
 
     currentAnimation_ = standingAnimation_;
 }
 
 //TODO: This whole draw method logic shold be moved outside. Draw need to draw, not calculate different things.
 
-void GraphicsComponent::draw()
+void GraphicsComponent::draw(double delta_time)
 {
-   currentAnimation_->nextFrame();
+   currentAnimation_->nextFrame(delta_time);
 
    switch (player_.state)
    {
@@ -81,14 +81,6 @@ void GraphicsComponent::draw()
 
     auto camera = Context::getCamera();
 
-    if (std::fabs(player_.velocity.x) > 5.0 )
-        player_.state = Player::State::Running;
-    else
-        player_.state = Player::State::Standing;
-
-    if (player_.jumped_) player_.state = Player::State::Jumping;
-    if (player_.crouched_ ) player_.state = Player::State::Crouching;
-
     FlipFlags flip;
 
     if (player_.velocity.x < 0.0)
@@ -105,7 +97,7 @@ void GraphicsComponent::draw()
          player_.position.y - camera->getY(), flip);
 }
 
-void GraphicsComponent::setDelay(short delay)
+void GraphicsComponent::setDelay(double delay)
 {
     currentAnimation_->setDelay(delay);
 }

@@ -15,15 +15,16 @@ namespace block
 
 Ground::Ground() : Object(ObjectType::Environment)
 {
-    sprite_ = Context::getSpritesContainer()->get(SpriteType::GROUND_RED);
+    sprite_ = Context::getSprites()->get(SpriteType::GROUND_RED);
     size.y = sprite_->getHeight();
     size.x = sprite_->getWidth();
 
     collidable = true;
 }
 
-void Ground::draw()
+void Ground::draw(double delta_time)
 {
+    (void) delta_time;
     sprite_->draw(Context::getCameraRenderer(), position.x, position.y);
 }
 

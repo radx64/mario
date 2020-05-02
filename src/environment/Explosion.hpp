@@ -15,7 +15,7 @@ class Explosion : public Object
 public:
     Explosion(math::Vector2f initialPosition);
 
-    virtual void draw() override;
+    virtual void draw(double delta_time) override;
     virtual void onUpdate(std::vector<Object*> gameObjects, double timeStep) override;
     virtual void onCollisionWith(Collision collision, Object& object) override;
 

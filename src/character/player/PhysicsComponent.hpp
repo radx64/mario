@@ -22,7 +22,7 @@ public:
     void onCollisionWith(Collision collision, Object& object);
 
 protected:
-    inline void bouceOfCeiling();
+    inline void bounce_of_ceiling();
     inline void jump();
     inline void moveLeft(float& horizontalAcceleration);
     inline void moveRight(float& horizontalAcceleration);
@@ -31,8 +31,8 @@ protected:
     Player& player_;
 
     const float grav_ {600.0};
-    const float horizontalMaxSpeedWalk_ {100.0};
-    const float horizontalMaxSpeedRun_ {220.0};
+    const float max_walk_speed_ {100.0};
+    const float max_run_speed_ {220.0};
     uint32_t fireCooldown {0};
 };
 

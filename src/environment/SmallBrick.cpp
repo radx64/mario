@@ -20,30 +20,29 @@ SmallBrick::SmallBrick(math::Vector2f initialPosition, math::Vector2f velocity)
     SpriteType::SMALL_BRICK_1,
     SpriteType::SMALL_BRICK_2},
     20,
-    *Context::getSpritesContainer());
+    *Context::getSprites());
 
 
-    size.y = Context::getSpritesContainer()->get(SpriteType::SMALL_BRICK_1)->getHeight();
-    size.x = Context::getSpritesContainer()->get(SpriteType::SMALL_BRICK_1)->getWidth();
+    size.y = Context::getSprites()->get(SpriteType::SMALL_BRICK_1)->getHeight();
+    size.x = Context::getSprites()->get(SpriteType::SMALL_BRICK_1)->getWidth();
     position = initialPosition - size / 2.0f;
 
     collidable = false;
 }
 
-void SmallBrick::draw()
+void SmallBrick::draw(double delta_time)
 {
     bitmap_->draw(Context::getCameraRenderer(), position.x, position.y);
-    bitmap_->nextFrame();
+    bitmap_->nextFrame(delta_time);
 }
 
-void SmallBrick::onUpdate(std::vector<Object*> gameObjects, double timeStep)
+void SmallBrick::onUpdate(std::vector<Object*> gameObjects, double delta_time)
 {
     (void) gameObjects;
-    (void) timeStep;
 
-    velocity_.y += 8.0f;
+    velocity_.y += 600.0f * delta_time;
 
-    position += velocity_ * timeStep;
+    position += velocity_ * delta_time;
 
     if ( position.y > 800)       // TODO: use real screen size for killing particles
     {

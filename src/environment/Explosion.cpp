@@ -20,20 +20,20 @@ Explosion::Explosion(math::Vector2f initialPosition)
     SpriteType::EXPLOSION_2,
     SpriteType::EXPLOSION_3},
     5,
-    *Context::getSpritesContainer());
+    *Context::getSprites());
 
 
-    size.y = Context::getSpritesContainer()->get(SpriteType::SMALL_BRICK_1)->getHeight();
-    size.x = Context::getSpritesContainer()->get(SpriteType::SMALL_BRICK_1)->getWidth();
+    size.y = Context::getSprites()->get(SpriteType::SMALL_BRICK_1)->getHeight();
+    size.x = Context::getSprites()->get(SpriteType::SMALL_BRICK_1)->getWidth();
     position = initialPosition - size / 2.0f;
 
     collidable = false;
 }
 
-void Explosion::draw()
+void Explosion::draw(double delta_time)
 {
     bitmap_->draw(Context::getCameraRenderer(), position.x, position.y);
-    bitmap_->nextFrame();
+    bitmap_->nextFrame(delta_time);
 }
 
 void Explosion::onUpdate(std::vector<Object*> gameObjects, double timeStep)

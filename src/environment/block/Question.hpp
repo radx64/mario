@@ -18,7 +18,7 @@ class Question : public Object
 public:
     Question(math::Vector2f position);
 
-    virtual void draw() override;
+    virtual void draw(double delta_time) override;
     virtual void onUpdate(std::vector<Object*> gameObjects, double timeStep) override;
     virtual void onCollisionWith(Collision collision, Object& object) = 0;
 
@@ -28,7 +28,7 @@ protected:
     AnimatedSprite* currentAnimation_;
     bool depleted_{false};
     bool bounce_{false};
-    int8_t bounceTick_{0};
+    double bounceTick_{0};
     math::Vector2f originalPosition{};
 };
 
