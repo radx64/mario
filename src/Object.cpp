@@ -10,7 +10,7 @@ Object::Object(ObjectType type) : type_(type)
 
 void Object::update(std::vector<Object*> gameObjects, double timeStep)
 {
-    ++lifetime_;
+    lifetime_ += timeStep;
     onUpdate(gameObjects, timeStep);
 }
 

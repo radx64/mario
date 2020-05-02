@@ -17,9 +17,10 @@ physics_(*this)
     moving = true;
 }
 
-void Player::draw()
+void Player::draw(double delta_time)
 {
-    graphics_.draw();
+    (void) delta_time;
+    graphics_.draw(delta_time);
 }
 
 void Player::onCollisionWith(Collision collision, Object& object)
@@ -27,13 +28,13 @@ void Player::onCollisionWith(Collision collision, Object& object)
     physics_.onCollisionWith(collision, object);
 }
 
-void Player::onUpdate(std::vector<Object*> gameObjects, double timeStep)
+void Player::onUpdate(std::vector<Object*> gameObjects, double delta_time)
 {
-    physics_.simulate(timeStep);
     findCollisions(gameObjects);
+    physics_.simulate(delta_time);
 }
 
-void Player::setAnimationDelay(short delay)
+void Player::setAnimationDelay(double delay)
 {
     graphics_.setDelay(delay);
 }

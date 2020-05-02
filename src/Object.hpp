@@ -11,9 +11,9 @@ class Object
 public:
     Object(ObjectType type);
     virtual ~Object() = default;
-    void update(std::vector<Object*> gameObjects, double timeStep);
+    void update(std::vector<Object*> gameObjects, double delta_time);
     virtual void onUpdate(std::vector<Object*> gameObjects, double timeStep) = 0;
-    virtual void draw() = 0;
+    virtual void draw(double delta_time) = 0;
     virtual void onCollisionWith(Collision collision, Object& object) = 0;
 
     math::Vector2f position;
@@ -55,7 +55,7 @@ protected:
     void findCollisions(std::vector<Object*> gameObjects);
     std::vector<Object*> getObjectsAt(std::vector<Object*> gameObjects, math::Vector2f point);
 
-    uint32_t lifetime_{0};
+    double lifetime_{};
 };
 
 #endif  //OBJECT_HPP_

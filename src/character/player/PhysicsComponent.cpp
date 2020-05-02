@@ -22,7 +22,7 @@ PhysicsComponent::PhysicsComponent(Player& player)
 : player_(player)
 {}
 
-inline void PhysicsComponent::bouceOfCeiling()
+inline void PhysicsComponent::bounce_of_ceiling()
 {
     if (player_.velocity.y < 0.0) player_.velocity.y *= -1.0;
 }
@@ -49,14 +49,14 @@ inline void PhysicsComponent::moveRight(float& horizontalAcceleration)
 
 inline float PhysicsComponent::getMaxHorizontalSpeed(bool running)
 {
-    return running ? horizontalMaxSpeedRun_ : horizontalMaxSpeedWalk_;
+    return running ? max_run_speed_ : max_walk_speed_;
 }
 
 void PhysicsComponent::simulate(double dt)
 {
     auto keys = Context::getKeyboardState();
 
-    player_.velocity.x *=0.95f;
+    player_.velocity.x *= 0.95;
 
     player_.velocity.y += (grav_ * dt);
 
@@ -69,11 +69,21 @@ void PhysicsComponent::simulate(double dt)
         }
         else
         { 
-            player_.velocity.y -= 255.0 * dt;
+            player_.velocity.y -= 155.0 * dt;
         } 
     }
 
     float horizontalAcceleration{};
+
+    if (fireCooldown > 0) fireCooldown--;
+
+    if (std::fabs(player_.velocity.x) > 5.0 )
+        player_.state = Player::State::Running;
+    else
+        player_.state = Player::State::Standing;
+
+    if (player_.jumped_) player_.state = Player::State::Jumping;
+    if (player_.crouched_ ) player_.state = Player::State::Crouching;
 
     if (keys->left) moveLeft(horizontalAcceleration);
     if (keys->right) moveRight(horizontalAcceleration);
@@ -86,8 +96,9 @@ void PhysicsComponent::simulate(double dt)
 
     player_.velocity.x += horizontalAcceleration;
 
-    player_.setAnimationDelay( std::max((horizontalMaxSpeedRun_ - abs(player_.velocity.x))/16.0f, 2.0f));
 
+    auto running_animation_delay = (1.0 - (abs(player_.velocity.x) / max_run_speed_)) * dt * 15.0;
+    player_.setAnimationDelay(running_animation_delay);
 
     player_.position += player_.velocity * dt;
 
@@ -109,8 +120,6 @@ void PhysicsComponent::simulate(double dt)
         Context::getAudio()->playSample(core::AudioSample::Fireball);
         fireCooldown = 30;
     }
-
-    if (fireCooldown > 0) fireCooldown--;
 }
 
 void PhysicsComponent::onCollisionWith(Collision collision, Object& object)
@@ -134,19 +143,19 @@ void PhysicsComponent::onCollisionWith(Collision collision, Object& object)
 
     if (collision.get() == Collision::State::Top)
     {
-        bouceOfCeiling();
+        bounce_of_ceiling();
     }
 
     if (collision.get() == Collision::State::Left)
     {
-        player_.velocity.x = 0.0f;
         player_.position.x = object.position.x + object.size.x;
+        player_.velocity.x = 0;
     }
 
     if (collision.get() == Collision::State::Right)
     {
-        player_.velocity.x = 0.0f;
         player_.position.x = object.position.x - player_.size.x ;
+        player_.velocity.x = 0;
     }
 }
 

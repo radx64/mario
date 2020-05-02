@@ -106,7 +106,7 @@ void Main::initBitmapsContainter()
 
     }
     );
-    Context::setSpritesContainer(sprites_);
+    Context::setSprites(sprites_);
 }
 
 void Main::init()
@@ -131,7 +131,7 @@ void Main::init()
         return;
     }
 
-    SDL_MaximizeWindow(window_);
+    //SDL_MaximizeWindow(window_);
     
     //SDL_SetWindowFullscreen(window_, 1);
 
@@ -207,10 +207,11 @@ void Main::input()
                     running_ = isKeyDown;
                     break;
                 case SDLK_1:
-                    desiredFPS_ -= 1.0;
+                    desiredFPS_ -= 10.0;
+                    if (desiredFPS_ < 20.0) desiredFPS_ = 20.0;
                     break;
                 case SDLK_2:
-                    desiredFPS_ += 1.0;
+                    desiredFPS_ += 10.0;
                     break;
                 case SDLK_BACKQUOTE:
                     debug_ = true;
@@ -237,8 +238,6 @@ void Main::initGameObjects()
     player_ = object;
 }
 
-
-/* passing allObjects is now a temporary solution for collision between layers */
 void update(std::vector<Object*>& objects, std::vector<Object*>& allObjects, double dt)
 {
     std::vector<Object*>::iterator it;
@@ -272,12 +271,12 @@ void spawn(std::vector<Object*>& objects, std::vector<Object*>& toSpawn)
     }    
 }
 
-void draw(std::vector<Object*>& objects)
+void draw(std::vector<Object*>& objects, double delta_time)
 {
-    for(Object* o : objects) o->draw();  
+    for(Object* o : objects) o->draw(delta_time);
 }
 
-void Main::step(double simulationTimeStep)
+void Main::step(double delta_time)
 {
     core::Timer profiler;
     profiler.start();
@@ -287,8 +286,8 @@ void Main::step(double simulationTimeStep)
     allObjects.insert(allObjects.end(), world_.level.backObjects.begin(), world_.level.backObjects.end());
     allObjects.insert(allObjects.end(), world_.level.foreObjects.begin(), world_.level.foreObjects.end());
 
-    update(world_.level.backObjects, allObjects, simulationTimeStep);
-    update(world_.level.foreObjects, allObjects, simulationTimeStep);
+    update(world_.level.backObjects, allObjects, delta_time);
+    update(world_.level.foreObjects, allObjects, delta_time);
 
     spawn(world_.level.backObjects, world_.level.toSpawnObjectsInBack);
     spawn(world_.level.foreObjects, world_.level.toSpawnObjectsInFore);
@@ -296,8 +295,8 @@ void Main::step(double simulationTimeStep)
     double physicsTime = profiler.getTicks();
     profiler.start();
 
-    draw(world_.level.backObjects);
-    draw(world_.level.foreObjects);
+    draw(world_.level.backObjects, delta_time);
+    draw(world_.level.foreObjects, delta_time);
 
     double drawingTime = profiler.getTicks();
 
@@ -326,6 +325,8 @@ void Main::step(double simulationTimeStep)
     text->draw(std::string("FPS: " + std::to_string(fps)), width_/2 - 75, 4, 1.0);
     text->draw(std::string("LIVES: " + std::to_string(world->lives_)), 25, 4, 1.0);
     text->draw(std::string("COINS: " + std::to_string(world->coins_)), 125, 4, 1.0);
+
+    text->draw(std::string("dT: " + std::to_string(delta_time)), 125, 32, 0.5);
 }
 
 void Main::loop()
@@ -347,7 +348,7 @@ void Main::loop()
         simulationTimeStep_ = frameTimer.getTicks();
         if (simulationTimeStep_ > 50.0)
         {
-            simulationTimeStep_ = 50;
+            simulationTimeStep_ = 50.0;
         /*         
           to much time step makes collision not work (flying through objects between frames)  
           to fixed that some raycasting or movement interpolation need to be done but I don't

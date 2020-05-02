@@ -14,8 +14,8 @@ class GraphicsComponent
 {
 public:
     GraphicsComponent(Player& player);
-    void draw();
-    void setDelay(short speed);
+    void draw(double delta_time);
+    void setDelay(double speed);
 
 protected:
     Player& player_;

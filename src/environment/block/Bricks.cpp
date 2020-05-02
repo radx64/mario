@@ -18,14 +18,15 @@ namespace block
 
 Bricks::Bricks() : Object(ObjectType::Environment)
 {
-    bitmap_ = Context::getSpritesContainer()->get(SpriteType::BRICK_RED);
+    bitmap_ = Context::getSprites()->get(SpriteType::BRICK_RED);
     size.x = bitmap_->getWidth();
     size.y = bitmap_->getHeight();
     collidable = true;
 }
 
-void Bricks::draw()
+void Bricks::draw(double delta_time)
 {
+    (void) delta_time;
     bitmap_->draw(Context::getCameraRenderer(), position.x, position.y);
 }
 

@@ -10,12 +10,12 @@ core::Audio* Context::getAudio()
     return audio_;
 }
 
-void Context::setSpritesContainer(SpritesContainer* sc)
+void Context::setSprites(SpritesContainer* sc)
 {
     spritesContainer_ = sc;
 }
 
-SpritesContainer* Context::getSpritesContainer()
+SpritesContainer* Context::getSprites()
 {
     return spritesContainer_;
 }

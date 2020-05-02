@@ -30,10 +30,10 @@ public:
 
     Player();
 
-    virtual void onUpdate(std::vector<Object*> gameObjects, double timeStep) override;
-    virtual void draw() override;
+    virtual void onUpdate(std::vector<Object*> gameObjects, double delta_time) override;
+    virtual void draw(double delta_time) override;
     void onCollisionWith(Collision collision, Object& object);
-    void setAnimationDelay(short delay);
+    void setAnimationDelay(double delay);
 
     bool jumped_{false};
     bool crouched_{false};

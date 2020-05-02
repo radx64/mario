@@ -7,12 +7,14 @@
 #include "Sprite.hpp"
 #include "SpritesContainer.hpp"
 
+#include <iostream>
+
 namespace environment
 {
 
 Mushroom::Mushroom() : Object(ObjectType::PowerUp)
 {
-    sprite_ = Context::getSpritesContainer()->get(SpriteType::MUSHROOM);
+    sprite_ = Context::getSprites()->get(SpriteType::MUSHROOM);
 
     size.x = sprite_->getHeight();
     size.y = sprite_->getHeight();
@@ -22,25 +24,27 @@ Mushroom::Mushroom() : Object(ObjectType::PowerUp)
     state_ = State::Spawning;
 }
 
-void Mushroom::draw()
+void Mushroom::draw(double delta_time)
 {
+    (void) delta_time;
     sprite_->draw(Context::getCameraRenderer(), position.x, position.y);
 }
 
-void Mushroom::onUpdate(std::vector<Object*> gameObjects, double timeStep)
+void Mushroom::onUpdate(std::vector<Object*> gameObjects, double delta_time)
 {
+    std::cout << "mushroom: " << std::to_string(lifetime_) << "\n";
 
-    if (lifetime_ > 50) state_ = State::Spawned;
+    if (lifetime_ > 0.3) state_ = State::Spawned;
 
     if (state_ == State::Spawning)
     {
-        position.y -= 20.0 * timeStep;
+        position.y -= 20.0 * delta_time;
         return;
     }
 
-    velocity.y += grav_ * timeStep;
+    velocity.y += grav_ * delta_time;
     findCollisions(gameObjects);
-    position += velocity * timeStep;
+    position += velocity * delta_time;
 }
 
 void Mushroom::onCollisionWith(Collision collision, Object& object)

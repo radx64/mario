@@ -19,39 +19,38 @@ Goomba::Goomba() : Object(ObjectType::Enemy)
     walking_ = new AnimatedSprite({
         SpriteType::GOOMBA_WALK_0,
         SpriteType::GOOMBA_WALK_1},
-        10,
-        *Context::getSpritesContainer()
+        0.3,
+        *Context::getSprites()
     );
 
     squashed_ = new AnimatedSprite({
         SpriteType::GOOMBA_SQUASHED},
         1,
-        *Context::getSpritesContainer()
+        *Context::getSprites()
     );
 
     currentAnimation_ = walking_;
 
-    size.x = Context::getSpritesContainer()->get(SpriteType::GOOMBA_WALK_0)->getHeight();
-    size.y = Context::getSpritesContainer()->get(SpriteType::GOOMBA_WALK_0)->getHeight();
+    size.x = Context::getSprites()->get(SpriteType::GOOMBA_WALK_0)->getHeight();
+    size.y = Context::getSprites()->get(SpriteType::GOOMBA_WALK_0)->getHeight();
     collidable = true;
     moving = true;
     velocity.x = -30.0;
 }
 
-void Goomba::draw()
+void Goomba::draw(double delta_time)
 {
-    currentAnimation_->nextFrame();
+    currentAnimation_->nextFrame(delta_time);
     currentAnimation_->draw(Context::getCameraRenderer(), position.x, position.y);
 }
 
-void Goomba::onUpdate(std::vector<Object*> gameObjects, double timeStep)
+void Goomba::onUpdate(std::vector<Object*> gameObjects, double delta_time)
 {
-    (void) timeStep;
     if(state_ == State::Walking)
     {
-        velocity.y += grav_ * timeStep;
+        velocity.y += grav_ * delta_time;
         findCollisions(gameObjects);
-        position += velocity * timeStep;
+        position += velocity * delta_time;
     }
     else if (state_ == State::Dying)
     {
@@ -69,7 +68,7 @@ void Goomba::die()
     Context::getAudio()->playSample(core::AudioSample::Stomp);
     collidable = false;
     currentAnimation_ = squashed_;
-    position.y += Context::getSpritesContainer()->get(SpriteType::GOOMBA_SQUASHED)->getHeight(); // TODO: remove this nasty hack
+    position.y += Context::getSprites()->get(SpriteType::GOOMBA_SQUASHED)->getHeight(); // TODO: remove this nasty hack
 }
 
 void Goomba::onCollisionWith(Collision collision, Object& object)
