@@ -20,13 +20,12 @@ void Background::draw(double delta_time)
     sprite_->draw(Context::getCameraRenderer(), position.x, position.y);
 }
 
-void Background::onUpdate(std::vector<Object*> gameObjects, double timeStep)
+void Background::on_simulate(double timeStep)
 {
-    (void) gameObjects;
     (void) timeStep;
 }
 
-void Background::onCollisionWith(Collision collision, Object& object)
+void Background::on_collision(Collision collision, Object& object)
 {
     (void) collision;
     (void) object;

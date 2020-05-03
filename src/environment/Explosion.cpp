@@ -19,9 +19,8 @@ Explosion::Explosion(math::Vector2f initialPosition)
     SpriteType::EXPLOSION_1,
     SpriteType::EXPLOSION_2,
     SpriteType::EXPLOSION_3},
-    5,
+    0.1,
     *Context::getSprites());
-
 
     size.y = Context::getSprites()->get(SpriteType::SMALL_BRICK_1)->getHeight();
     size.x = Context::getSprites()->get(SpriteType::SMALL_BRICK_1)->getWidth();
@@ -36,19 +35,18 @@ void Explosion::draw(double delta_time)
     bitmap_->nextFrame(delta_time);
 }
 
-void Explosion::onUpdate(std::vector<Object*> gameObjects, double timeStep)
+void Explosion::on_simulate(double timeStep)
 {
-    (void) gameObjects;
     (void) timeStep;
 
-    if (lifetime_ > 15)
+    if (lifetime_ > 1)
     {
         dead = true;
     }
 
 }
 
-void Explosion::onCollisionWith(Collision collision, Object& object)
+void Explosion::on_collision(Collision collision, Object& object)
 {
     (void) collision;
     (void) object;

@@ -16,8 +16,8 @@ public:
     CoinParticle(math::Vector2f initialPosition);
 
     virtual void draw(double delta_time) override;
-    virtual void onUpdate(std::vector<Object*> gameObjects, double timeStep) override;
-    virtual void onCollisionWith(Collision collision, Object& object) override;
+    virtual void on_simulate(double timeStep) override;
+    virtual void on_collision(Collision collision, Object& object) override;
 
 protected:
     AnimatedSprite* bitmap_;

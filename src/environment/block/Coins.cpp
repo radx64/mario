@@ -14,7 +14,7 @@ Coins::Coins(math::Vector2f position, uint8_t coins)
 : Question(position), coins_(coins)
 {}
 
-void Coins::onCollisionWith(Collision collision, Object& object)
+void Coins::on_collision(Collision collision, Object& object)
 {
     (void) object;
 

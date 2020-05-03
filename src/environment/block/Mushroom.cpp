@@ -13,7 +13,7 @@ namespace block
 Mushroom::Mushroom(math::Vector2f position) : Question(position)
 {}
 
-void Mushroom::onCollisionWith(Collision collision, Object& object)
+void Mushroom::on_collision(Collision collision, Object& object)
 {
     (void) object;
 

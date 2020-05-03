@@ -1,31 +1,41 @@
 #include "Object.hpp"
 
+#include "Context.hpp"
+
 #include <cmath>
 
 #include <iostream>
+#include <SDL2/SDL.h>
 
 Object::Object(ObjectType type) : type_(type)
 {
 }
 
-void Object::update(std::vector<Object*> gameObjects, double timeStep)
+void Object::simulate(double timeStep)
 {
     lifetime_ += timeStep;
-    onUpdate(gameObjects, timeStep);
+    on_simulate(timeStep);
+}
+
+void Object::collide(std::vector<Object*> gameObjects)
+{
+    find_collisions(gameObjects);
 }
 
 std::vector<Object::CollisionPoint> Object::getCollisionPoints()
 {
         return std::vector<CollisionPoint> {
-        {Collision::State::Bottom, {position.x + size.x*1.0f/4.0f,  position.y + size.y-1}},
-        {Collision::State::Bottom, {position.x + size.x*3.0f/4.0f,  position.y + size.y-1}},
+        {Collision::State::Bottom, {position.x + size.x*1.0f/8.0f,  position.y + size.y-1}},
+        {Collision::State::Bottom, {position.x + size.x*7.0f/8.0f,  position.y + size.y-1}},
         {Collision::State::Top,    {position.x + size.x/2.0f,       position.y}},
-        {Collision::State::Left,   {position.x ,                    position.y + size.y/2.0f}},
-        {Collision::State::Right,  {position.x + size.x,            position.y + size.y/2.0f}},
+        {Collision::State::Left,   {position.x ,                    position.y + size.y*1.0f/3.0f}},
+        {Collision::State::Left,   {position.x ,                    position.y + size.y*2.0f/3.0f}},
+        {Collision::State::Right,  {position.x + size.x,            position.y + size.y*1.0f/3.0f}},
+        {Collision::State::Right,  {position.x + size.x,            position.y + size.y*2.0f/3.0f}},
     };
 }
 
-void Object::findCollisions(std::vector<Object*> collidableObjects)
+void Object::find_collisions(std::vector<Object*> collidableObjects)
 {
     if (!moving) return;
     
@@ -39,8 +49,8 @@ void Object::findCollisions(std::vector<Object*> collidableObjects)
         for (Object* collider : colliders)
         {
             Collision collision {collisionPoint.collision};
-            onCollisionWith(collision, *collider);
-            collider->onCollisionWith(collision.opposite(), *this);
+            on_collision(collision, *collider);
+            collider->on_collision(collision.opposite(), *this);
         }
     }
 }

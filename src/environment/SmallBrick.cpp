@@ -36,12 +36,9 @@ void SmallBrick::draw(double delta_time)
     bitmap_->nextFrame(delta_time);
 }
 
-void SmallBrick::onUpdate(std::vector<Object*> gameObjects, double delta_time)
+void SmallBrick::on_simulate(double delta_time)
 {
-    (void) gameObjects;
-
     velocity_.y += 600.0f * delta_time;
-
     position += velocity_ * delta_time;
 
     if ( position.y > 800)       // TODO: use real screen size for killing particles
@@ -50,7 +47,7 @@ void SmallBrick::onUpdate(std::vector<Object*> gameObjects, double delta_time)
     }
 }
 
-void SmallBrick::onCollisionWith(Collision collision, Object& object)
+void SmallBrick::on_collision(Collision collision, Object& object)
 {
     (void) collision;
     (void) object;

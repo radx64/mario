@@ -24,7 +24,7 @@ Fireball::Fireball(math::Vector2f initialPosition, math::Vector2f velocity)
     SpriteType::FIREBALL_2,
     SpriteType::FIREBALL_3,
     SpriteType::FIREBALL_4},
-    5,
+    0.1,
     *Context::getSprites());
 
     size.x = Context::getSprites()->get(SpriteType::FIREBALL_1)->getWidth();
@@ -41,23 +41,17 @@ void Fireball::draw(double delta_time)
     bitmap_->nextFrame(delta_time);
 }
 
-void Fireball::onUpdate(std::vector<Object*> gameObjects, double timeStep)
+void Fireball::on_simulate(double timeStep)
 {
-    findCollisions(gameObjects);
-    (void) gameObjects;
     (void) timeStep;
-
-    //velocity.y += .5f;
-
     position += velocity * timeStep;
 
-    if (lifetime_ > 100) die(false);
+    if (lifetime_ > 2) die(false);
 }
 
 void Fireball::die(bool hasHitEnemy)
 {
     dead = true;
-
 
     math::Vector2f explosionPosition = position - size/4.0f;
     Object* explosion = new environment::Explosion(explosionPosition);
@@ -73,7 +67,7 @@ void Fireball::die(bool hasHitEnemy)
     }
 }
 
-void Fireball::onCollisionWith(Collision collision, Object& object)
+void Fireball::on_collision(Collision collision, Object& object)
 {
     if(object.type_ == ObjectType::Player) return;
     if(object.type_ == ObjectType::Particle) return;

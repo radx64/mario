@@ -19,21 +19,24 @@ class PhysicsComponent
 public:
     PhysicsComponent(Player& player);
     void simulate(double dt);
-    void onCollisionWith(Collision collision, Object& object);
+    void input();
+    void on_collision(Collision collision, Object& object);
 
 protected:
     inline void bounce_of_ceiling();
     inline void jump();
-    inline void moveLeft(float& horizontalAcceleration);
-    inline void moveRight(float& horizontalAcceleration);
-    inline float getMaxHorizontalSpeed(bool running);
+    inline void move_left(float& horizontalAcceleration);
+    inline void move_right(float& horizontalAcceleration);
+
+    inline float get_max_running_speed(bool running);
 
     Player& player_;
 
     const float grav_ {600.0};
     const float max_walk_speed_ {100.0};
-    const float max_run_speed_ {220.0};
+    const float max_run_speed_ {150.0};
     uint32_t fireCooldown {0};
+    float horizontalAcceleration{};
 };
 
 }  // namespace player

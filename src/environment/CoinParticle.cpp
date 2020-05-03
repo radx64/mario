@@ -38,9 +38,8 @@ void CoinParticle::draw(double delta_time)
     bitmap_->nextFrame(delta_time);
 }
 
-void CoinParticle::onUpdate(std::vector<Object*> gameObjects, double delta_time)
+void CoinParticle::on_simulate(double delta_time)
 {
-    (void) gameObjects;
     lifetime_+=delta_time;
 
     position.y = (initialPosition_.y - sin(lifetime_*4.0)*64.0f) ;
@@ -51,7 +50,7 @@ void CoinParticle::onUpdate(std::vector<Object*> gameObjects, double delta_time)
     }
 }
 
-void CoinParticle::onCollisionWith(Collision collision, Object& object)
+void CoinParticle::on_collision(Collision collision, Object& object)
 {
     (void) collision;
     (void) object;

@@ -161,7 +161,7 @@ void Main::init()
     TextRenderer* text = new TextRenderer();
     Context::setTextRenderer(text);
     Context::setKeyboardState(&keys_);
-    world_.lives_ = 3;
+    world_.lives_ = 99;
     Context::setWorld(&world_);
 
     initBitmapsContainter();
@@ -231,7 +231,7 @@ void Main::initGameObjects()
 {
     world_.level = LevelLoader::load("levels/0-0.lvl");
 
-    Object* object = new character::player::Player();
+    character::player::Player* object = new character::player::Player();
     object->position = {64, 200};
 
     world_.level.backObjects.push_back(object);
@@ -242,20 +242,28 @@ void update(std::vector<Object*>& objects, std::vector<Object*>& allObjects, dou
 {
     std::vector<Object*>::iterator it;
 
-    for (it = objects.begin(); it != objects.end();)
+    for (it = objects.begin(); it != objects.end(); ++it)
     {
-        auto object = *it;
-        object->update(allObjects, dt);
-        if (object->dead)
+        /* Need optimize that (double loop with diferent ranges later to check collisions once not twice)*/
+        (*it)->collide(allObjects);
+    };
+
+    for (it = objects.begin(); it != objects.end(); ++it)
+    {
+        (*it)->simulate(dt);
+    };
+
+    for (it = objects.begin(); it != objects.end(); )
+    {
+        if ((*it)->dead)
         {
-           it = objects.erase(it); 
+            it = objects.erase(it);
         }
         else
         {
             ++it;
-        }        
-    }
-
+        }
+    };
 }
 
 void spawn(std::vector<Object*>& objects, std::vector<Object*>& toSpawn)
@@ -281,6 +289,8 @@ void Main::step(double delta_time)
     core::Timer profiler;
     profiler.start();
 
+    player_->on_input();
+
     /* not an optimal solution */
     std::vector<Object*> allObjects;
     allObjects.insert(allObjects.end(), world_.level.backObjects.begin(), world_.level.backObjects.end());
@@ -297,7 +307,6 @@ void Main::step(double delta_time)
 
     draw(world_.level.backObjects, delta_time);
     draw(world_.level.foreObjects, delta_time);
-
     double drawingTime = profiler.getTicks();
 
     int fps =  Context::getFpsCounter()->getLastMeasurement();

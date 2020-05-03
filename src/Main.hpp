@@ -17,6 +17,8 @@ class TextRenderer;
 class SDL_Renderer;
 class SDL_Window;
 
+namespace character { namespace player { class Player; } }
+
 class Main
 {
 public:
@@ -43,7 +45,7 @@ private:
     Context context_{};
     std::vector<Object*> gameObjects_;
     World world_;
-    Object* player_{};
+    character::player::Player* player_{};
     float desiredFPS_{60.0};
     double frameFreezeTime_{};
     double simulationTimeStep_{};

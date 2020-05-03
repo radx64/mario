@@ -30,13 +30,12 @@ void Bricks::draw(double delta_time)
     bitmap_->draw(Context::getCameraRenderer(), position.x, position.y);
 }
 
-void Bricks::onUpdate(std::vector<Object*> gameObjects, double timeStep)
+void Bricks::on_simulate(double timeStep)
 {
-    (void) gameObjects;
     (void) timeStep;
 }
 
-void Bricks::onCollisionWith(Collision collision, Object& object)
+void Bricks::on_collision(Collision collision, Object& object)
 {
     (void) object;
     if (collision.get() == Collision::State::Bottom && !dead)

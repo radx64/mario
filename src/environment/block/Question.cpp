@@ -54,9 +54,8 @@ void Question::draw(double delta_time)
     currentAnimation_->nextFrame(delta_time);
 }
 
-void Question::onUpdate(std::vector<Object*> gameObjects, double timeStep)
+void Question::on_simulate(double timeStep)
 {
-    (void) gameObjects;
     (void) timeStep;
     if (bounce_)
     {
@@ -70,7 +69,6 @@ void Question::onUpdate(std::vector<Object*> gameObjects, double timeStep)
             position.y = originalPosition.y;
         }
     }
-
 }
 
 }  // namespace block

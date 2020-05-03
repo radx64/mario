@@ -19,19 +19,22 @@ physics_(*this)
 
 void Player::draw(double delta_time)
 {
-    (void) delta_time;
     graphics_.draw(delta_time);
 }
 
-void Player::onCollisionWith(Collision collision, Object& object)
+void Player::on_collision(Collision collision, Object& object)
 {
-    physics_.onCollisionWith(collision, object);
+    physics_.on_collision(collision, object);
 }
 
-void Player::onUpdate(std::vector<Object*> gameObjects, double delta_time)
+void Player::on_simulate(double delta_time)
 {
-    findCollisions(gameObjects);
     physics_.simulate(delta_time);
+}
+
+void Player::on_input()
+{
+   physics_.input();
 }
 
 void Player::setAnimationDelay(double delay)

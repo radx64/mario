@@ -14,7 +14,7 @@ class Coins : public Question
 {
 public:
     Coins(math::Vector2f position, uint8_t coins);
-    virtual void onCollisionWith(Collision collision, Object& object) override;
+    virtual void on_collision(Collision collision, Object& object) override;
 
 private:
     int8_t coins_;

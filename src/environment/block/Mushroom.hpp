@@ -14,7 +14,7 @@ class Mushroom : public Question
 {
 public:
     Mushroom(math::Vector2f position);
-    virtual void onCollisionWith(Collision collision, Object& object) override;
+    virtual void on_collision(Collision collision, Object& object) override;
 };
 
 }  // namespace block

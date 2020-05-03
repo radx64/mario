@@ -18,8 +18,8 @@ public:
     Goomba();
 
     virtual void draw(double delta_time) override;
-    virtual void onUpdate(std::vector<Object*> gameObjects, double delta_time) override;
-    virtual void onCollisionWith(Collision collision, Object& object) override;
+    virtual void on_simulate(double delta_time) override;
+    virtual void on_collision(Collision collision, Object& object) override;
 
 protected:
     enum class State
@@ -35,7 +35,7 @@ protected:
     AnimatedSprite* currentAnimation_;
     State state_{State::Walking};
     const float grav_ {300.0};
-    uint8_t dyingCounter_{0};
+    double dying_time{0};
 };
 
 }  // namespace goomba

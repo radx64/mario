@@ -44,18 +44,17 @@ void Goomba::draw(double delta_time)
     currentAnimation_->draw(Context::getCameraRenderer(), position.x, position.y);
 }
 
-void Goomba::onUpdate(std::vector<Object*> gameObjects, double delta_time)
+void Goomba::on_simulate(double delta_time)
 {
     if(state_ == State::Walking)
     {
         velocity.y += grav_ * delta_time;
-        findCollisions(gameObjects);
         position += velocity * delta_time;
     }
     else if (state_ == State::Dying)
     {
-        dyingCounter_ += 1;
-        if(dyingCounter_ > 15)
+        dying_time += delta_time;
+        if(dying_time > 1.0)
         {
             dead = true;
         }
@@ -67,18 +66,19 @@ void Goomba::die()
     state_ = State::Dying;
     Context::getAudio()->playSample(core::AudioSample::Stomp);
     collidable = false;
+    moving = false;
     currentAnimation_ = squashed_;
+    size.y = Context::getSprites()->get(SpriteType::GOOMBA_SQUASHED)->getHeight();
     position.y += Context::getSprites()->get(SpriteType::GOOMBA_SQUASHED)->getHeight(); // TODO: remove this nasty hack
 }
 
-void Goomba::onCollisionWith(Collision collision, Object& object)
+void Goomba::on_collision(Collision collision, Object& object)
 {
     if (object.type_ == ObjectType::Fireball)
     {
         die();
         return;
     }
-
 
     if (collision.get() == Collision::State::Top 
         && state_ != State::Dying 
@@ -97,13 +97,13 @@ void Goomba::onCollisionWith(Collision collision, Object& object)
     if (collision.get() == Collision::State::Left)
     {
         if (velocity.x < 0.0) velocity.x = -velocity.x;
-        position.x = object.position.x + size.x + 1;
+        //position.x = object.position.x + object.size.x;
     }
 
     if (collision.get()== Collision::State::Right)
     {
         if (velocity.x > 0.0) velocity.x = -velocity.x;
-        position.x = object.position.x - size.x - 1;
+        //position.x = object.position.x - size.x;
     }
 
 }
