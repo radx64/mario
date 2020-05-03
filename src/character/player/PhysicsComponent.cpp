@@ -12,8 +12,6 @@
 #include "KeyboardState.hpp"
 #include "World.hpp"
 
-#include <iostream>
-
 namespace character
 {
 namespace player
@@ -38,18 +36,16 @@ void PhysicsComponent::input()
         {
             if(player_.velocity.y > 0)  /* falling down */
             {
-                verticalAcceleration = 8.0;   /* slowing fall down */
-                std::cout << "Slowing down fall\n";
+                verticalAcceleration = std::min(300.0, verticalAcceleration);   /* slowing fall down */
             }
             else    /* raising up */
             {
-                verticalAcceleration = -5.0;
+                verticalAcceleration = std::min(300.0, verticalAcceleration);
             }
-
         }
     }
 
-    if (keys->fire && fireCooldown == 0)
+    if (keys->fire && fireCooldown <= 0)
     {
         math::Vector2f spawnPoint = player_.position;
         spawnPoint.x += player_.size.x / 2.0f;
@@ -62,7 +58,7 @@ void PhysicsComponent::input()
         Object* fireball = new environment::Fireball(spawnPoint, spawnVelocity);
         Context::getWorld()->level.toSpawnObjectsInFore.push_back(fireball);
         Context::getAudio()->playSample(core::AudioSample::Fireball);
-        fireCooldown = 30;
+        fireCooldown = 1;
     }
 
     move_sideways(keys);
@@ -81,8 +77,8 @@ inline void PhysicsComponent::bounce_of_ceiling()
 
 inline void PhysicsComponent::jump()
 {
-    player_.velocity.y = -150.0; /* need instatant jump ve */
-    verticalAcceleration = -0.0;
+    player_.velocity.y = -200.0; /* need instatant jump velociy */
+    verticalAcceleration = 130.0;
     player_.on_ground_ = false;
 }
 
@@ -109,10 +105,12 @@ inline double PhysicsComponent::get_max_running_speed(bool running)
 
 void PhysicsComponent::simulate(double dt)
 {
-    if (fireCooldown > 0) fireCooldown--;
+    if (fireCooldown >= 0) fireCooldown-=dt;
 
     if (std::fabs(player_.velocity.x) > 5.0)
-        if (std::signbit(player_.velocity.x) != std::signbit(horizontalAcceleration))
+    {
+        if (horizontalAcceleration!= 0 &&
+            std::signbit(player_.velocity.x) != std::signbit(horizontalAcceleration))
         {
             player_.state = Player::State::Sliding;
         }
@@ -120,6 +118,7 @@ void PhysicsComponent::simulate(double dt)
         {
             player_.state = Player::State::Running;
         }
+    }
     else
         player_.state = Player::State::Standing;
 
@@ -159,6 +158,7 @@ void PhysicsComponent::on_collision(Collision collision, Object& object)
             if (player_.velocity.y > 0) player_.velocity.y = 0;
             player_.position.y = object.position.y - player_.size.y + 1;
             player_.on_ground_ = true;
+            verticalAcceleration = 0.0;
         }
     }
 

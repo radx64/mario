@@ -34,7 +34,7 @@ protected:
 
     const double max_walk_speed_ {100.0};
     const double max_run_speed_ {200.0};
-    uint32_t fireCooldown {0};
+    double fireCooldown {0};
     double horizontalAcceleration{};
     double verticalAcceleration{};
 };
