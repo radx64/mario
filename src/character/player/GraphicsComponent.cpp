@@ -83,11 +83,12 @@ void GraphicsComponent::draw(double delta_time)
 
     FlipFlags flip;
 
-    if (player_.velocity.x < 0.0)
+    if (player_.velocity.x < -0.5)
     {
         flip.FLIP_HORIZONTAL();
     }
-    else
+
+    if (player_.velocity.x > 0.5)
     {
         flip.NO_FLIP();
     }

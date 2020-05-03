@@ -29,7 +29,6 @@ protected:
 
     State state_;
     Sprite* sprite_;
-    const float grav_ {300.0};
 };
 
 }  // namespace environment

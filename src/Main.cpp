@@ -244,13 +244,13 @@ void update(std::vector<Object*>& objects, std::vector<Object*>& allObjects, dou
 
     for (it = objects.begin(); it != objects.end(); ++it)
     {
-        /* Need optimize that (double loop with diferent ranges later to check collisions once not twice)*/
-        (*it)->collide(allObjects);
+        (*it)->simulate(dt);
     };
 
     for (it = objects.begin(); it != objects.end(); ++it)
     {
-        (*it)->simulate(dt);
+        /* Need optimize that (double loop with diferent ranges later to check collisions once not twice)*/
+        (*it)->collide(allObjects);
     };
 
     for (it = objects.begin(); it != objects.end(); )
@@ -289,8 +289,6 @@ void Main::step(double delta_time)
     core::Timer profiler;
     profiler.start();
 
-    player_->on_input();
-
     /* not an optimal solution */
     std::vector<Object*> allObjects;
     allObjects.insert(allObjects.end(), world_.level.backObjects.begin(), world_.level.backObjects.end());
@@ -301,6 +299,8 @@ void Main::step(double delta_time)
 
     spawn(world_.level.backObjects, world_.level.toSpawnObjectsInBack);
     spawn(world_.level.foreObjects, world_.level.toSpawnObjectsInFore);
+
+    player_->on_input();
 
     double physicsTime = profiler.getTicks();
     profiler.start();

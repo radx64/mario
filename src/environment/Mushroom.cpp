@@ -2,6 +2,7 @@
 
 #include "Camera.hpp"
 #include "Context.hpp"
+#include "Constants.hpp"
 #include "graphics/CameraRenderer.hpp"
 #include "math/Vector2.hpp"
 #include "Sprite.hpp"
@@ -44,7 +45,7 @@ void Mushroom::on_simulate(double delta_time)
         return;
     }
 
-    velocity.y += grav_ * delta_time;
+    velocity.y += constant::GRAVITY * delta_time;
     position += velocity * delta_time;
 }
 

@@ -25,8 +25,8 @@ void Object::collide(std::vector<Object*> gameObjects)
 std::vector<Object::CollisionPoint> Object::getCollisionPoints()
 {
         return std::vector<CollisionPoint> {
-        {Collision::State::Bottom, {position.x + size.x*1.0f/8.0f,  position.y + size.y-1}},
-        {Collision::State::Bottom, {position.x + size.x*7.0f/8.0f,  position.y + size.y-1}},
+        {Collision::State::Bottom, {position.x + size.x*2.0f/6.0f,  position.y + size.y-1}},
+        {Collision::State::Bottom, {position.x + size.x*4.0f/6.0f,  position.y + size.y-1}},
         {Collision::State::Top,    {position.x + size.x/2.0f,       position.y}},
         {Collision::State::Left,   {position.x ,                    position.y + size.y*1.0f/3.0f}},
         {Collision::State::Left,   {position.x ,                    position.y + size.y*2.0f/3.0f}},

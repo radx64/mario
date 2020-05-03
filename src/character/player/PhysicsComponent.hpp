@@ -7,6 +7,7 @@
 
 class AnimatedBitmap;
 class Object;
+class KeyboardState;
 
 namespace character
 {
@@ -25,18 +26,17 @@ public:
 protected:
     inline void bounce_of_ceiling();
     inline void jump();
-    inline void move_left(float& horizontalAcceleration);
-    inline void move_right(float& horizontalAcceleration);
+    inline void move_sideways(KeyboardState* keys);
 
-    inline float get_max_running_speed(bool running);
+    inline double get_max_running_speed(bool running);
 
     Player& player_;
 
-    const float grav_ {600.0};
-    const float max_walk_speed_ {100.0};
-    const float max_run_speed_ {150.0};
+    const double max_walk_speed_ {100.0};
+    const double max_run_speed_ {200.0};
     uint32_t fireCooldown {0};
-    float horizontalAcceleration{};
+    double horizontalAcceleration{};
+    double verticalAcceleration{};
 };
 
 }  // namespace player

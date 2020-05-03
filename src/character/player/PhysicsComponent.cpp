@@ -4,12 +4,15 @@
 #include <cmath>
 
 #include "Camera.hpp"
+#include "Constants.hpp"
 #include "Context.hpp"
 #include "core/Audio.hpp"
 #include "environment/Fireball.hpp"
 #include "Player.hpp"
 #include "KeyboardState.hpp"
 #include "World.hpp"
+
+#include <iostream>
 
 namespace character
 {
@@ -26,17 +29,26 @@ void PhysicsComponent::input()
 
     if (keys->up)
     {
-        if (!player_.jumped_)
+        if (player_.on_ground_)
         {
             Context::getAudio()->playSample(core::AudioSample::PlayerJump);
             jump();
         }
         else
-        {   /* this slows down player when falling and holding jump button */
-            /* not elegant as not considering dt */
-            player_.velocity.y -= 5.0;
+        {
+            if(player_.velocity.y > 0)  /* falling down */
+            {
+                verticalAcceleration = 8.0;   /* slowing fall down */
+                std::cout << "Slowing down fall\n";
+            }
+            else    /* raising up */
+            {
+                verticalAcceleration = -5.0;
+            }
+
         }
     }
+
     if (keys->fire && fireCooldown == 0)
     {
         math::Vector2f spawnPoint = player_.position;
@@ -53,13 +65,12 @@ void PhysicsComponent::input()
         fireCooldown = 30;
     }
 
-    if (keys->left) move_left(horizontalAcceleration);
-    if (keys->right) move_right(horizontalAcceleration);
+    move_sideways(keys);
     if (keys->down) player_.crouched_ = true; else player_.crouched_ = false;
 
     if (abs(player_.velocity.x) >= get_max_running_speed(keys->run))
     {
-        horizontalAcceleration *= 0.01f;
+        horizontalAcceleration *= 0.1f;
     }
 }
 
@@ -70,25 +81,28 @@ inline void PhysicsComponent::bounce_of_ceiling()
 
 inline void PhysicsComponent::jump()
 {
-    player_.velocity.y = -250.0;
-    player_.jumped_ = true;
+    player_.velocity.y = -150.0; /* need instatant jump ve */
+    verticalAcceleration = -0.0;
+    player_.on_ground_ = false;
 }
 
-inline void PhysicsComponent::move_left(float& horizontalAcceleration)
+inline void PhysicsComponent::move_sideways(KeyboardState* keys)
 {
-    if (player_.crouched_) return;
-    horizontalAcceleration = -1000.0;
-    if (!player_.jumped_ && player_.velocity.x > 0) player_.state = Player::State::Sliding;
+    if (player_.crouched_)
+    {
+        horizontalAcceleration = 0.0;
+    }
+    else
+    {
+        if (keys->left) horizontalAcceleration = -800.0;
+        if (keys->right) horizontalAcceleration = 800.0;
+
+        if (!keys->left && !keys->right) horizontalAcceleration = 0.0;
+
+    }
 }
 
-inline void PhysicsComponent::move_right(float& horizontalAcceleration)
-{
-    if (player_.crouched_) return;
-    horizontalAcceleration = 1000;
-    if (!player_.jumped_ && player_.velocity.x < 0) player_.state = Player::State::Sliding;
-}
-
-inline float PhysicsComponent::get_max_running_speed(bool running)
+inline double PhysicsComponent::get_max_running_speed(bool running)
 {
     return running ? max_run_speed_ : max_walk_speed_;
 }
@@ -97,22 +111,33 @@ void PhysicsComponent::simulate(double dt)
 {
     if (fireCooldown > 0) fireCooldown--;
 
-    if (std::fabs(player_.velocity.x) > 5.0 )
-        player_.state = Player::State::Running;
+    if (std::fabs(player_.velocity.x) > 5.0)
+        if (std::signbit(player_.velocity.x) != std::signbit(horizontalAcceleration))
+        {
+            player_.state = Player::State::Sliding;
+        }
+        else
+        {
+            player_.state = Player::State::Running;
+        }
     else
         player_.state = Player::State::Standing;
 
-    if (player_.jumped_) player_.state = Player::State::Jumping;
+    if (!player_.on_ground_) player_.state = Player::State::Jumping;
     if (player_.crouched_ ) player_.state = Player::State::Crouching;
 
+
+    verticalAcceleration += (constant::GRAVITY) * dt;
+
     player_.velocity.x += horizontalAcceleration * dt;
+    player_.velocity.y += verticalAcceleration * dt;
+
+    player_.velocity.x *= 0.95;
+    player_.position += player_.velocity * dt;
 
     auto running_animation_delay = (1.0 - (abs(player_.velocity.x) / (max_run_speed_ + 10.0))) * dt * 25.0;
     player_.setAnimationDelay(running_animation_delay);
 
-    player_.velocity.x *= 0.95;
-    player_.velocity.y += (grav_ * dt);
-    player_.position += player_.velocity * dt;
 
     Context::getCamera()->setX(player_.position.x);
     Context::getCamera()->setY(player_.position.y);
@@ -133,7 +158,7 @@ void PhysicsComponent::on_collision(Collision collision, Object& object)
         {
             if (player_.velocity.y > 0) player_.velocity.y = 0;
             player_.position.y = object.position.y - player_.size.y + 1;
-            player_.jumped_ = false;
+            player_.on_ground_ = true;
         }
     }
 
@@ -144,19 +169,17 @@ void PhysicsComponent::on_collision(Collision collision, Object& object)
 
     if (collision.get() == Collision::State::Left)
     {
-        if (horizontalAcceleration < 0)
-        {
-            horizontalAcceleration = 0; player_.velocity.x = 0;
-        }
+        if (player_.velocity.x < 0) player_.velocity.x = 0;
+        if (horizontalAcceleration < 0) horizontalAcceleration = 0;
+        player_.position.x = object.position.x + object.size.x;
     }
 
     if (collision.get() == Collision::State::Right)
     {
-        if (horizontalAcceleration > 0)
-        {
-            horizontalAcceleration = 0;
-            player_.velocity.x = 0;
-        }
+        if (player_.velocity.x > 0) player_.velocity.x = 0;
+        if (horizontalAcceleration > 0) horizontalAcceleration = 0;
+        player_.position.x = object.position.x - player_.size.x;
+        
     }
 }
 

@@ -36,7 +36,7 @@ public:
     void on_collision(Collision collision, Object& object);
     void setAnimationDelay(double delay);
 
-    bool jumped_{false};
+    bool on_ground_{false};
     bool crouched_{false};
     State state{State::Standing};
     State previousState{State::Standing};
