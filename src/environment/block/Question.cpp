@@ -36,7 +36,7 @@ Question::Question(math::Vector2f initialPosition) : Object(ObjectType::Environm
     size.y = Context::getSprites()->get(SpriteType::QUESTIONBLOCK_0)->getHeight();
     size.x = Context::getSprites()->get(SpriteType::QUESTIONBLOCK_0)->getWidth();
 
-    collidable = true;
+    collidable_ = true;
 }
 
 void Question::draw(double delta_time)

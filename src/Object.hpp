@@ -27,18 +27,18 @@ public:
         in constructor but can be dynamically calculated later)
         some objects shouldn't be collidable (little bricks, dead bodies, etc)
     **/
-    bool collidable {false};
+    bool collidable_ {false};
 
     /**
         if object is not moving there is no point to check by it is it colliding with anything
         long story short - only moving objects are checking collisions with collidable objects.
     **/
-    bool moving {false};
+    bool moving_ {false};
 
     /**
         used for dead bodies cleanup
     **/
-    bool dead {false};
+    bool dead_ {false};
 
     ObjectType type_{};
 
@@ -52,7 +52,7 @@ protected:
     /**
         this method may be overloaded by derived class to define own colision points still working with base findCollsions method
     **/
-    std::vector<CollisionPoint> getCollisionPoints();
+    virtual std::vector<CollisionPoint> getCollisionPoints();
     virtual void on_simulate(double timeStep) = 0;
     void find_collisions(std::vector<Object*> gameObjects);
     std::vector<Object*> getObjectsAt(std::vector<Object*> gameObjects, math::Vector2f point);

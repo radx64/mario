@@ -4,10 +4,10 @@ class FlipFlags
 {
 public:
     FlipFlags();
-    void NO_FLIP();
-    void FLIP_HORIZONTAL();
-    void FLIP_VERTICAL();
-    SDL_RendererFlip getSDL() const;
+    void no_flip();
+    void flip_horizontal();
+    void flip_vertical();
+    SDL_RendererFlip toSDL() const;
 
 private:
     SDL_RendererFlip flags_;

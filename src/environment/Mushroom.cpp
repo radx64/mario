@@ -19,8 +19,8 @@ Mushroom::Mushroom() : Object(ObjectType::PowerUp)
 
     size.x = sprite_->getHeight();
     size.y = sprite_->getHeight();
-    collidable = true;
-    moving = true;
+    collidable_ = true;
+    moving_ = true;
     velocity.x = 32.0;
     velocity.y -= 5.0;
     state_ = State::Spawning;
@@ -51,7 +51,11 @@ void Mushroom::on_simulate(double delta_time)
 
 void Mushroom::on_collision(Collision collision, Object& object)
 {
-    (void) object;
+    if (object.type_ == ObjectType::Player)
+    {
+        dead_ = true;
+    }
+
     if(collision.get() == Collision::State::Bottom)
     {
         velocity.y = 0;

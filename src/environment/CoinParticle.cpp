@@ -29,7 +29,7 @@ CoinParticle::CoinParticle(math::Vector2f initialPosition)
     position = initialPosition_ = initialPosition - size / 2.0f;
     position.y -= size.y;
 
-    collidable = false;
+    collidable_ = false;
 }
 
 void CoinParticle::draw(double delta_time)
@@ -46,7 +46,7 @@ void CoinParticle::on_simulate(double delta_time)
 
     if (position.y > initialPosition_.y)
     {
-        dead = true;
+        dead_ = true;
     }
 }
 

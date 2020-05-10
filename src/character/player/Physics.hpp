@@ -15,10 +15,10 @@ namespace player
 {
 class Player;
 
-class PhysicsComponent
+class Physics
 {
 public:
-    PhysicsComponent(Player& player);
+    Physics(Player& player);
     void simulate(double dt);
     void input();
     void on_collision(Collision collision, Object& object);

@@ -20,7 +20,7 @@ void StillRenderer::draw(SDL_Texture* texture, SDL_Rect* renderQuad, const FlipF
         renderQuad,
         0,
         NULL,
-        flipflags->getSDL());
+        flipflags->toSDL());
 }
 
 void StillRenderer::draw(SDL_Texture* texture, SDL_Rect* source, SDL_Rect* destination)

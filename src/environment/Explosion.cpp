@@ -26,7 +26,7 @@ Explosion::Explosion(math::Vector2f initialPosition)
     size.x = Context::getSprites()->get(SpriteType::SMALL_BRICK_1)->getWidth();
     position = initialPosition - size / 2.0f;
 
-    collidable = false;
+    collidable_ = false;
 }
 
 void Explosion::draw(double delta_time)
@@ -41,7 +41,7 @@ void Explosion::on_simulate(double timeStep)
 
     if (lifetime_ > 1)
     {
-        dead = true;
+        dead_ = true;
     }
 
 }

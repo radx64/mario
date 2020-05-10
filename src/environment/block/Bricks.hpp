@@ -10,14 +10,18 @@ namespace environment
 namespace block
 {
 
+/* starts looking simmilar to coinblock, maybe need to extract smth like bouncable common impl */
 class Bricks : public Object
 {
 public:
-    Bricks();
+    Bricks(math::Vector2f initialPosition);
 
     virtual void draw(double delta_time) override;
     virtual void on_simulate(double timeStep) override;
     virtual void on_collision(Collision collision, Object& object) override;
+    bool bounce_{false};
+    double bounceTick_{0};
+    math::Vector2f originalPosition{};
 
 protected:
     Sprite* bitmap_;

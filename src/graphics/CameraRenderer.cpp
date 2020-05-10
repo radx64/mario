@@ -44,7 +44,7 @@ void CameraRenderer::draw(SDL_Texture* texture, SDL_Rect* renderQuad, const Flip
             renderQuad,
             0,
             NULL,
-            flipflags->getSDL());
+            flipflags->toSDL());
     }
 }
 

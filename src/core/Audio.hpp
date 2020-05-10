@@ -11,11 +11,14 @@ namespace core
 enum class AudioSample
 {
     BlockBreak,
+    BlockHit,
     Coin,
     Explosion,
     Fireball,
     MushroomAppear,
-    PlayerJump,
+    MushroomEat,
+    PlayerJumpSmall,
+    PlayerJumpBig,
     Shot,
     Stomp,
 };

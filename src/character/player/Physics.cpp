@@ -1,4 +1,4 @@
-#include "character/player/PhysicsComponent.hpp"
+#include "character/player/Physics.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -12,16 +12,18 @@
 #include "KeyboardState.hpp"
 #include "World.hpp"
 
+#include <iostream>
+
 namespace character
 {
 namespace player
 {
 
-PhysicsComponent::PhysicsComponent(Player& player)
+Physics::Physics(Player& player)
 : player_(player)
 {}
 
-void PhysicsComponent::input()
+void Physics::input()
 {
     auto keys = Context::getKeyboardState();
 
@@ -29,7 +31,10 @@ void PhysicsComponent::input()
     {
         if (player_.on_ground_)
         {
-            Context::getAudio()->playSample(core::AudioSample::PlayerJump);
+            if (player_.power_level == Player::PowerLevel::Small)
+                Context::getAudio()->playSample(core::AudioSample::PlayerJumpSmall);
+            else
+                Context::getAudio()->playSample(core::AudioSample::PlayerJumpBig);
             jump();
         }
         else
@@ -70,19 +75,19 @@ void PhysicsComponent::input()
     }
 }
 
-inline void PhysicsComponent::bounce_of_ceiling()
+inline void Physics::bounce_of_ceiling()
 {
     if (player_.velocity.y < 0.0) player_.velocity.y *= -1.0;
 }
 
-inline void PhysicsComponent::jump()
+inline void Physics::jump()
 {
-    player_.velocity.y = -200.0; /* need instatant jump velociy */
-    verticalAcceleration = 130.0;
+    player_.velocity.y = -250.0; /* need instatant jump velociy */
+    verticalAcceleration = 170.0;
     player_.on_ground_ = false;
 }
 
-inline void PhysicsComponent::move_sideways(KeyboardState* keys)
+inline void Physics::move_sideways(KeyboardState* keys)
 {
     if (player_.crouched_)
     {
@@ -98,12 +103,12 @@ inline void PhysicsComponent::move_sideways(KeyboardState* keys)
     }
 }
 
-inline double PhysicsComponent::get_max_running_speed(bool running)
+inline double Physics::get_max_running_speed(bool running)
 {
     return running ? max_run_speed_ : max_walk_speed_;
 }
 
-void PhysicsComponent::simulate(double dt)
+void Physics::simulate(double dt)
 {
     if (fireCooldown >= 0) fireCooldown-=dt;
 
@@ -142,10 +147,19 @@ void PhysicsComponent::simulate(double dt)
     Context::getCamera()->setY(player_.position.y);
 }
 
-void PhysicsComponent::on_collision(Collision collision, Object& object)
+void Physics::on_collision(Collision collision, Object& object)
 {
-
     if(object.type_ == ObjectType::Fireball) return;
+
+    if(object.type_ == ObjectType::PowerUp) {
+
+        if (player_.power_level == Player::PowerLevel::Small)
+        {
+            player_.power_level = Player::PowerLevel::Big;
+            player_.position.y -=16;
+            Context::getAudio()->playSample(core::AudioSample::MushroomEat);
+        }
+        return;}
 
     if (collision.get() == Collision::State::Bottom)
     {
@@ -181,6 +195,8 @@ void PhysicsComponent::on_collision(Collision collision, Object& object)
         player_.position.x = object.position.x - player_.size.x;
         
     }
+
+    player_.previous_power_level = player_.power_level; //need to find when powerup is beeing received to change sprite size
 }
 
 }  // namespace player

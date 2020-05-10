@@ -19,7 +19,7 @@ Ground::Ground() : Object(ObjectType::Environment)
     size.y = sprite_->getHeight();
     size.x = sprite_->getWidth();
 
-    collidable = true;
+    collidable_ = true;
 }
 
 void Ground::draw(double delta_time)

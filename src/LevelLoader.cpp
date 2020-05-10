@@ -41,7 +41,7 @@ Level LevelLoader::load(std::string filename)
             {   
                 case ' ' : columnIndex++; continue;
                 case '0' : object = new environment::block::Ground(); break;
-                case '1' : object = new environment::block::Bricks(); break;
+                case '1' : object = new environment::block::Bricks(position); break;
                 case '2' : object = new environment::block::Coins(position, 3); break;
                 case 'q' : object = new environment::Background(SpriteType::BUSH_LEFT); break;
                 case 'w' : object = new environment::Background(SpriteType::BUSH_MIDDLE); break;
@@ -56,10 +56,10 @@ Level LevelLoader::load(std::string filename)
                 case 'm' : object = new environment::block::Mushroom(position); break;
 
                 /** background but collidable - nasty hack for now **/
-                case 'z' : object = new environment::Background(SpriteType::PIPE_TOP_LEFT); object->collidable = true; break;
-                case 'x' : object = new environment::Background(SpriteType::PIPE_TOP_RIGHT); object->collidable = true; break;
-                case 'c' : object = new environment::Background(SpriteType::PIPE_BOTTOM_LEFT); object->collidable = true; break;
-                case 'v' : object = new environment::Background(SpriteType::PIPE_BOTTOM_RIGHT); object->collidable = true; break;
+                case 'z' : object = new environment::Background(SpriteType::PIPE_TOP_LEFT); object->collidable_ = true; break;
+                case 'x' : object = new environment::Background(SpriteType::PIPE_TOP_RIGHT); object->collidable_ = true; break;
+                case 'c' : object = new environment::Background(SpriteType::PIPE_BOTTOM_LEFT); object->collidable_ = true; break;
+                case 'v' : object = new environment::Background(SpriteType::PIPE_BOTTOM_RIGHT); object->collidable_ = true; break;
             }
 
             object->position = position;

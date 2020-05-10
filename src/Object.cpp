@@ -28,16 +28,14 @@ std::vector<Object::CollisionPoint> Object::getCollisionPoints()
         {Collision::State::Bottom, {position.x + size.x*2.0f/6.0f,  position.y + size.y-1}},
         {Collision::State::Bottom, {position.x + size.x*4.0f/6.0f,  position.y + size.y-1}},
         {Collision::State::Top,    {position.x + size.x/2.0f,       position.y}},
-        {Collision::State::Left,   {position.x ,                    position.y + size.y*1.0f/3.0f}},
-        {Collision::State::Left,   {position.x ,                    position.y + size.y*2.0f/3.0f}},
-        {Collision::State::Right,  {position.x + size.x,            position.y + size.y*1.0f/3.0f}},
-        {Collision::State::Right,  {position.x + size.x,            position.y + size.y*2.0f/3.0f}},
+        {Collision::State::Left,   {position.x ,                    position.y + size.y/2.0f}},
+        {Collision::State::Right,  {position.x + size.x,            position.y + size.y/2.0f}},
     };
 }
 
 void Object::find_collisions(std::vector<Object*> collidableObjects)
 {
-    if (!moving) return;
+    if (!moving_) return;
     
     std::vector<CollisionPoint> collisionsPoints = getCollisionPoints();
 
@@ -49,8 +47,8 @@ void Object::find_collisions(std::vector<Object*> collidableObjects)
         for (Object* collider : colliders)
         {
             Collision collision {collisionPoint.collision};
-            on_collision(collision, *collider);
             collider->on_collision(collision.opposite(), *this);
+            on_collision(collision, *collider);
         }
     }
 }
@@ -62,7 +60,7 @@ std::vector<Object*> Object::getObjectsAt(std::vector<Object*> gameObjects, math
     for(auto object : gameObjects)  // this is not an optimal way to check collsions
     {                               // spatial cheking maybe divided to smaller sectors or something
         if (object != this && // no collsion with self
-            object->collidable &&
+            object->collidable_ &&
             (point.x > object->position.x && point.x < object->position.x + object->size.x) &&
             (point.y > object->position.y && point.y < object->position.y + object->size.y)) 
 

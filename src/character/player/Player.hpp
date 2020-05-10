@@ -4,8 +4,8 @@
 #include <vector>
 #include <utility>
 
-#include "character/player/GraphicsComponent.hpp"
-#include "character/player/PhysicsComponent.hpp"
+#include "character/player/Graphics.hpp"
+#include "character/player/Physics.hpp"
 #include "Object.hpp"
 
 class Context;
@@ -28,6 +28,13 @@ public:
         Crouching
     };
 
+    enum class PowerLevel
+    {
+        Small,
+        Big,
+        Fireball
+    };
+
     Player();
 
     virtual void on_simulate(double delta_time) override;
@@ -35,15 +42,19 @@ public:
     void on_input();
     void on_collision(Collision collision, Object& object);
     void setAnimationDelay(double delay);
+    std::vector<Object::CollisionPoint> getCollisionPoints() override;
 
     bool on_ground_{false};
     bool crouched_{false};
+    bool facing_left_{false};
+    PowerLevel power_level{PowerLevel::Small};
+    PowerLevel previous_power_level{PowerLevel::Small};
     State state{State::Standing};
     State previousState{State::Standing};
 
 protected:
-    GraphicsComponent graphics_;
-    PhysicsComponent physics_;
+    Graphics graphics_;
+    Physics physics_;
 };
 
 }  // namespace player

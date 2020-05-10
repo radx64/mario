@@ -71,13 +71,19 @@ void Main::initBitmapsContainter()
         { SpriteType::FIREBALL_3,           rootPath + "particles/fireball3.bmp"},
         { SpriteType::FIREBALL_4,           rootPath + "particles/fireball4.bmp"},
         { SpriteType::GROUND_RED,           rootPath + "environment/gnd_red_1.bmp"},
-        { SpriteType::MARIO_CROUCHING,      rootPath + "characters/mario/crouch.bmp"},
-        { SpriteType::MARIO_JUMPING,        rootPath + "characters/mario/jump.bmp"},
-        { SpriteType::MARIO_RUNNING_0,      rootPath + "characters/mario/move0.bmp"},
-        { SpriteType::MARIO_RUNNING_1,      rootPath + "characters/mario/move1.bmp"},
-        { SpriteType::MARIO_RUNNING_2,      rootPath + "characters/mario/move2.bmp"},
-        { SpriteType::MARIO_STANDING,       rootPath + "characters/mario/standing.bmp"},
-        { SpriteType::MARIO_SLIDING,        rootPath + "characters/mario/sliding.bmp"},
+        { SpriteType::MARIO_SMALL_JUMPING,  rootPath + "characters/mario/jump0.bmp"},
+        { SpriteType::MARIO_SMALL_RUNNING_0,rootPath + "characters/mario/move0_0.bmp"},
+        { SpriteType::MARIO_SMALL_RUNNING_1,rootPath + "characters/mario/move0_1.bmp"},
+        { SpriteType::MARIO_SMALL_RUNNING_2,rootPath + "characters/mario/move0_2.bmp"},
+        { SpriteType::MARIO_SMALL_SLIDING,  rootPath + "characters/mario/sliding0.bmp"},
+        { SpriteType::MARIO_SMALL_STANDING, rootPath + "characters/mario/standing0.bmp"},
+        { SpriteType::MARIO_BIG_CROUCHING,  rootPath + "characters/mario/crouch1.bmp"},
+        { SpriteType::MARIO_BIG_JUMPING,    rootPath + "characters/mario/jump1.bmp"},
+        { SpriteType::MARIO_BIG_RUNNING_0,  rootPath + "characters/mario/move1_0.bmp"},
+        { SpriteType::MARIO_BIG_RUNNING_1,  rootPath + "characters/mario/move1_1.bmp"},
+        { SpriteType::MARIO_BIG_RUNNING_2,  rootPath + "characters/mario/move1_2.bmp"},
+        { SpriteType::MARIO_BIG_STANDING,   rootPath + "characters/mario/standing1.bmp"},
+        { SpriteType::MARIO_BIG_SLIDING,    rootPath + "characters/mario/sliding1.bmp"},
         { SpriteType::MUSHROOM,             rootPath + "environment/mushroom.bmp"},
         { SpriteType::SQUID_0,              rootPath + "characters/squid/move0.bmp"},
         { SpriteType::SQUID_1,              rootPath + "characters/squid/move1.bmp"},
@@ -255,7 +261,7 @@ void update(std::vector<Object*>& objects, std::vector<Object*>& allObjects, dou
 
     for (it = objects.begin(); it != objects.end(); )
     {
-        if ((*it)->dead)
+        if ((*it)->dead_)
         {
             it = objects.erase(it);
         }
@@ -289,7 +295,7 @@ void Main::step(double delta_time)
     core::Timer profiler;
     profiler.start();
 
-    /* not an optimal solution */
+    /* awfull solution */
     std::vector<Object*> allObjects;
     allObjects.insert(allObjects.end(), world_.level.backObjects.begin(), world_.level.backObjects.end());
     allObjects.insert(allObjects.end(), world_.level.foreObjects.begin(), world_.level.foreObjects.end());

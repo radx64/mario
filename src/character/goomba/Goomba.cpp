@@ -33,8 +33,8 @@ Goomba::Goomba() : Object(ObjectType::Enemy)
 
     size.x = Context::getSprites()->get(SpriteType::GOOMBA_WALK_0)->getHeight();
     size.y = Context::getSprites()->get(SpriteType::GOOMBA_WALK_0)->getHeight();
-    collidable = true;
-    moving = true;
+    collidable_ = true;
+    moving_ = true;
     velocity.x = -30.0;
 }
 
@@ -56,7 +56,7 @@ void Goomba::on_simulate(double delta_time)
         dying_time += delta_time;
         if(dying_time > 1.0)
         {
-            dead = true;
+            dead_ = true;
         }
     }
 }
@@ -65,8 +65,8 @@ void Goomba::die()
 {
     state_ = State::Dying;
     Context::getAudio()->playSample(core::AudioSample::Stomp);
-    collidable = false;
-    moving = false;
+    collidable_ = false;
+    moving_ = false;
     currentAnimation_ = squashed_;
     size.y = Context::getSprites()->get(SpriteType::GOOMBA_SQUASHED)->getHeight();
     position.y += Context::getSprites()->get(SpriteType::GOOMBA_SQUASHED)->getHeight(); // TODO: remove this nasty hack

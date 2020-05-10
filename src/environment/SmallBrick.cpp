@@ -3,6 +3,7 @@
 #include <SDL2/SDL.h>
 
 #include "AnimatedSprite.hpp"
+#include "Constants.hpp"
 #include "Camera.hpp"
 #include "Context.hpp"
 #include "graphics/CameraRenderer.hpp"
@@ -27,7 +28,7 @@ SmallBrick::SmallBrick(math::Vector2f initialPosition, math::Vector2f velocity)
     size.x = Context::getSprites()->get(SpriteType::SMALL_BRICK_1)->getWidth();
     position = initialPosition - size / 2.0f;
 
-    collidable = false;
+    collidable_ = false;
 }
 
 void SmallBrick::draw(double delta_time)
@@ -38,12 +39,12 @@ void SmallBrick::draw(double delta_time)
 
 void SmallBrick::on_simulate(double delta_time)
 {
-    velocity_.y += 600.0f * delta_time;
+    velocity_.y += constant::GRAVITY * delta_time;
     position += velocity_ * delta_time;
 
     if ( position.y > 800)       // TODO: use real screen size for killing particles
     {
-        dead = true;
+        dead_ = true;
     }
 }
 

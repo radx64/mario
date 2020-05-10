@@ -31,8 +31,8 @@ Fireball::Fireball(math::Vector2f initialPosition, math::Vector2f velocity)
     size.y = Context::getSprites()->get(SpriteType::FIREBALL_1)->getHeight();
     position = initialPosition - size / 2.0f;
 
-    collidable = true;
-    moving = true;
+    collidable_ = true;
+    moving_ = true;
 }
 
 void Fireball::draw(double delta_time)
@@ -51,7 +51,7 @@ void Fireball::on_simulate(double timeStep)
 
 void Fireball::die(bool hasHitEnemy)
 {
-    dead = true;
+    dead_ = true;
 
     math::Vector2f explosionPosition = position - size/4.0f;
     Object* explosion = new environment::Explosion(explosionPosition);
