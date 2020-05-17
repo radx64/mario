@@ -69,7 +69,7 @@ void Physics::input()
     move_sideways(keys);
     if (keys->down) player_.crouched_ = true; else player_.crouched_ = false;
 
-    if (abs(player_.velocity.x) >= get_max_running_speed(keys->run))
+    if (abs(player_.velocity.x) >= get_horizontal_max_speed(keys->run))
     {
         horizontalAcceleration *= 0.1f;
     }
@@ -103,7 +103,7 @@ inline void Physics::move_sideways(KeyboardState* keys)
     }
 }
 
-inline double Physics::get_max_running_speed(bool running)
+inline double Physics::get_horizontal_max_speed(bool running)
 {
     return running ? max_run_speed_ : max_walk_speed_;
 }

@@ -7,4 +7,5 @@ struct KeyboardState
     bool run = false;
     bool fire = false;
     bool enter = false;
+    bool pause = false;
 };

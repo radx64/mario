@@ -173,56 +173,50 @@ void Main::init()
     initBitmapsContainter();
 }
 
+
+void update_key_state(const SDL_Event& event, const int keycode, bool& target)
+{
+    if (event.key.keysym.sym == keycode)
+    {
+        if (event.type == SDL_KEYDOWN) target = true;
+        if (event.type == SDL_KEYUP) target = false;
+    }
+}
+
+bool is_key_pressed_once(const int keycode, const SDL_Event& event)
+{
+    return (event.key.keysym.sym == keycode) && (event.type == SDL_KEYDOWN) && (event.key.repeat == 0);
+}
+
+void Main::key_handler(const SDL_Event& event)
+{
+    if (is_key_pressed_once(SDLK_p, event)) Context::getWorld()->paused_ = !Context::getWorld()->paused_;
+    if (is_key_pressed_once(SDLK_BACKQUOTE, event)) debug_ = !debug_;
+    if (is_key_pressed_once(SDLK_1, event)) { desiredFPS_ -= 10.0; if (desiredFPS_ < 20.0) desiredFPS_ = 20.0;}
+    if (is_key_pressed_once(SDLK_2, event)) { desiredFPS_ += 10.0;}
+    if (is_key_pressed_once(SDLK_q, event)) { running_ = false;}
+
+    if (event.type == SDL_KEYDOWN || event.type == SDL_KEYUP)
+    {
+        update_key_state(event, SDLK_UP, keys_.up);
+        update_key_state(event, SDLK_DOWN, keys_.down);
+        update_key_state(event, SDLK_LEFT, keys_.left);
+        update_key_state(event, SDLK_RIGHT, keys_.right);
+        update_key_state(event, SDLK_z, keys_.fire);
+        update_key_state(event, SDLK_LSHIFT, keys_.run);
+        update_key_state(event, SDLK_RETURN, keys_.enter);
+    }
+}
+
 void Main::input()
 {
     SDL_Event event;
     while(SDL_PollEvent(&event) != 0)
     {
+        key_handler(event);
         if (event.type == SDL_QUIT)
         {
             running_ = false;
-        }
-        else if (event.type == SDL_KEYDOWN || event.type == SDL_KEYUP)
-        {
-            bool isKeyDown = (event.type == SDL_KEYDOWN);
-
-            switch (event.key.keysym.sym)
-            {
-                case SDLK_UP:
-                    keys_.up = isKeyDown;
-                    break;
-                case SDLK_DOWN:
-                    keys_.down = isKeyDown;
-                    break;
-                case SDLK_LEFT:
-                    keys_.left = isKeyDown;
-                    break;
-                case SDLK_RIGHT:
-                    keys_.right = isKeyDown;
-                    break;
-                case SDLK_z:
-                    keys_.fire = isKeyDown;
-                    break;
-                case SDLK_LSHIFT:
-                    keys_.run = isKeyDown;
-                    break;
-                case SDLK_RETURN:
-                    keys_.enter = isKeyDown;
-                    break;
-                case SDLK_q:
-                    running_ = isKeyDown;
-                    break;
-                case SDLK_1:
-                    desiredFPS_ -= 10.0;
-                    if (desiredFPS_ < 20.0) desiredFPS_ = 20.0;
-                    break;
-                case SDLK_2:
-                    desiredFPS_ += 10.0;
-                    break;
-                case SDLK_BACKQUOTE:
-                    debug_ = true;
-                    break;
-            }
         }
     }
 }
@@ -247,6 +241,8 @@ void Main::initGameObjects()
 void update(std::vector<Object*>& objects, std::vector<Object*>& allObjects, double dt)
 {
     std::vector<Object*>::iterator it;
+
+    if(Context::getWorld()->paused_) return;
 
     for (it = objects.begin(); it != objects.end(); ++it)
     {
@@ -367,8 +363,8 @@ void Main::loop()
         /*         
           to much time step makes collision not work (flying through objects between frames)  
           to fixed that some raycasting or movement interpolation need to be done but I don't
-          feel if it is needed. Less than 8 FPS is not payable and it causing problems only 
-          in those circumstances. So I'm ok with that in low FPS simulation will slow down
+          feel if it is needed. Less than 8 FPS is not playable and it causing problems only
+          in those circumstances. So I'm ok with that in low FPS, simulation step will slow down
         */
         }
 

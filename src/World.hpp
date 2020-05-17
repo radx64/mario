@@ -19,6 +19,7 @@ class World
 public:
     int8_t coins_{0};
     int8_t lives_{0};
+    bool paused_{false};
     Level level;
 };
 

@@ -28,7 +28,7 @@ protected:
     inline void jump();
     inline void move_sideways(KeyboardState* keys);
 
-    inline double get_max_running_speed(bool running);
+    inline double get_horizontal_max_speed(bool running);
 
     Player& player_;
 

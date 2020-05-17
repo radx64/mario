@@ -16,6 +16,7 @@ class TextRenderer;
 
 class SDL_Renderer;
 class SDL_Window;
+union SDL_Event;
 
 namespace character { namespace player { class Player; } }
 
@@ -33,6 +34,7 @@ private:
     void step(double simulationTimeStep);
     void initGameObjects();
     void initBitmapsContainter();
+    void key_handler(const SDL_Event& event);
 
     KeyboardState keys_;
     bool running_{true};
